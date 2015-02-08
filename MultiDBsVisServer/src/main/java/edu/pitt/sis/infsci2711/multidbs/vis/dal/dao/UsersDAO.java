@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionUsers;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 
 /**
  * @author Evgeny
  *
  */
-public interface UsersDAO extends GenericDAO<ColfusionUsers, Integer> {
+public interface UsersDAO extends GenericDAO<Users, Integer> {
 	/**
 	 * 
 	 * Finds users who has either first or last name, or username containing searchTerm.
@@ -20,7 +20,7 @@ public interface UsersDAO extends GenericDAO<ColfusionUsers, Integer> {
 	 * @return user who satisfy search term. 
 	 * @throws Exception 
 	 */
-	public List<ColfusionUsers> lookUpUser(String searchTerm, int limit) throws HibernateException;
+	public List<Users> lookUpUser(String searchTerm, int limit) throws HibernateException;
 	
 	/**
 	 * @author Hao Bai

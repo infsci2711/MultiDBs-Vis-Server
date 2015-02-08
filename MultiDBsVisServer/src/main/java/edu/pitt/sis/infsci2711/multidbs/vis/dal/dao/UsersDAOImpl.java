@@ -7,19 +7,19 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionUsers;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.utils.HibernateUtil;
 
 /**
  * @author Evgeny
  *
  */
-public class UsersDAOImpl extends GenericDAOImpl<ColfusionUsers, Integer> implements UsersDAO {
+public class UsersDAOImpl extends GenericDAOImpl<Users, Integer> implements UsersDAO {
 
 	Logger logger = LogManager.getLogger(UsersDAOImpl.class.getName());
 	
 	@Override
-	public List<ColfusionUsers> lookUpUser(final String searchTerm, final int limit) throws HibernateException {
+	public List<Users> lookUpUser(final String searchTerm, final int limit) throws HibernateException {
 		String sql = "select u from ColfusionUsers u where u.userLogin like :searchTerm or u.userNames like :searchTerm";
 		Query query = null;
 		try {
