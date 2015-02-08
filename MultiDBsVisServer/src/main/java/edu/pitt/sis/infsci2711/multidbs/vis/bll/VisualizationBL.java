@@ -1,35 +1,69 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.bll;
 
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import jnr.ffi.Struct.int16_t;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.ChartsManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.ChartsManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.UserManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.UserManagerImpl;
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionCanvases;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionCharts;
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionUsers;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.CanvasViewModel;
 
 public class VisualizationBL {
+	
+	public CanvasViewModel createCanvasViewModel(Integer vid, String name, Users users){
+		CanvasViewModel canvasVM = new CanvasViewModel();
+		
+		canvasVM.setVid(vid);
+		canvasVM.setName(name);
+		canvasVM.setUsers(users);
+		
+		return canvasVM;
+		
+	}
 
-	public ColfusionCanvases createCanvase(int userId, String canvasName) throws Exception{
+	public CanvasViewModel createCanvase(int userId, String canvasName) throws Exception{
 		UserManager userMng = new UserManagerImpl();
-		ColfusionUsers user = userMng.findByID(userId);
+		Users user = userMng.findByID(userId);
 		
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
-		ColfusionCanvases newCanvas = canvasMng.createNewCanvas(user, canvasName);
-	   
-		return newCanvas;
+		Canvases newCanvas = canvasMng.createNewCanvas(user, canvasName);
+		CanvasViewModel canvasVM =	createCanvasViewModel(newCanvas.getVid(), newCanvas.getName(),  newCanvas.getUsers());
+		
+		return canvasVM;
 	}
 	
-	public List<ColfusionCanvases> findByCanvasName(String name) throws Exception{
+	public CanvasViewModel findByCanvasId(int vid) throws Exception{
+		CanvasesManager canvasMng = new CanvasesManagerImpl();
+		Canvases canvas = canvasMng.findByID(vid);
+		CanvasViewModel canvasVM = createCanvasViewModel(canvas.getVid(), canvas.getName(),  canvas.getUsers());
+	
+		return canvasVM;
+	}
+	
+	public List<CanvasViewModel> findByCanvasName(String name) throws Exception{
 		
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
-		List<ColfusionCanvases> canvasesList = canvasMng.findByName(name);
+		List<Canvases> canvasesList = canvasMng.findByName(name);
+		Iterator<Canvases> itCanvases = canvasesList.iterator();
+		List<CanvasViewModel> canvasVMList = null;
 		
-		return canvasesList;
+		while(itCanvases.hasNext()){
+			Canvases canvas = itCanvases.next();
+			
+			CanvasViewModel canvasVM = createCanvasViewModel(canvas.getVid(), canvas.getName(),  canvas.getUsers());
+			
+			canvasVMList.add(canvasVM);
+		}
+		
+		return canvasVMList;
 	}
 	
 	public void deleteCanvas(int canvasId) throws Exception{
@@ -41,7 +75,7 @@ public class VisualizationBL {
 	
 	public ColfusionCharts createChart(int canvasId, String chartName, String type) throws Exception{
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
-		ColfusionCanvases canvases = canvasMng.findByID(canvasId);
+		Canvases canvases = canvasMng.findByID(canvasId);
 		
 		ChartsManager chartManager = new ChartsManagerImpl();
 		ColfusionCharts newChart = chartManager.createNewChart(canvases, chartName, type);
