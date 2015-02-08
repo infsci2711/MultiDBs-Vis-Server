@@ -9,19 +9,19 @@ import org.hibernate.NonUniqueResultException;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.UsersDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.UsersDAOImpl;
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionUsers;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.utils.HibernateUtil;
 
 /**
  * @author Evgeny
  *
  */
-public class UserManagerImpl extends GeneralManagerImpl<UsersDAO, ColfusionUsers, Integer> implements UserManager {
+public class UserManagerImpl extends GeneralManagerImpl<UsersDAO, Users, Integer> implements UserManager {
 
 	Logger logger = LogManager.getLogger(UserManagerImpl.class.getName());
 	
 	public UserManagerImpl() {
-		super(new UsersDAOImpl(), ColfusionUsers.class);
+		super(new UsersDAOImpl(), Users.class);
 	}
 
 	//***************************************
@@ -29,11 +29,11 @@ public class UserManagerImpl extends GeneralManagerImpl<UsersDAO, ColfusionUsers
 	//***************************************
 	
 	@Override
-	public List<ColfusionUsers> lookUpUser(final String searchTerm, final int limit) {
+	public List<Users> lookUpUser(final String searchTerm, final int limit) {
 		try {
             HibernateUtil.beginTransaction();
             
-            List<ColfusionUsers> result = _dao.lookUpUser(searchTerm, limit);
+            List<Users> result = _dao.lookUpUser(searchTerm, limit);
             
             HibernateUtil.commitTransaction();
             
