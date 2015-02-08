@@ -1,5 +1,7 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.utils;
 
+import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,9 +14,10 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import edu.pitt.sis.infsci2711.multidbs.vis.utils.ConfigManager;
-import edu.pitt.sis.infsci2711.multidbs.vis.utils.PropertyKeys;
-import edu.pitt.sis.infsci2711.multidbs.vis.utils.StringUtils;
+import com.google.common.collect.Multiset.Entry;
+
+import edu.pitt.sis.exp.colfusion.utils.ConfigManager;
+import edu.pitt.sis.exp.colfusion.utils.StringUtils;
 
 public class HibernateUtil {
  
@@ -54,7 +57,7 @@ public class HibernateUtil {
 			throw new RuntimeException(ex);
 		}
 	}
- 
+
 	/**
 	 * Set hibernate properties from {@link ConfigManager}
 	 * 
@@ -62,12 +65,13 @@ public class HibernateUtil {
 	 * 			hibernate configuration to set properties to 
 	 */
 	private static void setProperties(final Configuration cfg) {
-		Set<PropertyKeys> hibernateProperties = PropertyKeys.getPropertiesForPrefix(COLFUSION_HIBERNATE_PROPERTIES_PREFIX);
 		ConfigManager configMng = ConfigManager.getInstance();
 		
-		for (PropertyKeys propertyKey : hibernateProperties) {
-			cfg.setProperty(removeColfuionPrefix(propertyKey.getKey()), configMng.getProperty(propertyKey));
-			logger.info(String.format("Set %s = %s", removeColfuionPrefix(propertyKey.getKey()), configMng.getProperty(propertyKey)));			
+		List<String> hibernateProperties = configMng.getPropertyKeysForPrefix(COLFUSION_HIBERNATE_PROPERTIES_PREFIX);
+		
+		for (String propertyKey : hibernateProperties) {
+			cfg.setProperty(removeColfuionPrefix(propertyKey), configMng.getProperty(propertyKey));
+			logger.info(String.format("Set %s = %s", removeColfuionPrefix(propertyKey), configMng.getProperty(propertyKey)));			
 		}
 	}
 	
@@ -82,7 +86,7 @@ public class HibernateUtil {
 		
 		return StringUtils.removePrefix(hibernateConnectionDriverClass, COLFUSION_PREFIX);
 	}
-
+	
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
