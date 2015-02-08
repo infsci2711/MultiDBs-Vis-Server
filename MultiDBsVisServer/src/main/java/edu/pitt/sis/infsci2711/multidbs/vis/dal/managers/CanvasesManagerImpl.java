@@ -9,26 +9,26 @@ import org.hibernate.Query;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.CanvasesDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.CanvasesDAOImpl;
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionCanvases;
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionUsers;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.utils.HibernateUtil;
 
 /**
  * @author xiaotingli
  *
  */
-public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, ColfusionCanvases, Integer>
+public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvases, Integer>
 		implements CanvasesManager {
 
 	Logger logger = LogManager.getLogger(CanvasesManagerImpl.class.getName());
 	
 	public CanvasesManagerImpl() {
-		super(new CanvasesDAOImpl(), ColfusionCanvases.class);
+		super(new CanvasesDAOImpl(), Canvases.class);
 	}
 	
-	public ColfusionCanvases createNewCanvas(ColfusionUsers canvasOwner, String name) {
-		ColfusionCanvases newCanvas = new ColfusionCanvases(new Date(), new Date());
-		newCanvas.setColfusionUsers(canvasOwner);
+	public Canvases createNewCanvas(Users canvasOwner, String name) {
+		Canvases newCanvas = new Canvases(new Date(), new Date());
+		newCanvas.setUsers(canvasOwner);
 		newCanvas.setName(name);
 		
 		try {
@@ -49,7 +49,7 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Colfusi
 		return newCanvas;
 	}
 	
-	public List<ColfusionCanvases> findByName(String name){
+	public List<Canvases> findByName(String name){
 		
 		try {
 			HibernateUtil.beginTransaction();
@@ -59,7 +59,7 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Colfusi
 			Query query = HibernateUtil.getSession().createQuery(hql);
 			query.setParameter("name", name);
 			
-			List<ColfusionCanvases> result = _dao.findMany(query);
+			List<Canvases> result = _dao.findMany(query);
 			
 			HibernateUtil.commitTransaction();
 			
