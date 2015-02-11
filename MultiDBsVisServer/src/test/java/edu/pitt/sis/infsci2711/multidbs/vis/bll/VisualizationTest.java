@@ -21,7 +21,7 @@ public class VisualizationTest extends DockerTest{
 	@Test
 	public void testCreateNewCanvas() throws Exception {
 		
-		Users testUser = getTestUser();
+ 		Users testUser = getTestUser();
 		
 		String canvasName = "testCanvas";
 		
@@ -69,8 +69,7 @@ public class VisualizationTest extends DockerTest{
 //		
 //		CanvasesManager canvasMng = new CanvasesManagerImpl();
 //		Canvases canvas = canvasMng.findByID(vid);
-//		
-//
+//	
 //	}
 	
 	@Test
