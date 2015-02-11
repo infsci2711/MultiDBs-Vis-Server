@@ -1,5 +1,6 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.bll;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -35,7 +36,7 @@ public class VisualizationBL {
 		
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
 		Canvases newCanvas = canvasMng.createNewCanvas(user, canvasName);
-		CanvasViewModel canvasVM =	createCanvasViewModel(newCanvas.getVid(), newCanvas.getName(),  newCanvas.getUsers());
+		CanvasViewModel canvasVM = createCanvasViewModel(newCanvas.getVid(), newCanvas.getName(),  newCanvas.getUsers());
 		
 		return canvasVM;
 	}
@@ -53,7 +54,7 @@ public class VisualizationBL {
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
 		List<Canvases> canvasesList = canvasMng.findByName(name);
 		Iterator<Canvases> itCanvases = canvasesList.iterator();
-		List<CanvasViewModel> canvasVMList = null;
+		List<CanvasViewModel> canvasVMList = new ArrayList<CanvasViewModel>();
 		
 		while(itCanvases.hasNext()){
 			Canvases canvas = itCanvases.next();

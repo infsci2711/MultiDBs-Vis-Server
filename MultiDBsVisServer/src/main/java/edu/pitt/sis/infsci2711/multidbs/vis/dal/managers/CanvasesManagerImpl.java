@@ -54,7 +54,7 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 		try {
 			HibernateUtil.beginTransaction();
 			
-			String hql = "SELECT C FROM ColfusionCanvases C WHERE C.name = :name";
+			String hql = "SELECT C FROM Canvases C WHERE C.name = :name";
 
 			Query query = HibernateUtil.getSession().createQuery(hql);
 			query.setParameter("name", name);
