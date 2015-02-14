@@ -10,21 +10,21 @@ import org.hibernate.Query;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.ChartsDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.ChartsDAOImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionCharts;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.utils.HibernateUtil;
 
-public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, ColfusionCharts, Integer> implements ChartsManager{
+public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Integer> implements ChartsManager{
    Logger logger = LogManager.getLogger(CanvasesManagerImpl.class.getName());
 	
    public ChartsManagerImpl() {
-		super(new ChartsDAOImpl(), ColfusionCharts.class);
+		super(new ChartsDAOImpl(), Charts.class);
 	}
    
-   public ColfusionCharts createNewChart(Canvases canvas, String name, String type){
-	   ColfusionCharts newChart = new ColfusionCharts();
-	   newChart.setCanvases(canvas);
-	   newChart.setName(name);
-	   newChart.setType(type);
+   public Charts createNewChart(Canvases canvas, String name, String type){
+	   Charts newChart = new Charts();
+//	   newChart.setCanvases(canvas);
+//	   newChart.setName(name);
+//	   newChart.setType(type);
 	   
 	   try{
 		   HibernateUtil.beginTransaction();
@@ -41,7 +41,7 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, ColfusionCh
 	   return newChart;
    }
    
-  public List<ColfusionCharts> findByName(String name){
+  public List<Charts> findByName(String name){
 	  try {
 			HibernateUtil.beginTransaction();
 			
@@ -50,7 +50,7 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, ColfusionCh
 			Query query = HibernateUtil.getSession().createQuery(hql);
 			query.setParameter("name", name);
 			
-			List<ColfusionCharts> result = _dao.findMany(query);
+			List<Charts> result = _dao.findMany(query);
 			
 			HibernateUtil.commitTransaction();
 			
