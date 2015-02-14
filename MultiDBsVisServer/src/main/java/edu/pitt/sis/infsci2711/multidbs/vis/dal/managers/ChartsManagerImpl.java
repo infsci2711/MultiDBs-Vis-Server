@@ -9,7 +9,7 @@ import org.hibernate.Query;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.ChartsDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.ChartsDAOImpl;
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionCanvases;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionCharts;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.utils.HibernateUtil;
 
@@ -20,9 +20,9 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, ColfusionCh
 		super(new ChartsDAOImpl(), ColfusionCharts.class);
 	}
    
-   public ColfusionCharts createNewChart(ColfusionCanvases canvas, String name, String type){
+   public ColfusionCharts createNewChart(Canvases canvas, String name, String type){
 	   ColfusionCharts newChart = new ColfusionCharts();
-	   newChart.setColfusionCanvases(canvas);
+	   newChart.setCanvases(canvas);
 	   newChart.setName(name);
 	   newChart.setType(type);
 	   
