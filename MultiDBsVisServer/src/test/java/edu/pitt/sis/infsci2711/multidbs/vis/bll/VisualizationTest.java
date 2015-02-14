@@ -17,7 +17,7 @@ import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.CanvasViewModel;
 
 public class VisualizationTest extends DockerTest{
-	
+	 
 	@Test
 	public void testCreateNewCanvas() throws Exception {
 		
@@ -56,21 +56,23 @@ public class VisualizationTest extends DockerTest{
 		assertEquals("Wrong canvas list", canvasesList.size(), actualCanvasesList.size());
 	}
 	
-//	@Test
-//	public void testFindByCanvasId() throws Exception{
-//        Users testUser = getTestUser();
-//		
-//		String canvasName = "testCanvas";
-//		int vid = 1;
-//		
-//		VisualizationBL visualizationBL = new VisualizationBL();
-//		CanvasViewModel canvasesVM = visualizationBL.createCanvase(testUser.getUserId(), canvasName);
-//		canvasesVM.setVid(vid);
-//		
-//		CanvasesManager canvasMng = new CanvasesManagerImpl();
-//		Canvases canvas = canvasMng.findByID(vid);
-//	
-//	}
+	@Test
+	public void testFindByCanvasId() throws Exception{
+        Users testUser = getTestUser();
+		
+		String canvasName = "testCanvas";
+		int vid = 1;
+		
+		VisualizationBL visualizationBL = new VisualizationBL();
+		CanvasViewModel canvasesVM = visualizationBL.createCanvase(testUser.getUserId(), canvasName);
+		canvasesVM.setVid(vid);
+		
+		CanvasesManager canvasMng = new CanvasesManagerImpl();
+		Canvases canvas = canvasMng.findByID(vid);
+		
+		assertEquals("Wrong canvas", canvasesVM.getName(), canvas.getName());
+	
+	}
 	
 	@Test
     public void testDeleteCanvas() throws Exception{
