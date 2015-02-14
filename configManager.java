@@ -1,10 +1,14 @@
-package edu.pitt.sis.infsci2711.multidbs.vis.utils;
+package edu.pitt.sis.exp.colfusion.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +60,14 @@ public final class ConfigManager {
 	public final static String CONFIG_TEST_FILE_NAME = "config_test.properties";
 	
 	/**
+	 * The system property that can be passed to JVM that provides absolute path to the
+	 * properties file that need to be loaded. 
+	 * This file's properties will override {@value #CONFIG_FILE_NAME} properties. 
+	 */
+	public final static String CONFIG_FILE_NAME_SYSTEM_PROPERTY = "colfusion.config.properties";
+	
+	
+	/**
 	 * This class is not intended to be initialize. Use {@link #getInstance()}.
 	 */
 	private ConfigManager() {}
@@ -98,7 +110,7 @@ public final class ConfigManager {
 	 */
 	void loadDefaultPropertiesFoundInResource(final Properties prop)
 			throws RuntimeException {		
-		loadPropertiesFromResoruceFile(prop, CONFIG_DEFAULT_FILE_NAME, true);
+		loadPropertiesFromResoruceFile(prop, CONFIG_DEFAULT_FILE_NAME, false);
 	}
 	
 	/**
@@ -116,11 +128,11 @@ public final class ConfigManager {
 	 * @param prop
 	 */
 	private void loadPropertiesFromResoruceFile(final Properties prop, final String resourceName, final boolean isRequired) {
-		String propertiesLocation = ResourceUtils.getResourceAsFileLocation(this.getClass(), resourceName);
-		InputStream propertyFile = ResourceUtils.getResourceAsStream(this.getClass(), resourceName);
+		String propertiesLocation = ResourceUtils.getResourceAsFileLocation(resourceName);
+		InputStream propertyFile = ResourceUtils.getResourceAsStream(resourceName);
 		if (propertyFile == null) {
 			if (isRequired) {
-				String message = String.format("Was trying to load required properties from"
+				String message = String.format("Was trying to load required properties from "
 						+ "%s resource file, but got null.", resourceName);
 				logger.error(message);
 				throw new RuntimeException(message);
@@ -147,21 +159,21 @@ public final class ConfigManager {
 	 */
 	void loadCustomPropertiesProvidedViaSystemProperty(final Properties prop)
 			throws RuntimeException {
-		String propertyFilePath = getSystemProperty(PropertyKeys.CONFIG_FILE_NAME_SYSTEM_PROPERTY);
+		String propertyFilePath = getSystemProperty(CONFIG_FILE_NAME_SYSTEM_PROPERTY);
 		if (propertyFilePath == null) {
 			logger.info(String.format("System property '%s' was not provided, so no properties to load", 
-					PropertyKeys.CONFIG_FILE_NAME_SYSTEM_PROPERTY));
+					CONFIG_FILE_NAME_SYSTEM_PROPERTY));
 		}
 		else {
 			logger.info(String.format("System property '%s' was provided, "
-					+ "so goin load properties from '%s' file", PropertyKeys.CONFIG_FILE_NAME_SYSTEM_PROPERTY, propertyFilePath));
+					+ "so goin load properties from '%s' file", CONFIG_FILE_NAME_SYSTEM_PROPERTY, propertyFilePath));
 			File propertyFile = new File(propertyFilePath);
 			try (InputStream propertiesFileStream = new FileInputStream(propertyFile)) {
 				loadConfigFile(prop, propertiesFileStream, propertyFilePath, propertyFilePath);
 			}
 			catch (IOException e) {				
 				String message = String.format("The '%s' file provided in the '%s' system property doesn't exist. "
-						+ "Thus cannot load custom properties.", propertyFilePath, PropertyKeys.CONFIG_FILE_NAME_SYSTEM_PROPERTY);
+						+ "Thus cannot load custom properties.", propertyFilePath, CONFIG_FILE_NAME_SYSTEM_PROPERTY);
 				logger.error(message);
 				throw new RuntimeException(message);				
 			}
@@ -201,6 +213,14 @@ public final class ConfigManager {
 	}
 
 	/**
+	 * Get all properties.
+	 * @return
+	 */
+	public Properties getProperies() {
+		return properties;
+	}
+	
+	/**
 	 * Get the configuration property value by the property name. 
 	 * If the key is not found, then null will be returned.
 	 * 
@@ -209,9 +229,7 @@ public final class ConfigManager {
 	 * @return the value of the property or null if the key is not found.
 	 */
 	public String getProperty(final IPropertyKeys propertyKey) {
-		String systemProperty = getSystemProperty(propertyKey);
-		
-		return systemProperty != null ? systemProperty: properties.getProperty(propertyKey.getKey());
+		return getProperty(propertyKey.getKey());
 	}
 	
 	/**
@@ -225,9 +243,37 @@ public final class ConfigManager {
 	 * @return the value of the property or null if the key is not found.
 	 */
 	public String getProperty(final IPropertyKeys propertyKey, final String defaultValue) {
+		return getProperty(propertyKey.getKey(), defaultValue);
+	}
+	
+	/**
+	 * Get the configuration property value by the property name. 
+	 * If the key is not found, then null will be returned.
+	 * 
+	 * @param propertyName 
+	 * 			the name of the property for which to get the value.
+	 * @return the value of the property or null if the key is not found.
+	 */
+	public String getProperty(final String propertyKey) {
 		String systemProperty = getSystemProperty(propertyKey);
 		
-		return systemProperty != null ? systemProperty : properties.getProperty(propertyKey.getKey(), defaultValue);
+		return systemProperty != null ? systemProperty: properties.getProperty(propertyKey);
+	}
+	
+	/**
+	 * Get the configuration property value by the property name. 
+	 * If not found, returns the default value.
+	 * 
+	 * @param propertyName
+	 * 			the name of the property for which to get the value.
+	 * @param defaultValue
+	 * 			the default value that should be returned if the property name (key) is not found.
+	 * @return the value of the property or null if the key is not found.
+	 */
+	public String getProperty(final String propertyKey, final String defaultValue) {
+		String systemProperty = getSystemProperty(propertyKey);
+		
+		return systemProperty != null ? systemProperty : properties.getProperty(propertyKey, defaultValue);
 	}
 	
 	/**
@@ -237,7 +283,17 @@ public final class ConfigManager {
 	 * @return the value of the property or null if the property not provided.
 	 */
 	private String getSystemProperty(final IPropertyKeys propertyKey) {
-		return System.getProperty(propertyKey.getKey());
+		return getSystemProperty(propertyKey.getKey());
+	}
+	
+	/**
+	 * Get system property by property name. 
+	 * @param propertyName
+	 * 			the name of the property.
+	 * @return the value of the property or null if the property not provided.
+	 */
+	private String getSystemProperty(final String propertyKey) {
+		return System.getProperty(propertyKey);
 	}
 
 	//TODO find a better way to do that
@@ -245,8 +301,33 @@ public final class ConfigManager {
 	 * Load properties from {@value #CONFIG_TEST_DEFAULT_FILE_NAME} and {@value #CONFIG_TEST_FILE_NAME} files.
 	 */
 	void loadTestProperties() {
-		loadPropertiesFromResoruceFile(this.properties, CONFIG_TEST_DEFAULT_FILE_NAME, true);
+		loadPropertiesFromResoruceFile(this.properties, CONFIG_TEST_DEFAULT_FILE_NAME, false);
 		loadPropertiesFromResoruceFile(this.properties, CONFIG_TEST_FILE_NAME, false);
 	}
+	
+	/**
+	 * Get the subset of the properties that have specified prefix.
+	 * 
+	 * @param propertiesKeysPrefix
+	 * 		the property keys prefix
+	 * @return all properties that have specified prefix.
+	 */
+	public List<String> getPropertyKeysForPrefix( 
+			final String propertiesKeysPrefix) {
+		Pattern pattern = Pattern.compile("^"+ Pattern.quote(propertiesKeysPrefix)); // strings that start with given prefix
+		
+		List<String> result = new ArrayList<String>();
+		//TODO: once we update to java 8, this is a good candidate for lamdas
+		for (Object propertyKey : properties.keySet()) {
+			Matcher matcher = pattern.matcher(propertyKey.toString());
+			
+			if (matcher.find()) {
+				result.add(propertyKey.toString());
+			}
+		}
+		
+		//TODO: maybe also include system props
+		
+		return result;
+	}
 }
-
