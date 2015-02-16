@@ -22,9 +22,9 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Int
    
    public Charts createNewChart(Canvases canvas, String name, String type){
 	   Charts newChart = new Charts();
-//	   newChart.setCanvases(canvas);
-//	   newChart.setName(name);
-//	   newChart.setType(type);
+	   newChart.setCanvases(canvas);
+	   newChart.setName(name);
+	   newChart.setType(type);
 	   
 	   try{
 		   HibernateUtil.beginTransaction();
@@ -45,7 +45,7 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Int
 	  try {
 			HibernateUtil.beginTransaction();
 			
-			String hql = "SELECT C FROM ColfusionCharts C WHERE C.name = :name";
+			String hql = "SELECT C FROM Charts C WHERE C.name = :name";
 
 			Query query = HibernateUtil.getSession().createQuery(hql);
 			query.setParameter("name", name);
@@ -63,5 +63,6 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Int
 			throw ex;
 		}
   }
+
 }
 
