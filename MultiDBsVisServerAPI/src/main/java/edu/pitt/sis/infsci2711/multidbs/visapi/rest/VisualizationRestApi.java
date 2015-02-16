@@ -12,17 +12,20 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import jnr.ffi.Struct.int16_t;
+
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.bll.VisualizationBL;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.CanvasViewModel;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.ChartViewModel;
 
 @Path("Visualization/")
 public class VisualizationRestApi {
 
-	@Path("metadata/new/{userId}/{canvasName}")
+	@Path("canvas/new/{userId}/{canvasName}")
 	@GET
 	@ApiOperation(
 			value = "Create new canvas in the database.",
@@ -45,7 +48,7 @@ public class VisualizationRestApi {
 		
 	}
 	
-   @Path("metadata/{canvasName}")
+   @Path("canvas/{canvasName}")
    @GET
    @ApiOperation(
 		   value = "Finds metadata for the canvases with provided canvas name"
@@ -68,7 +71,7 @@ public class VisualizationRestApi {
 	   return null;
    }
 		
-   @Path("metadata/{vid: [0-9]+}")
+   @Path("canvas/{vid: [0-9]+}")
    @GET
    @ApiOperation(
 		   value = "Finds metadata for the canvas with provided canvas Id",
@@ -91,5 +94,87 @@ public class VisualizationRestApi {
 	   }
 	   return null;
    }
+   
+   @Path("canvas/delete/{vid: [0-9]+}")
+   @GET
+   @ApiOperation(
+		   value = "Delete metadata for the canvas with provided canvas Id"
+		   )
+   public void deleteCanvas(@PathParam("vid") final int vid){
+	   VisualizationBL visualization = new VisualizationBL();
+	   
+	   try{
+		   visualization.deleteCanvas(vid);
+	   }
+	   catch(Exception e){
+		   System.out.println(e.getMessage());
+	   }
+   }
+   
+   @Path("chart/new/{canvasId}/{chartName}/{chartType}")
+   @GET
+   @ApiOperation(
+		   value = "Create a new chart with provided canvas Id, chart name and chart type"
+		   )
+   public void createChart(@PathParam("canvasId") final int canvasId, @PathParam("chartName") final String chartName, @PathParam("chartType") final String chartType){
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   
+	   try{
+		   visualizationBL.createChart(canvasId, chartName, chartType);
+	   }
+	   catch(Exception e){
+		   System.out.println(e.getMessage());
+	   }
+   }
+   
+   @Path("chart/{chartName}")
+   @GET
+   @ApiOperation(
+		   value = "Find charts with provided chart name"
+		   )
+   public void findChartByName(@PathParam("chartName") final String chartName){
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   
+	   try{
+		 visualizationBL.findByChartName(chartName);
+	   }
+	   catch(Exception e){
+		   System.out.println(e.getMessage());
+	   }
+   }
+   
+   @Path("chart/{chartId: [0-9]+}")
+   @GET
+   @ApiOperation(
+		   value = "Find chart with provided chart Id",
+		   response = ChartViewModel.class
+		   )
+   public void findChartById(@PathParam("chartId") final int chartId){
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   
+	   try{
+		   visualizationBL.findByChartId(chartId);
+	   }
+	   catch(Exception e){
+		   System.out.println(e.getMessage());
+	   }
+   }
+   
+   @Path("chart/delete/{chartId: [0-9]+}")
+   @GET
+   @ApiOperation(
+		   value = "Delete chart with provided chart Id"
+		   )
+   public void deleteChart(@PathParam("chartId") final int chartId){
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   
+	   try{
+		   visualizationBL.deleteChart(chartId);
+	   }
+	   catch(Exception e){
+		   System.out.println(e.getMessage());
+	   }
+   }
+    
    
 }
