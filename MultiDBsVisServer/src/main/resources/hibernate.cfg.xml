@@ -49,6 +49,7 @@
 
   <mapping resource="hibernate/orm_mappings/Canvases.hbm.xml"/>
   <mapping resource="hibernate/orm_mappings/Users.hbm.xml"/>
+  <mapping resource="hibernate/orm_mappings/Charts.hbm.xml"/>
 
 
  </session-factory>
