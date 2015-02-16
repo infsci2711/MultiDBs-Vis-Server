@@ -1,7 +1,7 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.dao;
 
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.ColfusionCharts;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts;
 
-public class ChartsDAOImpl extends GenericDAOImpl<ColfusionCharts, Integer> implements ChartsDAO{
+public class ChartsDAOImpl extends GenericDAOImpl<Charts, Integer> implements ChartsDAO{
 
 }
