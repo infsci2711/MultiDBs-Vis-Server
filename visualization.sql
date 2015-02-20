@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Feb 08, 2015 at 04:50 AM
+-- Generation Time: Feb 20, 2015 at 10:49 PM
 -- Server version: 5.5.38
 -- PHP Version: 5.6.2
 
@@ -21,21 +21,58 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `canvases` (
-  `vid` int(20) NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `user_id` int(20) NOT NULL,
-  `note` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
-  `mdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `cdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `privilege` int(1) DEFAULT NULL
+`vid` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `note` longtext,
+  `mdate` datetime NOT NULL,
+  `cdate` datetime NOT NULL,
+  `privilege` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `canvases`
+-- Table structure for table `charts`
 --
 
-INSERT INTO `canvases` (`vid`, `name`, `user_id`, `note`, `mdate`, `cdate`, `privilege`) VALUES
-(1, 'test', 1, NULL, '2015-01-07 19:16:10', '2015-01-07 19:16:10', NULL);
+CREATE TABLE `charts` (
+`cid` int(11) NOT NULL,
+  `vid` int(11) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  `left` int(11) DEFAULT NULL,
+  `top` int(11) DEFAULT NULL,
+  `depth` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `width` int(11) DEFAULT NULL,
+  `datainfo` longtext,
+  `note` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chart_has_story`
+--
+
+CREATE TABLE `chart_has_story` (
+  `cid` int(20) NOT NULL,
+  `sid` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `story`
+--
+
+CREATE TABLE `story` (
+`sid` int(20) NOT NULL,
+  `connInfor` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
+  `cdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `mdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -44,17 +81,84 @@ INSERT INTO `canvases` (`vid`, `name`, `user_id`, `note`, `mdate`, `cdate`, `pri
 --
 
 CREATE TABLE `users` (
-  `user_id` int(20) NOT NULL,
-  `user_names` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
-  `user_email` varchar(128) CHARACTER SET utf8 DEFAULT NULL,
-  `user_modification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `user_lastlogin` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+`user_id` int(11) NOT NULL,
+  `user_modification` datetime NOT NULL,
+  `user_date` datetime NOT NULL,
+  `user_email` varchar(128) DEFAULT NULL,
+  `user_names` varchar(128) DEFAULT NULL,
+  `user_lastlogin` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
+-- Indexes for dumped tables
 --
 
-INSERT INTO `users` (`user_id`, `user_names`, `user_email`, `user_modification`, `user_date`, `user_lastlogin`) VALUES
-(1, 'dataverse', 'epk8@pitt.edu', '2015-02-01 23:32:57', '2012-10-22 13:14:18', '2015-02-01 23:32:57');
+--
+-- Indexes for table `canvases`
+--
+ALTER TABLE `canvases`
+ ADD PRIMARY KEY (`vid`), ADD KEY `FK_s7kxi1oqy0qc7bbo18jbeyj6s` (`user_id`);
+
+--
+-- Indexes for table `charts`
+--
+ALTER TABLE `charts`
+ ADD PRIMARY KEY (`cid`), ADD KEY `FK_tnp5dkeevkhrntvdd6vi3ud3u` (`vid`);
+
+--
+-- Indexes for table `chart_has_story`
+--
+ALTER TABLE `chart_has_story`
+ ADD PRIMARY KEY (`cid`,`sid`);
+
+--
+-- Indexes for table `story`
+--
+ALTER TABLE `story`
+ ADD PRIMARY KEY (`sid`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+ ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `canvases`
+--
+ALTER TABLE `canvases`
+MODIFY `vid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `charts`
+--
+ALTER TABLE `charts`
+MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `story`
+--
+ALTER TABLE `story`
+MODIFY `sid` int(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `canvases`
+--
+ALTER TABLE `canvases`
+ADD CONSTRAINT `FK_s7kxi1oqy0qc7bbo18jbeyj6s` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `charts`
+--
+ALTER TABLE `charts`
+ADD CONSTRAINT `FK_tnp5dkeevkhrntvdd6vi3ud3u` FOREIGN KEY (`vid`) REFERENCES `canvases` (`vid`);
