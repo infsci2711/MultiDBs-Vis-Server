@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-6-10 16:18:00 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Chart_has_story" table="chart_has_story" >
+        <id name="cid" type="java.lang.Integer">
+            <column name="cid" />
+            <generator class="identity" />
+        </id>
+        <id name="sid" type="java.lang.Integer">
+            <column name="sid" />
+            <generator class="identity"/>
+        </id>
+        
+    </class>
+</hibernate-mapping>
