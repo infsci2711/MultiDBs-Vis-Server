@@ -5,10 +5,15 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.DetachedCriteria;
+
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.CanvasesDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.ChartsManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.ChartsManagerImpl;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.GeneralManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.UserManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.UserManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
@@ -16,6 +21,7 @@ import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.CanvasViewModel;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.ChartViewModel;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.UserViewModel;
 
 public class VisualizationBL {
 	
@@ -24,12 +30,18 @@ public class VisualizationBL {
 		
 		canvasVM.setVid(vid);
 		canvasVM.setName(name);
-		canvasVM.setUsers(users);
+		canvasVM.setUsers(convertUsersViewModel(users));
 		
 		return canvasVM;
 		
 	}
 	
+	private UserViewModel convertUsersViewModel(Users users) {
+		
+		return new UserViewModel(users.getUserId(), users.getUserModification(), users.getUserDate(),
+				users.getUserEmail(), users.getUserNames(), users.getUserLastlogin());
+	}
+
 	public ChartViewModel createChartViewModel(Integer cid, String name, String type, Canvases canvases){
 		ChartViewModel chartVM = new ChartViewModel();
 		
@@ -55,6 +67,7 @@ public class VisualizationBL {
 	public CanvasViewModel findByCanvasId(int vid) throws Exception{
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
 		Canvases canvas = canvasMng.findByID(vid);
+		canvas = GeneralManagerImpl.initializeField(canvas, "users");
 		CanvasViewModel canvasVM = createCanvasViewModel(canvas.getVid(), canvas.getName(),  canvas.getUsers());
 	
 		return canvasVM;
