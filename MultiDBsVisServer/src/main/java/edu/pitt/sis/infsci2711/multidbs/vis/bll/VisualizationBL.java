@@ -14,18 +14,22 @@ import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.ChartsManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.ChartsManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.GeneralManagerImpl;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.StoryManager;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.StoryManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.UserManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.UserManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.CanvasViewModel;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.ChartViewModel;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.StoryViewModel;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.UserViewModel;
 
 public class VisualizationBL {
 	
-	public CanvasViewModel createCanvasViewModel(Integer vid, String name, Users users){
+	private CanvasViewModel createCanvasViewModel(Integer vid, String name, Users users){
 		CanvasViewModel canvasVM = new CanvasViewModel();
 		
 		canvasVM.setVid(vid);
@@ -42,7 +46,16 @@ public class VisualizationBL {
 				users.getUserEmail(), users.getUserNames(), users.getUserLastlogin());
 	}
 
-	public ChartViewModel createChartViewModel(Integer cid, String name, String type, Canvases canvases){
+	private StoryViewModel createStoryViewModel(Integer sid, Users users){
+		StoryViewModel storyVM = new StoryViewModel();
+		
+		storyVM.setSid(sid);
+		storyVM.setUser(users);
+		
+		return storyVM;
+	}
+	
+	private ChartViewModel createChartViewModel(Integer cid, String name, String type, Canvases canvases){
 		ChartViewModel chartVM = new ChartViewModel();
 		
 		chartVM.setCid(cid);
@@ -96,6 +109,29 @@ public class VisualizationBL {
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
 		canvasMng.delete(canvasMng.findByID(canvasId));
 		
+	}
+	
+	public StoryViewModel createStory(int storyId, int userId) throws Exception{
+		UserManager userMng = new UserManagerImpl();
+		Users user = userMng.findByID(userId);
+		
+		StoryViewModel storyVM = createStory(storyId, userId);
+		
+		return storyVM;	
+	}
+	
+	public StoryViewModel findStoryById(int storyId) throws Exception{
+		StoryManager storyMng = new StoryManagerImpl();
+		Story story = storyMng.findByID(storyId);
+		
+		StoryViewModel storyVM = createStoryViewModel(storyId, story.getUser());
+		
+		return storyVM;
+	}
+	
+	public void deleteStory(int storyId) throws Exception{
+		StoryManager storyMng = new StoryManagerImpl();
+		storyMng.delete(storyMng.findByID(storyId));
 	}
 	
 	public ChartViewModel createChart(int canvasId, String chartName, String type) throws Exception{
