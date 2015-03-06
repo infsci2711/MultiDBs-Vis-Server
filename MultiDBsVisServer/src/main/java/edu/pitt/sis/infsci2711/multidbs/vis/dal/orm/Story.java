@@ -1,22 +1,27 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Story {
    private int sid;
    private String connInfo;
    private Date cdate;
    private Date mdate;
-   private Users users;
+   private Users user;
+   private Set canvasSet = new HashSet(0);
+   private Set chartSet = new HashSet(0);
    
    public Story(){
 	   
    }
    
-   public Story(int sid, Date cdate, Date mdate){
-	   this.sid = sid;
+   public Story(Users user, Date cdate, Date mdate, String connInfo){
 	   this.cdate = cdate;
 	   this.mdate = mdate;
+	   this.user = user;
+	   this.connInfo = connInfo;
    }
    
    public int getSid(){
@@ -52,10 +57,26 @@ public class Story {
    }
    
    public Users getUser(){
-	   return this.users;
+	   return this.user;
    }
    
-   public void setUser(Users users){
-	   this.users = users;
+   public void setUser(Users user){
+	   this.user = user;
    }
+
+  public Set getCanvasSet() {
+	return canvasSet;
+  }
+
+  public void setCanvasSet(Set canvasSet) {
+	this.canvasSet = canvasSet;
+  }
+
+  public Set getChartSet() {
+	return chartSet;
+  }
+
+  public void setChartSet(Set chartSet) {
+	this.chartSet = chartSet;
+  }
 }
