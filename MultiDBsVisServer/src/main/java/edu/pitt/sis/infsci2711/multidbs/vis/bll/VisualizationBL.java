@@ -46,11 +46,14 @@ public class VisualizationBL {
 				users.getUserEmail(), users.getUserNames(), users.getUserLastlogin());
 	}
 
-	private StoryViewModel createStoryViewModel(Integer sid, Users users){
+	private StoryViewModel createStoryViewModel(Story story){
 		StoryViewModel storyVM = new StoryViewModel();
 		
-		storyVM.setSid(sid);
-		storyVM.setUser(users);
+		storyVM.setSid(story.getSid());
+		storyVM.setUser(story.getUser());;
+		storyVM.setConnInfo(story.getConnInfo());
+//		storyVM.setCdate(story.getCdate());
+//		storyVM.setMdate(story.getMdate());
 		
 		return storyVM;
 	}
@@ -111,23 +114,25 @@ public class VisualizationBL {
 		
 	}
 	
-	public StoryViewModel createStory(int storyId, int userId) throws Exception{
+	public StoryViewModel createStory(int userId, String connInfo) throws Exception{
 		UserManager userMng = new UserManagerImpl();
 		Users user = userMng.findByID(userId);
-		
-		StoryViewModel storyVM = createStory(storyId, userId);
+	
+		StoryManager storyMng = new StoryManagerImpl();
+		Story newStory = storyMng.createNewStory(user, connInfo);
+		StoryViewModel storyVM = createStoryViewModel(newStory);
 		
 		return storyVM;	
 	}
 	
-	public StoryViewModel findStoryById(int storyId) throws Exception{
-		StoryManager storyMng = new StoryManagerImpl();
-		Story story = storyMng.findByID(storyId);
-		
-		StoryViewModel storyVM = createStoryViewModel(storyId, story.getUser());
-		
-		return storyVM;
-	}
+//	public StoryViewModel findStoryById(int storyId) throws Exception{
+//		StoryManager storyMng = new StoryManagerImpl();
+//		Story story = storyMng.findByID(storyId);
+//		
+//		StoryViewModel storyVM = createStoryViewModel(storyId, story.getUser());
+//		
+//		return storyVM;
+//	}
 	
 	public void deleteStory(int storyId) throws Exception{
 		StoryManager storyMng = new StoryManagerImpl();
