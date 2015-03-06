@@ -14,7 +14,7 @@ public class CanvasViewModel {
 	private Date cdate;
 	private Date mdate;
 	private int privilege;
-	private Users users;
+	private UserViewModel users;
 	
 	public int getVid(){
 		return vid;
@@ -56,11 +56,11 @@ public class CanvasViewModel {
 		this.privilege = privilege;
 	}
 	
-	public Users getUsers(){
+	public UserViewModel getUsers(){
 		return users;
 	}
 	
-	public void setUsers(final Users users){
+	public void setUsers(final UserViewModel users){
 		this.users = users;
 	}
 }

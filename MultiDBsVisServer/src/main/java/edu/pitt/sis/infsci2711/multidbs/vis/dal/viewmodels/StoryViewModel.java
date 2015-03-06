@@ -9,16 +9,17 @@ public class StoryViewModel {
 	   private String connInfo;
 	   private Date cdate;
 	   private Date mdate;
-	   private Users users;
+	   private Users user;
 	   
 	   public StoryViewModel() {
 		   
 	   }
 	   
-	   public StoryViewModel(int sid, Date cdate, Date mdate){
-		   this.sid = sid;
+	   public StoryViewModel(Users user, Date cdate, Date mdate, String connInfo){
+		   this.user = user;
 		   this.cdate = cdate;
 		   this.mdate = mdate;
+		   this.connInfo = connInfo;
 	   }
 	   
 	   public int getSid(){
@@ -54,10 +55,10 @@ public class StoryViewModel {
 	   }
 	   
 	   public Users getUser(){
-		   return this.users;
+		   return this.user;
 	   }
 	   
-	   public void setUser(Users users){
-		   this.users = users;
+	   public void setUser(Users user){
+		   this.user = user;
 	   }
 }
