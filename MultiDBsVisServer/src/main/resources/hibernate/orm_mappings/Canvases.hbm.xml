@@ -8,7 +8,7 @@
             <column name="vid" />
             <generator class="identity" />
         </id>
-        <many-to-one name="Users" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users" fetch="select">
+        <many-to-one name="users" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users" fetch="select">
             <column name="user_id" />
         </many-to-one>
         <property name="name" type="string">
@@ -26,5 +26,18 @@
         <property name="privilege" type="java.lang.Integer">
             <column name="privilege" />
         </property>
+        
+        <!-- new added mapping -->
+        <set name="storySet" table="canvas_story" inverse="true" fetch="select">
+        	<key column="vid" />
+        	<many-to-many column="sid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story" />
+        </set>
+        <set name="chartSet" table="charts" inverse="true" fetch="select">
+          	<key>
+          		<column name="vid" />
+          	</key>
+        	<one-to-many class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts" />
+        </set> 
+        
     </class>
 </hibernate-mapping>

@@ -23,5 +23,17 @@
         <property name="userLastlogin" type="timestamp">
             <column name="user_lastlogin" length="19" not-null="true" />
         </property>
+        
+        <!-- new added mapping -->
+        <set name="canvasSet" table="canvases" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" />
+            </key>
+            <one-to-many class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases" />
+        </set>
+        <set name="storySet" table="story" inverse="true" fetch="select">
+          	<key column="user_id" />
+        	<one-to-many class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story" />
+        </set>
     </class>
 </hibernate-mapping>
