@@ -1,6 +1,8 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Users {
 
@@ -10,7 +12,8 @@ public class Users {
 		private Date userLastlogin;
 		private String userEmail;
 		private String userNames;
-	
+	    private Set canvasSet = new HashSet(0); //mapping
+	    private Set storySet = new HashSet(0);
 
 		public Users() {
 		}
@@ -77,6 +80,22 @@ public class Users {
 
 		public void setUserLastlogin(Date userLastlogin) {
 			this.userLastlogin = userLastlogin;
+		}
+		
+		public Set getCanvasSet(){
+			return this.canvasSet;
+		}
+		
+		public void setCanvasSet(Set canvasSet){
+			this.canvasSet = canvasSet;
+		}
+
+		public Set getStorySet() {
+			return storySet;
+		}
+
+		public void setStorySet(Set storySet) {
+			this.storySet = storySet;
 		}
 
 }
