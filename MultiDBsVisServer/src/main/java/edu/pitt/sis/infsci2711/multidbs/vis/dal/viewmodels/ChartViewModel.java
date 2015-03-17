@@ -1,17 +1,9 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels;
 
-<<<<<<< HEAD
 import java.util.HashSet;
 import java.util.Set;
-=======
-import javax.xml.bind.annotation.XmlRootElement;
 
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
->>>>>>> origin/master
-
-@XmlRootElement
 public class ChartViewModel {
-<<<<<<< HEAD
 	private Integer cid;
 	private String name;
 	private String type;
@@ -52,12 +44,6 @@ public class ChartViewModel {
 		this.note = note;
 		this.stories = stories;
 	}
-=======
-  private int cid;
-  private String name;
-  private String type;
-  private CanvasViewModel canvases;
->>>>>>> origin/master
 
   public int getCid(){
 	  return cid;
@@ -155,15 +141,5 @@ public class ChartViewModel {
 		this.stories = stories;
 	}
  
-<<<<<<< HEAD
 
-=======
-  public CanvasViewModel getCanvases(){
-	  return canvases;
-  }
-  
-  public void setCanvases(CanvasViewModel canvases){
-	  this.canvases = canvases;
-  }
->>>>>>> origin/master
 }

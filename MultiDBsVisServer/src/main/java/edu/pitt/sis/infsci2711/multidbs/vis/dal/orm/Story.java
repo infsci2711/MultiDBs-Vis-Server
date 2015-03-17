@@ -9,13 +9,9 @@ public class Story {
    private String connInfo;
    private Date cdate;
    private Date mdate;
-<<<<<<< HEAD
    
    private Users user;
    
-=======
-   private Users user;
->>>>>>> origin/master
    private Set canvasSet = new HashSet(0);
    private Set chartSet = new HashSet(0);
    
@@ -24,7 +20,6 @@ public class Story {
    }
    
    public Story(Users user, Date cdate, Date mdate, String connInfo){
-<<<<<<< HEAD
 	   this.user = user;
 	   this.cdate = cdate;
 	   this.mdate = mdate;
@@ -36,11 +31,6 @@ public class Story {
 	   this.user = user;
 	   this.cdate = cdate;
 	   this.mdate = mdate;
-=======
-	   this.cdate = cdate;
-	   this.mdate = mdate;
-	   this.user = user;
->>>>>>> origin/master
 	   this.connInfo = connInfo;
    }
    
@@ -76,7 +66,6 @@ public class Story {
 	   this.mdate = mdate;
    }
    
-<<<<<<< HEAD
    
 
 	public Users getUser() {
@@ -102,29 +91,4 @@ public class Story {
 	public void setChartSet(Set chartSet) {
 		this.chartSet = chartSet;
 	}
-=======
-   public Users getUser(){
-	   return this.user;
-   }
-   
-   public void setUser(Users user){
-	   this.user = user;
-   }
-
-  public Set getCanvasSet() {
-	return canvasSet;
-  }
-
-  public void setCanvasSet(Set canvasSet) {
-	this.canvasSet = canvasSet;
-  }
-
-  public Set getChartSet() {
-	return chartSet;
-  }
-
-  public void setChartSet(Set chartSet) {
-	this.chartSet = chartSet;
-  }
->>>>>>> origin/master
 }
