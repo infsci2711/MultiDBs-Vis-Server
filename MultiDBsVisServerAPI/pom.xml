@@ -43,6 +43,18 @@
 			use the following artifactId if you don't need servlet 2.x compatibility
 			artifactId>jersey-container-servlet</artifactId
 		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>${jettyVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>${jettyVersion}</version>
+		</dependency>
 		
 		<dependency>
 	       <groupId>edu.pitt.sis.infsci2711</groupId>
@@ -56,7 +68,6 @@
 	       <version>0.1-SNAPSHOT</version>
         </dependency>
         
-<<<<<<< HEAD
         
 
 		<dependency>
@@ -79,8 +90,6 @@
 	       <version>0.1-SNAPSHOT</version>
         </dependency>
         
-=======
->>>>>>> origin/master
         <dependency>
 	      <groupId>com.wordnik</groupId>
 	      <artifactId>swagger-core_2.10</artifactId>
@@ -91,11 +100,7 @@
           <groupId>org.slf4j</groupId>
           <artifactId>slf4j-simple</artifactId>
           <version>1.6.4</version>
-<<<<<<< HEAD
        </dependency>
-=======
-        </dependency>
->>>>>>> origin/master
 
 	
         
