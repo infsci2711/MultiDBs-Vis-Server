@@ -12,11 +12,16 @@ public class Users {
 		private Date userLastlogin;
 		private String userEmail;
 		private String userNames;
+<<<<<<< HEAD
 		
 		private Set canvasSet = new HashSet(0);
 		private Set storySet = new HashSet(0);
 
 	
+=======
+	    private Set canvasSet = new HashSet(0); //mapping
+	    private Set storySet = new HashSet(0);
+>>>>>>> origin/master
 
 		public Users() {
 		}
@@ -93,6 +98,22 @@ public class Users {
 
 		public void setUserLastlogin(Date userLastlogin) {
 			this.userLastlogin = userLastlogin;
+		}
+		
+		public Set getCanvasSet(){
+			return this.canvasSet;
+		}
+		
+		public void setCanvasSet(Set canvasSet){
+			this.canvasSet = canvasSet;
+		}
+
+		public Set getStorySet() {
+			return storySet;
+		}
+
+		public void setStorySet(Set storySet) {
+			this.storySet = storySet;
 		}
 
 		public Set getCanvasSet() {
