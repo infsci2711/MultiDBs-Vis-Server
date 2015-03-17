@@ -17,11 +17,20 @@
         <property name="cdate" type="timestamp">
             <column name="cdate" length="19" not-null="true" />
         </property>
+<<<<<<< HEAD
 		<many-to-one name="user" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users" fetch="select">
             <column name="user_id" />
         </many-to-one>
        
       
+=======
+        
+        <many-to-one name="user" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users" fetch="select">
+            <column name="user_id"/>
+        </many-to-one>
+        
+        <!-- new added mapping -->
+>>>>>>> origin/master
         <set name="canvasSet" table="canvas_story" fetch="select">
         	<key column="sid" />
         	<many-to-many column="vid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases" />
@@ -30,7 +39,11 @@
         	<key column="sid" />
         	<many-to-many column="cid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts" />
         </set>
+<<<<<<< HEAD
          
 
+=======
+        
+>>>>>>> origin/master
     </class>
 </hibernate-mapping>

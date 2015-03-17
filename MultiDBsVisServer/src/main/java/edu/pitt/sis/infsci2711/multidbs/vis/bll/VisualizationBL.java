@@ -48,7 +48,21 @@ public class VisualizationBL {
 				users.getUserEmail(), users.getUserNames(), users.getUserLastlogin());
 	}
 
+<<<<<<< HEAD
 
+=======
+	private StoryViewModel createStoryViewModel(Story story){
+		StoryViewModel storyVM = new StoryViewModel();
+		
+		storyVM.setSid(story.getSid());
+		storyVM.setUser(story.getUser());;
+		storyVM.setConnInfo(story.getConnInfo());
+//		storyVM.setCdate(story.getCdate());
+//		storyVM.setMdate(story.getMdate());
+		
+		return storyVM;
+	}
+>>>>>>> origin/master
 	
 	/************************ canvas ************************/
 	private CanvasViewModel convertCanvasViewModel(Canvases canvas) {
@@ -125,6 +139,7 @@ public class VisualizationBL {
 		
 	}
 	
+<<<<<<< HEAD
 
 	
 	/************************ story ************************/
@@ -154,15 +169,33 @@ public class VisualizationBL {
 		
 		return storyVM;
 	}
+=======
+	public StoryViewModel createStory(int userId, String connInfo) throws Exception{
+		UserManager userMng = new UserManagerImpl();
+		Users user = userMng.findByID(userId);
+>>>>>>> origin/master
 	
-	public StoryViewModel findStoryById(int storyId) throws Exception{
 		StoryManager storyMng = new StoryManagerImpl();
-		Story story = storyMng.findByID(storyId);
+		Story newStory = storyMng.createNewStory(user, connInfo);
+		StoryViewModel storyVM = createStoryViewModel(newStory);
 		
+<<<<<<< HEAD
 		StoryViewModel storyVM = convertStoryViewModel(story);
 		
 		return storyVM;
+=======
+		return storyVM;	
+>>>>>>> origin/master
 	}
+	
+//	public StoryViewModel findStoryById(int storyId) throws Exception{
+//		StoryManager storyMng = new StoryManagerImpl();
+//		Story story = storyMng.findByID(storyId);
+//		
+//		StoryViewModel storyVM = createStoryViewModel(storyId, story.getUser());
+//		
+//		return storyVM;
+//	}
 	
 	public void deleteStory(int storyId) throws Exception{
 		StoryManager storyMng = new StoryManagerImpl();

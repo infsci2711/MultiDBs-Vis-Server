@@ -27,7 +27,11 @@
             <column name="privilege" />
         </property>
         
+<<<<<<< HEAD
         
+=======
+        <!-- new added mapping -->
+>>>>>>> origin/master
         <set name="storySet" table="canvas_story" inverse="true" fetch="select">
         	<key column="vid" />
         	<many-to-many column="sid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story" />
@@ -37,6 +41,11 @@
           		<column name="vid" />
           	</key>
         	<one-to-many class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts" />
+<<<<<<< HEAD
         </set>
+=======
+        </set> 
+        
+>>>>>>> origin/master
     </class>
 </hibernate-mapping>

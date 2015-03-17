@@ -177,6 +177,7 @@
 	      <version>1.2.0.Beta1</version>
         </dependency>
         
+<<<<<<< HEAD
        <!-- <dependency>
 	     <groupId>com.google.code.gson</groupId>
 	     <artifactId>gson</artifactId>
@@ -184,5 +185,13 @@
        </dependency> -->
         
         
+=======
+       <dependency>
+	     <groupId>com.google.code.gson</groupId>
+	     <artifactId>gson</artifactId>
+	     <version>2.3</version>
+       </dependency>
+       
+>>>>>>> origin/master
 	</dependencies>
 </project>
