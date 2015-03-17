@@ -62,8 +62,12 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 			
 			List<Canvases> result = _dao.findMany(query);
 			
+<<<<<<< HEAD
 			for (Canvases canvas : result) { // lazy
 				System.out.println(canvas.getName()+"666666666666666666666666666");
+=======
+			for(Canvases canvas : result){ 
+>>>>>>> origin/master
 				Hibernate.initialize(canvas.getUsers());
 			}
 			
@@ -76,8 +80,14 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 			
 			this.logger.error("Cannot find the records", ex);
 			throw ex;
+<<<<<<< HEAD
 		}	
+=======
+		}
+>>>>>>> origin/master
 		
 	}
+
+
 }
 
