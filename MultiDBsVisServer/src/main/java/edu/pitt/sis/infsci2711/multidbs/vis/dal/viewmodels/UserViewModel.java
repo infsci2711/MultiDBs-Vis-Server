@@ -1,7 +1,6 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels;
 
 import java.util.Date;
-<<<<<<< HEAD
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,11 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
 
-=======
-
-import javax.xml.bind.annotation.XmlRootElement;
-
->>>>>>> origin/master
 @XmlRootElement
 public class UserViewModel {
 	private Integer userId;
@@ -22,18 +16,12 @@ public class UserViewModel {
 	private Date userLastlogin;
 	private String userEmail;
 	private String userNames;
-<<<<<<< HEAD
 	
 	private Set<StoryViewModel> stories = new HashSet<StoryViewModel>();
 	
 
 	public UserViewModel() {
 		
-=======
-
-
-	public UserViewModel() {
->>>>>>> origin/master
 	}
 
 	public UserViewModel(Date userModification, Date userDate,
@@ -43,16 +31,11 @@ public class UserViewModel {
 		this.userLastlogin = userLastlogin;
 	}
 
-<<<<<<< HEAD
 	public UserViewModel(int userId, Date userModification, Date userDate,
-=======
-	public UserViewModel(Integer userId, Date userModification, Date userDate,
->>>>>>> origin/master
 			String userEmail, String userNames, Date userLastlogin) {
 		this.userId = userId;
 		this.userModification = userModification;
 		this.userDate = userDate;
-<<<<<<< HEAD
 		this.userEmail = userEmail != null ? userEmail : "";
 		this.userNames = userNames;
 		this.userLastlogin = userLastlogin;
@@ -63,12 +46,6 @@ public class UserViewModel {
 		this.userNames = userNames;
 	}
 	
-=======
-		this.userEmail = userEmail;
-		this.userNames = userNames;
-		this.userLastlogin = userLastlogin;
-	}
->>>>>>> origin/master
 
 	public Integer getUserId() {
 		return this.userId;
@@ -118,7 +95,6 @@ public class UserViewModel {
 		this.userLastlogin = userLastlogin;
 	}
 
-<<<<<<< HEAD
 	public Set<StoryViewModel> getStories() {
 		return stories;
 	}
@@ -128,6 +104,4 @@ public class UserViewModel {
 	}
 
 
-=======
->>>>>>> origin/master
 }
