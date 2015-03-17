@@ -16,11 +16,16 @@ public class Canvases implements java.io.Serializable {
    private Date mdate;
    private Date cdate;
    private Integer privilege;
+<<<<<<< HEAD
    
    private Users users;
    
    private Set storySet = new HashSet(0);
    private Set chartSet = new HashSet(0);
+=======
+   private Set chartSet = new HashSet(0);
+   private Set storySet = new HashSet(0);
+>>>>>>> origin/master
 
    public Canvases() {
    }
@@ -31,13 +36,15 @@ public class Canvases implements java.io.Serializable {
    }
 
    public Canvases(Users users, String name,
-     String note, Date mdate, Date cdate, Integer privilege) {
+     String note, Date mdate, Date cdate, Integer privilege, Set chartsSet) {
      this.users = users;
      this.name = name;
      this.note = note;
      this.mdate = mdate;
      this.cdate = cdate;
      this.privilege = privilege;
+     this.chartSet = chartSet;
+  
    }
    
    public Canvases(Integer vid, Users users, String name,
@@ -106,6 +113,23 @@ public class Canvases implements java.io.Serializable {
    public void setPrivilege(Integer privilege) {
      this.privilege = privilege;
   }
+  
+  public Set getChartSet(){
+	  return this.chartSet;
+  }
+  
+  public void setChartSet(Set chartsSet){
+	  this.chartSet = chartsSet;
+  }
+
+  public Set getStorySet() {
+	return storySet;
+  }
+
+  public void setStorySet(Set storySet) {
+	this.storySet = storySet;
+  }
+  
 
 	public Set getStorySet() {
 		return storySet;

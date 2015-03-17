@@ -39,7 +39,11 @@
             <column name="note" length="500" />
         </property>
         
+<<<<<<< HEAD
         
+=======
+        <!-- new added mapping -->
+>>>>>>> origin/master
         <set name="storySet" table="story_chart" fetch="select">
         	<key column="cid" />
         	<many-to-many column="sid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story" />

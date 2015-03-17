@@ -15,10 +15,14 @@ import java.util.Set;
 		private Integer width;
 		private String datainfo;
 		private String note;
+<<<<<<< HEAD
 		
 		private Canvases canvases;
 		
 		private Set<Story> storySet = new HashSet(0);
+=======
+		private Set storySet = new HashSet(0);
+>>>>>>> origin/master
 
 		public Charts() {		
 		}
@@ -142,11 +146,19 @@ import java.util.Set;
 			this.note = note;
 		}
 
+<<<<<<< HEAD
 		public Set<Story> getStorySet() {
 			return storySet;
 		}
 
 		public void setStorySet(Set<Story> storySet) {
+=======
+		public Set getStorySet() {
+			return storySet;
+		}
+
+		public void setStorySet(Set storySet) {
+>>>>>>> origin/master
 			this.storySet = storySet;
 		}
 
