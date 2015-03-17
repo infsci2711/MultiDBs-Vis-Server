@@ -4,17 +4,32 @@ import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 
 @XmlRootElement
 public class CanvasViewModel {
    
-	private int vid;
+	private Integer vid;
 	private String name;
 	private Date cdate;
 	private Date mdate;
-	private int privilege;
-	private Users users;
+	private Integer privilege;
+	private String note;
+	
+	private UserViewModel user;
+	
+	public CanvasViewModel() {
+		
+	}
+	
+	public CanvasViewModel(Integer vid, String name, Date cdate, Date mdate, Integer privilege, String note, UserViewModel user) {
+		this.vid = vid;
+		this.name = name;
+		this.cdate = cdate;
+		this.mdate = mdate;
+		this.privilege = privilege != null ? privilege : 0;
+		this.note = note;
+		this.user = user;
+	}
 	
 	public int getVid(){
 		return vid;
@@ -55,12 +70,20 @@ public class CanvasViewModel {
 	public void setPrivilege(final int privilege){
 		this.privilege = privilege;
 	}
-	
-	public Users getUsers(){
-		return users;
+
+	public String getNote() {
+		return note;
 	}
-	
-	public void setUsers(final Users users){
-		this.users = users;
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public UserViewModel getUser() {
+		return user;
+	}
+
+	public void setUser(UserViewModel user) {
+		this.user = user;
 	}
 }
