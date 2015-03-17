@@ -12,7 +12,6 @@ public class CanvasViewModel {
 	private String name;
 	private Date cdate;
 	private Date mdate;
-<<<<<<< HEAD
 	private Integer privilege;
 	private String note;
 	
@@ -31,10 +30,6 @@ public class CanvasViewModel {
 		this.note = note;
 		this.user = user;
 	}
-=======
-	private int privilege;
-	private UserViewModel users;
->>>>>>> origin/master
 	
 	public int getVid(){
 		return vid;
@@ -75,7 +70,6 @@ public class CanvasViewModel {
 	public void setPrivilege(final int privilege){
 		this.privilege = privilege;
 	}
-<<<<<<< HEAD
 
 	public String getNote() {
 		return note;
@@ -91,14 +85,5 @@ public class CanvasViewModel {
 
 	public void setUser(UserViewModel user) {
 		this.user = user;
-=======
-	
-	public UserViewModel getUsers(){
-		return users;
-	}
-	
-	public void setUsers(final UserViewModel users){
-		this.users = users;
->>>>>>> origin/master
 	}
 }
