@@ -210,6 +210,7 @@ public abstract class GeneralManagerImpl<Dao extends GenericDAO<T, ID>, T extend
 			 HibernateUtil.beginTransaction();
         
 			 @SuppressWarnings("unchecked")
+			 
 			 T reattachedParent = (T) HibernateUtil.getSession().merge(detachedParent); 
         
 	        for (String fieldName : fieldsNames) {

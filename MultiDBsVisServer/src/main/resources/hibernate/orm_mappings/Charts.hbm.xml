@@ -8,7 +8,7 @@
             <column name="cid" />
             <generator class="identity" />
         </id>
-        <many-to-one name="Canvases" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases" fetch="select">
+        <many-to-one name="canvases" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases" fetch="select">
             <column name="vid" />
         </many-to-one>
         <property name="name" type="string">
@@ -38,5 +38,11 @@
         <property name="note" type="string">
             <column name="note" length="500" />
         </property>
+        
+        
+        <set name="storySet" table="story_chart" fetch="select">
+        	<key column="cid" />
+        	<many-to-many column="sid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story" />
+        </set>
     </class>
 </hibernate-mapping>

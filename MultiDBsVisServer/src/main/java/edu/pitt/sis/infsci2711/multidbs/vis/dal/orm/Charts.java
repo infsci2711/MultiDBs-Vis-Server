@@ -1,9 +1,11 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 
+import java.util.HashSet;
+import java.util.Set;
+
 	public class Charts implements java.io.Serializable {
 
 		private Integer cid;
-		private Canvases canvases;
 		private String name;
 		private String type;
 		private Integer left;
@@ -13,6 +15,10 @@ package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 		private Integer width;
 		private String datainfo;
 		private String note;
+		
+		private Canvases canvases;
+		
+		private Set<Story> storySet = new HashSet(0);
 
 		public Charts() {		
 		}
@@ -30,6 +36,22 @@ package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 			this.width = width;
 			this.datainfo = datainfo;
 			this.note = note;
+		}
+		
+		public Charts(Canvases canvases, String name,
+				String type, Integer left, Integer top, Integer depth,
+				Integer height, Integer width, String datainfo, String note, Set<Story> storySet) {
+			this.canvases = canvases;
+			this.name = name;
+			this.type = type;
+			this.left = left;
+			this.top = top;
+			this.depth = depth;
+			this.height = height;
+			this.width = width;
+			this.datainfo = datainfo;
+			this.note = note;
+			this.storySet = storySet;
 		}
 
 		public Integer getCid() {
@@ -118,6 +140,14 @@ package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 
 		public void setNote(String note) {
 			this.note = note;
+		}
+
+		public Set<Story> getStorySet() {
+			return storySet;
+		}
+
+		public void setStorySet(Set<Story> storySet) {
+			this.storySet = storySet;
 		}
 
 	}

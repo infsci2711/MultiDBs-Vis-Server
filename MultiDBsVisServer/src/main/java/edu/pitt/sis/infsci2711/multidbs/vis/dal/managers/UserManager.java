@@ -31,5 +31,7 @@ public interface UserManager extends GeneralManager<Users, Integer> {
 	 * @throws Exception 
 	 */
 	public List<String> queryUserEmails(String userLevel) throws HibernateException;
+	
+	public Users createNewUser(String name);
 }
 

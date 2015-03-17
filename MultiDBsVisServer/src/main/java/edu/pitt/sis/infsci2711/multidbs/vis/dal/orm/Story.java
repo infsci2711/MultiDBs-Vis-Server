@@ -1,29 +1,44 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Story {
    private int sid;
    private String connInfo;
    private Date cdate;
    private Date mdate;
-   private Users users;
+   
+   private Users user;
+   
+   private Set canvasSet = new HashSet(0);
+   private Set chartSet = new HashSet(0);
    
    public Story(){
 	   
    }
    
-   public Story(int sid, Date cdate, Date mdate){
-	   this.sid = sid;
+   public Story(Users user, Date cdate, Date mdate, String connInfo){
+	   this.user = user;
 	   this.cdate = cdate;
 	   this.mdate = mdate;
+	   this.connInfo = connInfo;
+   }
+   
+   public Story(Integer sid, Users user, Date cdate, Date mdate, String connInfo){
+	   this.sid = sid;
+	   this.user = user;
+	   this.cdate = cdate;
+	   this.mdate = mdate;
+	   this.connInfo = connInfo;
    }
    
    public int getSid(){
 	   return this.sid;
    }
    
-   public void setSid(int sid){
+   private void setSid(int sid){
 	   this.sid = sid;
    }
    
@@ -51,11 +66,29 @@ public class Story {
 	   this.mdate = mdate;
    }
    
-   public Users getUser(){
-	   return this.users;
-   }
    
-   public void setUser(Users users){
-	   this.users = users;
-   }
+
+	public Users getUser() {
+		return user;
+	}
+
+	public void setUser(Users user) {
+		this.user = user;
+	}
+
+	public Set getCanvasSet() {
+		return canvasSet;
+	}
+
+	public void setCanvasSet(Set canvasSet) {
+		this.canvasSet = canvasSet;
+	}
+
+	public Set getChartSet() {
+		return chartSet;
+	}
+
+	public void setChartSet(Set chartSet) {
+		this.chartSet = chartSet;
+	}
 }

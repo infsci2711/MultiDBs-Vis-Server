@@ -1,5 +1,6 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.managers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -76,5 +77,25 @@ public class UserManagerImpl extends GeneralManagerImpl<UsersDAO, Users, Integer
         	logger.error("save failed HibernateException", ex);
         	throw ex;
         }
+	}
+	
+	public Users createNewUser(String name) {
+		Users newUser = new Users(new Date(), new Date(), new Date());
+		newUser.setUserNames(name);
+		
+		try {
+			HibernateUtil.beginTransaction();
+			_dao.save(newUser);
+			HibernateUtil.commitTransaction();
+			
+		} catch (Exception ex) {
+			HibernateUtil.rollbackTransaction();
+			
+			this.logger.error("create user failed HibernateException", ex);
+			throw ex;
+
+		}
+		
+		return newUser;
 	}
 }

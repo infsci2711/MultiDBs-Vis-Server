@@ -17,7 +17,20 @@
         <property name="cdate" type="timestamp">
             <column name="cdate" length="19" not-null="true" />
         </property>
-        <set name=""
-        <set
+		<many-to-one name="user" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users" fetch="select">
+            <column name="user_id" />
+        </many-to-one>
+       
+      
+        <set name="canvasSet" table="canvas_story" fetch="select">
+        	<key column="sid" />
+        	<many-to-many column="vid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases" />
+        </set>
+        <set name="chartSet" table="story_chart" inverse="true" fetch="select">
+        	<key column="sid" />
+        	<many-to-many column="cid" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts" />
+        </set>
+         
+
     </class>
 </hibernate-mapping>

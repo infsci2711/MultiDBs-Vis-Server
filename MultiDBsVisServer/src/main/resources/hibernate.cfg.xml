@@ -7,8 +7,8 @@
 <hibernate-configuration>
 
  <session-factory>
-<!-- 
-  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+ 
+  <!-- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
   <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/visualization</property>
 
@@ -43,14 +43,14 @@
 
   <property name="show_sql">true</property>
 
-  <property name="format_sql">true</property>
+  <property name="format_sql">true</property> -->
 
--->
+
 
   <mapping resource="hibernate/orm_mappings/Canvases.hbm.xml"/>
   <mapping resource="hibernate/orm_mappings/Users.hbm.xml"/>
   <mapping resource="hibernate/orm_mappings/Charts.hbm.xml"/>
-
+  <mapping resource="hibernate/orm_mappings/Story.hbm.xml"/>
 
  </session-factory>
 

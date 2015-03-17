@@ -3,24 +3,27 @@ package edu.pitt.sis.infsci2711.multidbs.vis.dal.managers;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.*;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.StoryDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.StoryDAOImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.utils.HibernateUtil;
 
-public class StoryManagerImpl extends GeneralManagerImpl<StoryDAO, Story, Integer>
-       implements StoryManager{
-    Logger logger = LogManager.getLogger(CanvasesManagerImpl.class.getName());
+
+public class StoryManagerImpl extends GeneralManagerImpl<StoryDAO, Story, Integer> 
+		implements StoryManager {
+	Logger logger = LogManager.getLogger(CanvasesManagerImpl.class.getName());
+
 	
 	public StoryManagerImpl() {
 		super(new StoryDAOImpl(), Story.class);
 	}
 	
-	public Story createNewStory(int sid){
-		Story newStory = new Story(sid, new Date(), new Date());
+
+	public Story createNewStory(Users user, String connInfo){
+		Story newStory = new Story(user, new Date(), new Date(), connInfo);
 		
 		try{
             HibernateUtil.beginTransaction();
@@ -38,5 +41,8 @@ public class StoryManagerImpl extends GeneralManagerImpl<StoryDAO, Story, Intege
 	    
 		return newStory;
 	}
+
+	
+
 	
 }

@@ -12,9 +12,13 @@ import edu.pitt.sis.infsci2711.multidbs.vis.test.utils.DockerTest;
 import edu.pitt.sis.infsci2711.multidbs.vis.bll.VisualizationBL;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManager;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManagerImpl;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.StoryManager;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.StoryManagerImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.CanvasViewModel;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.StoryViewModel;
 
 public class VisualizationTest extends DockerTest{
 	 
@@ -35,6 +39,25 @@ public class VisualizationTest extends DockerTest{
 		
 		
 		assertEquals("Wrong canvas name", canvasesVM.getName(), actualCanvases.getName());
+	}
+	
+	@Test
+	public void testCreateNewStory() throws Exception {
+		
+ 		Users testUser = getTestUser();
+		
+		String connInfo = "testStory";
+		
+		VisualizationBL visualizationBL = new VisualizationBL();
+		StoryViewModel StoryVM = visualizationBL.createStory(testUser.getUserId(), connInfo);
+		
+		assertNotNull(StoryVM);
+		
+		StoryManager StoryMng = new StoryManagerImpl();
+		Story actualStory = StoryMng.findByID(StoryVM.getSid());
+		
+		
+		assertEquals("Wrong story name", StoryVM.getConnInfo(), actualStory.getConnInfo());
 	}
 	
 	@Test

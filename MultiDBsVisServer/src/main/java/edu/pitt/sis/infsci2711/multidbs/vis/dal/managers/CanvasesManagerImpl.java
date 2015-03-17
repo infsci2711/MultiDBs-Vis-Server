@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.CanvasesDAO;
@@ -61,6 +62,11 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 			
 			List<Canvases> result = _dao.findMany(query);
 			
+			for (Canvases canvas : result) { // lazy
+				System.out.println(canvas.getName()+"666666666666666666666666666");
+				Hibernate.initialize(canvas.getUsers());
+			}
+			
 			HibernateUtil.commitTransaction();
 			
 			return result;
@@ -70,10 +76,7 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 			
 			this.logger.error("Cannot find the records", ex);
 			throw ex;
-		}
-		
-		
-		
+		}	
 		
 	}
 }

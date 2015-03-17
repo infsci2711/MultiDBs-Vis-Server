@@ -1,6 +1,8 @@
 package edu.pitt.sis.infsci2711.multidbs.vis.dal.orm;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Users {
 
@@ -10,6 +12,10 @@ public class Users {
 		private Date userLastlogin;
 		private String userEmail;
 		private String userNames;
+		
+		private Set canvasSet = new HashSet(0);
+		private Set storySet = new HashSet(0);
+
 	
 
 		public Users() {
@@ -30,12 +36,22 @@ public class Users {
 			this.userNames = userNames;
 			this.userLastlogin = userLastlogin;
 		}
+		
+		public Users(Integer userId, Date userModification, Date userDate,
+				String userEmail, String userNames, Date userLastlogin) {
+			this.userId = userId;
+			this.userModification = userModification;
+			this.userDate = userDate;
+			this.userEmail = userEmail;
+			this.userNames = userNames;
+			this.userLastlogin = userLastlogin;
+		}
 
 		public Integer getUserId() {
 			return this.userId;
 		}
 
-		public void setUserId(Integer userId) {
+		private void setUserId(Integer userId) {
 			this.userId = userId;
 		}
 
@@ -78,5 +94,30 @@ public class Users {
 		public void setUserLastlogin(Date userLastlogin) {
 			this.userLastlogin = userLastlogin;
 		}
+
+		public Set getCanvasSet() {
+			return canvasSet;
+		}
+
+		public void setCanvasSet(Set canvasSet) {
+			this.canvasSet = canvasSet;
+		}
+
+		public Set getStorySet() {
+			return storySet;
+		}
+
+		public void setStorySet(Set storySet) {
+			this.storySet = storySet;
+		}
+
+//		public Set<Story> getStories() {
+//			return stories;
+//		}
+//
+//		public void addStory(Story story) {
+//			story.setUser(this);
+//			this.stories.add(story);
+//		}
 
 }
