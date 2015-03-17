@@ -21,7 +21,10 @@ public class StoryManagerImpl extends GeneralManagerImpl<StoryDAO, Story, Intege
 		super(new StoryDAOImpl(), Story.class);
 	}
 	
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 	public Story createNewStory(Users user, String connInfo){
 		Story newStory = new Story(user, new Date(), new Date(), connInfo);
 		
