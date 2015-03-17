@@ -2,20 +2,24 @@ package edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import edu.pitt.sis.exp.colfusion.utils.Gsonazable;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 
-public class StoryViewModel {
+@XmlRootElement
+public class StoryViewModel{
 	   private int sid;
 	   private String connInfo;
 	   private Date cdate;
 	   private Date mdate;
-	   private Users user;
+	   private UserViewModel user;
 	   
 	   public StoryViewModel() {
 		   
 	   }
 	   
-	   public StoryViewModel(Users user, Date cdate, Date mdate, String connInfo){
+	   public StoryViewModel(UserViewModel user, Date cdate, Date mdate, String connInfo){
 		   this.user = user;
 		   this.cdate = cdate;
 		   this.mdate = mdate;
@@ -54,11 +58,12 @@ public class StoryViewModel {
 		   this.mdate = mdate;
 	   }
 	   
-	   public Users getUser(){
+	   public UserViewModel getUser(){
 		   return this.user;
 	   }
 	   
-	   public void setUser(Users user){
+	   public void setUser(UserViewModel user){
 		   this.user = user;
-	   }
+	   } 
+	   
 }
