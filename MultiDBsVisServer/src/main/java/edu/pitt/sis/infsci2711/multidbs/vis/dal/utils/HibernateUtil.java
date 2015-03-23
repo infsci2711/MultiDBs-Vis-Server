@@ -16,8 +16,11 @@ import org.hibernate.cfg.Configuration;
 
 //import com.google.common.collect.Multiset.Entry;
 
-import edu.pitt.sis.exp.colfusion.utils.ConfigManager;
-import edu.pitt.sis.exp.colfusion.utils.StringUtils;
+//import edu.pitt.sis.exp.colfusion.utils.ConfigManager;
+import edu.pitt.sis.infsci2711.multidbs.vis.utils.ConfigManager;
+import edu.pitt.sis.infsci2711.multidbs.vis.utils.StringUtils;
+//import edu.pitt.sis.exp.colfusion.utils.StringUtils;
+
 
 public class HibernateUtil {
  
