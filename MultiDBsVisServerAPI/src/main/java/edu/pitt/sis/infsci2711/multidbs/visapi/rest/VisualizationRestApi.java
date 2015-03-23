@@ -16,11 +16,11 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import jnr.ffi.Struct.int16_t;
+//import jnr.ffi.Struct.int16_t;
 
 import com.wordnik.swagger.annotations.ApiOperation;
 
-import edu.pitt.sis.exp.colfusion.utils.Gsonizer;
+//import edu.pitt.sis.exp.colfusion.utils.Gsonizer;
 import edu.pitt.sis.infsci2711.multidbs.vis.bll.VisualizationBL;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.CanvasViewModel;
@@ -243,119 +243,39 @@ public class VisualizationRestApi {
    /** not ok **/
   
    /********************** chart **********************/
-   @Path("chart/new/")
-   @POST
-   @Consumes(MediaType.APPLICATION_JSON) 
-   @Produces(MediaType.APPLICATION_JSON)
-   @ApiOperation(
-		   value = "Create a new chart with provided canvas Id, chart name and chart type"
-		   )
-   public ChartViewModel createChartT(ChartViewModel chartVM){
-	   VisualizationBL visualizationBL = new VisualizationBL();
-	   
-	   try{
-
-		   Client client = ClientBuilder.newClient();
-		   String result = client.target("http://localhost:7890/Visualization/canvas/")
-		           .path("4")
-		           .request(MediaType.APPLICATION_JSON)
-		           .get(String.class);
-		   
-		   if(result != null){
-		     ChartViewModel newChartVM = visualizationBL.createChart(chartVM.getCanvas().getVid(), chartVM.getName(), chartVM.getType(),chartVM.getLeft(), chartVM.getTop(), chartVM.getDepth(),chartVM.getHeight(),chartVM.getWidth(), chartVM.getNote(), result);
-	      
-		     return newChartVM;
-		   }
-	   }
-	   catch(Exception e){
-		   System.out.println(e.getMessage());
-	   }
-	   return null;
-   }
-
-
-   
-
-   @Path("chart/delete/{chartId: [0-9]+}")
-   @GET
-   @ApiOperation(
-		   value = "Delete chart with provided chart Id"
-		   )
-   public void deleteChart(@PathParam("chartId") final int chartId){
-	   VisualizationBL visualizationBL = new VisualizationBL();
-	   
-	   try{
-		   visualizationBL.deleteChart(chartId);
-	   }
-	   catch(Exception e){
-		   System.out.println(e.getMessage());
-	   }
-   }
-   
-   
-   
-   
-  
-    
-
-   //chart
-   @Path("chart/new/{canvasId}/{chartName}/{chartType}/{left}/{top}/{depth}/{height}/{width}/{note}/{datainfo}")
-   @GET
-   @ApiOperation(
-		   value = "Create a new chart with provided canvas Id, chart name and chart type"
-		   )
-   @Produces(MediaType.APPLICATION_JSON)
-   public ChartViewModel createChart(@PathParam("canvasId") final int canvasId, @PathParam("chartName") final String chartName, @PathParam("chartType") final String chartType,
-		   @PathParam("left") final int left, @PathParam("top") final int top, @PathParam("depth") final int depth,
-		   @PathParam("height") final int height, @PathParam("width") final int width, @PathParam("note") final String note, 
-		   @PathParam("datainfo") final String datainfo){
-	   VisualizationBL visualizationBL = new VisualizationBL();
-	   
-	   try{
-		   ChartViewModel chartVM = visualizationBL.createChart(canvasId, chartName, chartType, left, top, depth, height, width, note, datainfo);
-		   return chartVM;
-	   }
-	   catch(Exception e){
-		   System.out.println(e.getMessage());
-	   }
-	   return null;
-   }
-//   
-//   @Path("chart/{chartName}")
-//   @GET
-//   @ApiOperation(
-//		   value = "Find charts with provided chart name"
-//		   )
+//   @Path("chart/new/")
+//   @POST
+//   @Consumes(MediaType.APPLICATION_JSON) 
 //   @Produces(MediaType.APPLICATION_JSON)
-//   public void findChartByName(@PathParam("chartName") final String chartName){
+//   @ApiOperation(
+//		   value = "Create a new chart with provided canvas Id, chart name and chart type"
+//		   )
+//   public ChartViewModel createChartT(ChartViewModel chartVM){
 //	   VisualizationBL visualizationBL = new VisualizationBL();
 //	   
 //	   try{
-//		 visualizationBL.findByChartName(chartName);
+//
+//		   Client client = ClientBuilder.newClient();
+//		   String result = client.target("http://localhost:7890/Visualization/canvas/")
+//		           .path("4")
+//		           .request(MediaType.APPLICATION_JSON)
+//		           .get(String.class);
+//		   
+//		   if(result != null){
+//		     ChartViewModel newChartVM = visualizationBL.createChart(chartVM.getCanvas().getVid(), chartVM.getName(), chartVM.getType(),chartVM.getLeft(), chartVM.getTop(), chartVM.getDepth(),chartVM.getHeight(),chartVM.getWidth(), chartVM.getNote(), result);
+//	      
+//		     return newChartVM;
+//		   }
 //	   }
 //	   catch(Exception e){
 //		   System.out.println(e.getMessage());
 //	   }
+//	   return null;
 //   }
+//
+//
 //   
-//   @Path("chart/{chartId: [0-9]+}")
-//   @GET
-//   @ApiOperation(
-//		   value = "Find chart with provided chart Id",
-//		   response = ChartViewModel.class
-//		   )
-//   @Produces(MediaType.APPLICATION_JSON)
-//   public void findChartById(@PathParam("chartId") final int chartId){
-//	   VisualizationBL visualizationBL = new VisualizationBL();
-//	   
-//	   try{
-//		   visualizationBL.findByChartId(chartId);
-//	   }
-//	   catch(Exception e){
-//		   System.out.println(e.getMessage());
-//	   }
-//   }
-//   
+//
 //   @Path("chart/delete/{chartId: [0-9]+}")
 //   @GET
 //   @ApiOperation(
@@ -371,6 +291,86 @@ public class VisualizationRestApi {
 //		   System.out.println(e.getMessage());
 //	   }
 //   }
+//   
+//   
+//   
+//   
+//  
 //    
+//
+//   //chart
+//   @Path("chart/new/{canvasId}/{chartName}/{chartType}/{left}/{top}/{depth}/{height}/{width}/{note}/{datainfo}")
+//   @GET
+//   @ApiOperation(
+//		   value = "Create a new chart with provided canvas Id, chart name and chart type"
+//		   )
+//   @Produces(MediaType.APPLICATION_JSON)
+//   public ChartViewModel createChart(@PathParam("canvasId") final int canvasId, @PathParam("chartName") final String chartName, @PathParam("chartType") final String chartType,
+//		   @PathParam("left") final int left, @PathParam("top") final int top, @PathParam("depth") final int depth,
+//		   @PathParam("height") final int height, @PathParam("width") final int width, @PathParam("note") final String note, 
+//		   @PathParam("datainfo") final String datainfo){
+//	   VisualizationBL visualizationBL = new VisualizationBL();
+//	   
+//	   try{
+//		   ChartViewModel chartVM = visualizationBL.createChart(canvasId, chartName, chartType, left, top, depth, height, width, note, datainfo);
+//		   return chartVM;
+//	   }
+//	   catch(Exception e){
+//		   System.out.println(e.getMessage());
+//	   }
+//	   return null;
+//   }
+////   
+////   @Path("chart/{chartName}")
+////   @GET
+////   @ApiOperation(
+////		   value = "Find charts with provided chart name"
+////		   )
+////   @Produces(MediaType.APPLICATION_JSON)
+////   public void findChartByName(@PathParam("chartName") final String chartName){
+////	   VisualizationBL visualizationBL = new VisualizationBL();
+////	   
+////	   try{
+////		 visualizationBL.findByChartName(chartName);
+////	   }
+////	   catch(Exception e){
+////		   System.out.println(e.getMessage());
+////	   }
+////   }
+////   
+////   @Path("chart/{chartId: [0-9]+}")
+////   @GET
+////   @ApiOperation(
+////		   value = "Find chart with provided chart Id",
+////		   response = ChartViewModel.class
+////		   )
+////   @Produces(MediaType.APPLICATION_JSON)
+////   public void findChartById(@PathParam("chartId") final int chartId){
+////	   VisualizationBL visualizationBL = new VisualizationBL();
+////	   
+////	   try{
+////		   visualizationBL.findByChartId(chartId);
+////	   }
+////	   catch(Exception e){
+////		   System.out.println(e.getMessage());
+////	   }
+////   }
+////   
+////   @Path("chart/delete/{chartId: [0-9]+}")
+////   @GET
+////   @ApiOperation(
+////		   value = "Delete chart with provided chart Id"
+////		   )
+////   public void deleteChart(@PathParam("chartId") final int chartId){
+////	   VisualizationBL visualizationBL = new VisualizationBL();
+////	   
+////	   try{
+////		   visualizationBL.deleteChart(chartId);
+////	   }
+////	   catch(Exception e){
+////		   System.out.println(e.getMessage());
+////	   }
+////   }
+////    
   
 }
