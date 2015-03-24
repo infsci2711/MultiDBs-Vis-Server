@@ -18,7 +18,9 @@ import javax.ws.rs.core.Response;
 
 //import jnr.ffi.Struct.int16_t;
 
+
 import com.wordnik.swagger.annotations.ApiOperation;
+
 
 //import edu.pitt.sis.exp.colfusion.utils.Gsonizer;
 import edu.pitt.sis.infsci2711.multidbs.vis.bll.VisualizationBL;
@@ -53,13 +55,17 @@ public class VisualizationRestApi {
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
 		}
-		return null;
+		
+		UserViewModel uvm = new UserViewModel(100,"omarx");
+		return uvm;
 		
 	}
 
 	
-	
-	
+
+
+
+
 	/********************** canvas **********************/
 	
     //OK
