@@ -11,7 +11,7 @@ import java.util.Set;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 
-//import com.kenai.jnr.x86asm.Logger;
+import com.kenai.jnr.x86asm.Logger;
 
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.CanvasesDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.managers.CanvasesManager;
@@ -202,84 +202,84 @@ public class VisualizationBL {
 
 	
 	/************************ chart ************************/
-//	public ChartViewModel createChart(Integer vid, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String note, String dataInfo) throws Exception{
-//		
-//		CanvasesManager canvasMng = new CanvasesManagerImpl();
-//		Canvases canvases = canvasMng.findByID(vid);
-//		
-//		ChartsManager chartMng = new ChartsManagerImpl();
-//		Charts newChart = chartMng.createNewChart(canvases, name, type, left, top, depth, height, width, note, dataInfo);
-//		//newChart = GeneralManagerImpl.initializeField(newChart, "canvases"); // lazy
-//		ChartViewModel chartVM = convertChartViewModel(newChart);
-//		
-//		return chartVM;
+	public ChartViewModel createChart(Integer vid, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String note, String dataInfo) throws Exception{
 		
-	//}
+		CanvasesManager canvasMng = new CanvasesManagerImpl();
+		Canvases canvases = canvasMng.findByID(vid);
+		
+		ChartsManager chartMng = new ChartsManagerImpl();
+		Charts newChart = chartMng.createNewChart(canvases, name, type, left, top, depth, height, width, note, dataInfo);
+		//newChart = GeneralManagerImpl.initializeField(newChart, "canvases"); // lazy
+		ChartViewModel chartVM = convertChartViewModel(newChart);
+		
+		return chartVM;
+		
+	}
 	
-//	public void deleteChart(int chartId) throws Exception{
-//		
-//		ChartsManager chartMng = new ChartsManagerImpl();
-//		chartMng.delete(chartMng.findByID(chartId));
-//		
-//	}
-//	
-//	public List<ChartViewModel> findByChartName(String name) throws Exception{
-//		
-//		ChartsManager chartMng = new ChartsManagerImpl();
-//		List<Charts> chartsList = chartMng.findByName(name);
-//		Iterator<Charts> itCharts = chartsList.iterator();
-//		List<ChartViewModel> chartsVMList = new ArrayList<ChartViewModel>();
-//		
-//		while(itCharts.hasNext()){
-//			Charts chart = itCharts.next();
-//			
-//			ChartViewModel chartsVM = convertChartViewModel(chart);
-//			
-//			chartsVMList.add(chartsVM);
-//		}
-//	
-//		return chartsVMList;
-//	}
-//	
-//	public ChartViewModel findByChartId(int id) throws Exception{
-//		
-//		ChartsManager chartMng = new ChartsManagerImpl();
-//		Charts chart = chartMng.findByID(id);
-//		
-//		ChartViewModel chartsVM = convertChartViewModel(chart);
-//		chartsVM = GeneralManagerImpl.initializeField(chartsVM, "canvasVM");//add, may delete
-//		CanvasViewModel canvasVM = chartsVM.getCanvas();
-//		canvasVM = GeneralManagerImpl.initializeField(canvasVM, "users");//add, may delete
-//		
-//		return chartsVM;
-//	}
+	public void deleteChart(int chartId) throws Exception{
+		
+		ChartsManager chartMng = new ChartsManagerImpl();
+		chartMng.delete(chartMng.findByID(chartId));
+		
+	}
 	
-//	private ChartViewModel convertChartViewModel(Charts chart){
-//		
-//		
-////		HashSet<StoryViewModel> storyVMs = new HashSet<StoryViewModel>();
-////		for (Story story : chart.getStorySet()) {
-////			StoryViewModel storyVM = convertStoryViewModel(story);
-////			storyVMs.add(storyVM);
-////		}
-//		try{
-//			Canvases canvas = chart.getCanvases();
-//		  if(canvas != null){
-//			canvas = GeneralManagerImpl.initializeField(canvas, "users");
-//		  }
-//			CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
-//			
-//		  if(canvasVM != null){
-//			ChartViewModel chartVM = new ChartViewModel(canvasVM, chart.getCid(), chart.getName(), chart.getType(), chart.getLeft(), chart.getTop(), chart.getDepth(), chart.getHeight(), chart.getWidth(), chart.getNote(), chart.getDatainfo());
-//			//chartVM = GeneralManagerImpl.initializeField(chartVM, "canvasVM"); // lazy
-//			return chartVM;
-//		  }
-//		}catch(Exception e){
-//			System.out.println(e.getMessage());
+	public List<ChartViewModel> findByChartName(String name) throws Exception{
+		
+		ChartsManager chartMng = new ChartsManagerImpl();
+		List<Charts> chartsList = chartMng.findByName(name);
+		Iterator<Charts> itCharts = chartsList.iterator();
+		List<ChartViewModel> chartsVMList = new ArrayList<ChartViewModel>();
+		
+		while(itCharts.hasNext()){
+			Charts chart = itCharts.next();
+			
+			ChartViewModel chartsVM = convertChartViewModel(chart);
+			
+			chartsVMList.add(chartsVM);
+		}
+	
+		return chartsVMList;
+	}
+	
+	public ChartViewModel findByChartId(int id) throws Exception{
+		
+		ChartsManager chartMng = new ChartsManagerImpl();
+		Charts chart = chartMng.findByID(id);
+		
+		ChartViewModel chartsVM = convertChartViewModel(chart);
+		chartsVM = GeneralManagerImpl.initializeField(chartsVM, "canvasVM");//add, may delete
+		CanvasViewModel canvasVM = chartsVM.getCanvas();
+		canvasVM = GeneralManagerImpl.initializeField(canvasVM, "users");//add, may delete
+		
+		return chartsVM;
+	}
+	
+	private ChartViewModel convertChartViewModel(Charts chart){
+		
+		
+//		HashSet<StoryViewModel> storyVMs = new HashSet<StoryViewModel>();
+//		for (Story story : chart.getStorySet()) {
+//			StoryViewModel storyVM = convertStoryViewModel(story);
+//			storyVMs.add(storyVM);
 //		}
-//		return null;
-//		
-//	}
+		try{
+			Canvases canvas = chart.getCanvases();
+		  if(canvas != null){
+			canvas = GeneralManagerImpl.initializeField(canvas, "users");
+		  }
+			CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
+			
+		  if(canvasVM != null){
+			ChartViewModel chartVM = new ChartViewModel(canvasVM, chart.getCid(), chart.getName(), chart.getType(), chart.getLeft(), chart.getTop(), chart.getDepth(), chart.getHeight(), chart.getWidth(), chart.getNote(), chart.getDatainfo());
+			//chartVM = GeneralManagerImpl.initializeField(chartVM, "canvasVM"); // lazy
+			return chartVM;
+		  }
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		return null;
+		
+	}
 
 }
 
