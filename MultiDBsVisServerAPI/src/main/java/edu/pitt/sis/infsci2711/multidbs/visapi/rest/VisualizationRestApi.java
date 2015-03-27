@@ -107,6 +107,26 @@ public class VisualizationRestApi {
 	   return null;
    } 
    
+   //OK
+   @Path("canvas/user/{userId: [0-9]+}")
+   @GET
+   @ApiOperation(
+		   value = "Find all the canvases created by the user with provided user Id"
+		   )
+   @Produces(MediaType.APPLICATION_JSON)
+   public List<CanvasViewModel> findCanvasByUser(@PathParam("userId") final int userId){
+	   
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   
+	   try {
+		  List<CanvasViewModel> canvasVMList = visualizationBL.findCanvasByUser(userId);
+		  return canvasVMList;
+	} catch (Exception e) {
+		  System.out.println(e.getMessage());
+	}
+	   return null;
+   }
+   
    
    //OK
    @Path("canvas/delete/")
@@ -197,7 +217,9 @@ public class VisualizationRestApi {
 	   return null;
    }
    
-   @Path("story/delete/") // test ok, return type should be changed to String
+   
+   //OK
+   @Path("story/delete/") 
    @POST
    @ApiOperation(
 		   value = "Delete metadata for the story with provided story Id"

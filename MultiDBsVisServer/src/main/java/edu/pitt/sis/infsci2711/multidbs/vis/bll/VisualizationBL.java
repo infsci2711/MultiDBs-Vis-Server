@@ -127,10 +127,12 @@ public class VisualizationBL {
 	}
 	
 	//add, may need to delete
-	public List<CanvasViewModel> findAllCanvas(int userId) throws Exception{
+	public List<CanvasViewModel> findCanvasByUser(int userId) throws Exception{
+		UserManager userMng = new UserManagerImpl();
+		Users user = userMng.findByID(userId);
 		
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
-		List<Canvases> canvasesList = canvasMng.findAll();
+		List<Canvases> canvasesList = canvasMng.findCanvasByUser(user);
 		
 		Iterator<Canvases> itCanvases = canvasesList.iterator();
 		List<CanvasViewModel> canvasVMList = new ArrayList<CanvasViewModel>();
@@ -144,6 +146,7 @@ public class VisualizationBL {
 		}
 		
 		return canvasVMList;
+		
 	}
 	
 	public int deleteCanvas(int canvasId) throws Exception{
@@ -214,25 +217,6 @@ public class VisualizationBL {
 			}
 	}
 	
-	//add, may need to delete
-   public List<StoryViewModel> findAllStories(Users users) throws Exception{
-		
-		StoryManager storyMng = new StoryManagerImpl();
-		List<Story> storyList = storyMng.findAll();
-		
-		Iterator<Story> itStory = storyList.iterator();
-		List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
-		
-		while(itStory.hasNext()){
-			Story story = itStory.next();
-			
-			StoryViewModel storyVM = convertStoryViewModel(story);
-			
-			storyVMList.add(storyVM);
-		}
-		
-		return storyVMList;
-	}
 	
 	public int deleteStory(int storyId) throws Exception{
 		StoryManager storyMng = new StoryManagerImpl();

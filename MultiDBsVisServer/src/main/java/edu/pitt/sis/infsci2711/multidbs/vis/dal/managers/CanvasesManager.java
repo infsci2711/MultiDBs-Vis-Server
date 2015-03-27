@@ -13,4 +13,5 @@ public interface CanvasesManager extends GeneralManager<Canvases, Integer> {
 
 	public Canvases createNewCanvas(Users canvasOwner, String name);
 	public List<Canvases> findByName(String name);
+	public List<Canvases> findCanvasByUser(Users canvasOwner); //add, may need to delete
 }

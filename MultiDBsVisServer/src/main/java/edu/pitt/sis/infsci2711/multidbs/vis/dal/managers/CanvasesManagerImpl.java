@@ -63,7 +63,6 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 			List<Canvases> result = _dao.findMany(query);
 			
 			for (Canvases canvas : result) { // lazy
-				System.out.println(canvas.getName()+"666666666666666666666666666");
 				Hibernate.initialize(canvas.getUsers());
 			}
 			
@@ -79,5 +78,35 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 		}	
 		
 	}
+	
+	//add, may need to delete
+	public List<Canvases> findCanvasByUser(Users users){
+		try{
+			HibernateUtil.beginTransaction();
+			
+			int userId = users.getUserId();
+			String hql = "SELECT C FROM Canvases C WHERE C.users = :users";
+
+			Query query = HibernateUtil.getSession().createQuery(hql);
+			query.setParameter("users", users);
+			
+			List<Canvases> result = _dao.findMany(query);
+			
+			for (Canvases canvas : result) { // lazy
+				Hibernate.initialize(canvas.getUsers());
+			}
+			
+			HibernateUtil.commitTransaction();
+			
+			return result;
+			
+		}catch(Exception ex){
+            HibernateUtil.rollbackTransaction();
+			
+			this.logger.error("Cannot find the records", ex);
+			throw ex;
+		}
+	}
+	
 }
 
