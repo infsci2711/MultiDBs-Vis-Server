@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 
@@ -20,11 +21,19 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Int
 		super(new ChartsDAOImpl(), Charts.class);
 	}
    
-   public Charts createNewChart(Canvases canvas, String name, String type){
+   public Charts createNewChart(Canvases canvas, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String dataInfo){
 	   Charts newChart = new Charts();
 	   newChart.setCanvases(canvas);
 	   newChart.setName(name);
 	   newChart.setType(type);
+	   
+	   newChart.setLeft(left);
+	   newChart.setTop(top);
+	   newChart.setDepth(depth);
+	   newChart.setHeight(height);
+	   newChart.setWidth(width);
+	   newChart.setDatainfo(dataInfo);
+	  // newChart.setNote(note);
 	   
 	   try{
 		   HibernateUtil.beginTransaction();

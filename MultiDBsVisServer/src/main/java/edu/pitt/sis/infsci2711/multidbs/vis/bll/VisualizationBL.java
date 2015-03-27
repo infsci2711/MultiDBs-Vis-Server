@@ -126,6 +126,26 @@ public class VisualizationBL {
 		return canvasVMList;
 	}
 	
+	//add, may need to delete
+	public List<CanvasViewModel> findAllCanvas(int userId) throws Exception{
+		
+		CanvasesManager canvasMng = new CanvasesManagerImpl();
+		List<Canvases> canvasesList = canvasMng.findAll();
+		
+		Iterator<Canvases> itCanvases = canvasesList.iterator();
+		List<CanvasViewModel> canvasVMList = new ArrayList<CanvasViewModel>();
+		
+		while(itCanvases.hasNext()){
+			Canvases canvas = itCanvases.next();
+			
+			CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
+			
+			canvasVMList.add(canvasVM);
+		}
+		
+		return canvasVMList;
+	}
+	
 	public int deleteCanvas(int canvasId) throws Exception{
 		
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
@@ -194,32 +214,65 @@ public class VisualizationBL {
 			}
 	}
 	
-	public void deleteStory(int storyId) throws Exception{
+	//add, may need to delete
+   public List<StoryViewModel> findAllStories(Users users) throws Exception{
+		
 		StoryManager storyMng = new StoryManagerImpl();
-		storyMng.delete(storyMng.findByID(storyId));
+		List<Story> storyList = storyMng.findAll();
+		
+		Iterator<Story> itStory = storyList.iterator();
+		List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
+		
+		while(itStory.hasNext()){
+			Story story = itStory.next();
+			
+			StoryViewModel storyVM = convertStoryViewModel(story);
+			
+			storyVMList.add(storyVM);
+		}
+		
+		return storyVMList;
+	}
+	
+	public int deleteStory(int storyId) throws Exception{
+		StoryManager storyMng = new StoryManagerImpl();
+		try {
+			storyMng.delete(storyMng.findByID(storyId));
+			return 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return 0;
 	}
 	
 
 	
 	/************************ chart ************************/
-	public ChartViewModel createChart(Integer vid, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String note, String dataInfo) throws Exception{
+	public ChartViewModel createChart(Integer vid, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String dataInfo) throws Exception{
 		
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
 		Canvases canvases = canvasMng.findByID(vid);
 		
 		ChartsManager chartMng = new ChartsManagerImpl();
-		Charts newChart = chartMng.createNewChart(canvases, name, type, left, top, depth, height, width, note, dataInfo);
+		Charts newChart = chartMng.createNewChart(canvases, name, type, left, top, depth, height, width, dataInfo);
 		//newChart = GeneralManagerImpl.initializeField(newChart, "canvases"); // lazy
+		
 		ChartViewModel chartVM = convertChartViewModel(newChart);
 		
 		return chartVM;
 		
 	}
 	
-	public void deleteChart(int chartId) throws Exception{
+	public int deleteChart(int chartId) throws Exception{
 		
 		ChartsManager chartMng = new ChartsManagerImpl();
-		chartMng.delete(chartMng.findByID(chartId));
+		try {
+			chartMng.delete(chartMng.findByID(chartId));
+			return 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return 0;
 		
 	}
 	
@@ -264,14 +317,16 @@ public class VisualizationBL {
 //		}
 		try{
 			Canvases canvas = chart.getCanvases();
+			
 		  if(canvas != null){
 			canvas = GeneralManagerImpl.initializeField(canvas, "users");
 		  }
 			CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
 			
 		  if(canvasVM != null){
-			ChartViewModel chartVM = new ChartViewModel(canvasVM, chart.getCid(), chart.getName(), chart.getType(), chart.getLeft(), chart.getTop(), chart.getDepth(), chart.getHeight(), chart.getWidth(), chart.getNote(), chart.getDatainfo());
+			ChartViewModel chartVM = new ChartViewModel(canvasVM, chart.getName(), chart.getType(), chart.getLeft(), chart.getTop(), chart.getDepth(), chart.getHeight(), chart.getWidth(), chart.getDatainfo());
 			//chartVM = GeneralManagerImpl.initializeField(chartVM, "canvasVM"); // lazy
+			
 			return chartVM;
 		  }
 		}catch(Exception e){

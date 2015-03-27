@@ -1,5 +1,6 @@
 package edu.pitt.sis.infsci2711.multidbs.visapi.rest; 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -30,35 +31,6 @@ import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.UserViewModel;
 
 @Path("Visualization/")
 public class VisualizationRestApi {
-	
-	/********************** user **********************/
-	@Path("user/new/")
-	@POST
-	@ApiOperation(
-			value = "Create new user in the database.",
-			response = UserViewModel.class
-			)
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-    public UserViewModel createUser(UserViewModel userVM) {
-		
-		VisualizationBL visualization = new VisualizationBL();
-		
-		try{
-			userVM = visualization.createUser(userVM.getUserNames());
-			
-			if (userVM != null) {
-				return userVM;
-			}
-		}catch(Exception e) {
-			System.out.println(e.getMessage());	
-		}
-		return null;
-		
-	}
-
-	
-	
 	
 	/********************** canvas **********************/
 	
@@ -135,6 +107,7 @@ public class VisualizationRestApi {
 	   return null;
    } 
    
+   
    //OK
    @Path("canvas/delete/")
    @POST
@@ -169,9 +142,10 @@ public class VisualizationRestApi {
    @ApiOperation(
 		   value = "Create new story in the database"
 		   )
-   public StoryViewModel createStory(StoryViewModel storyVM) {
+   public List<StoryViewModel> createStory(StoryViewModel storyVM) {
 		
 	   VisualizationBL visualization = new VisualizationBL();
+	   List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
 		 
 	   try{ 
 		   
@@ -182,22 +156,24 @@ public class VisualizationRestApi {
 //						            .get(CanvasViewModel.class);
 		   
 		   String result = client.target("http://localhost:7890/Visualization/canvas/")
-				           .path("4")
+				           .path("6")
 				           .request(MediaType.APPLICATION_JSON)
 				           .get(String.class);
 		   
-		   if(result != null){
+		   if(!result.equals("[]")){
 			   storyVM = visualization.createStory(storyVM.getUser().getUserId(), storyVM.getConnInfo());
 			   
 			   if(storyVM != null){
-				   return storyVM;
+				   storyVMList.add(storyVM);
+				   
+				   return storyVMList;
 			   }
 		   }
 		   
 	   }catch(Exception e){
 		   System.out.println(e.getMessage());	
 	   }
-	   return null;	
+	   return storyVMList;	
    }
    
    //OK
@@ -228,21 +204,25 @@ public class VisualizationRestApi {
 		   )
    @Produces(MediaType.APPLICATION_JSON)
    @Consumes(MediaType.APPLICATION_JSON)
-   public void deleteStory(StoryViewModel storyVM){
+   public String deleteStory(StoryViewModel storyVM){
 	   VisualizationBL visualization = new VisualizationBL();
 	   
+	   
 	   try{
-		   visualization.deleteStory(storyVM.getSid());
+		   int flag = visualization.deleteStory(storyVM.getSid());
+		   if (flag == 1) return "{\"flag\" : \"S\"}"; 
 	   }
 	   catch(Exception e){
 		   System.out.println(e.getMessage());
 	   }
+	   return "{\"flag\" : \"F\"}";
    }
    
-   
-   /** not ok **/
+ 
   
    /********************** chart **********************/
+   
+   //OK
    @Path("chart/new/")
    @POST
    @Consumes(MediaType.APPLICATION_JSON) 
@@ -250,76 +230,50 @@ public class VisualizationRestApi {
    @ApiOperation(
 		   value = "Create a new chart with provided canvas Id, chart name and chart type"
 		   )
-   public ChartViewModel createChartT(ChartViewModel chartVM){
+   public String createChart(ChartViewModel chartVM){
+	   
 	   VisualizationBL visualizationBL = new VisualizationBL();
 	   
+	   Client client = ClientBuilder.newClient();
+	   String result = client.target("http://localhost:7890/Visualization/canvas/")
+	           .path("12")
+	           .request(MediaType.APPLICATION_JSON)
+	           .get(String.class);
+	   
 	   try{
-
-		   Client client = ClientBuilder.newClient();
-		   String result = client.target("http://localhost:7890/Visualization/canvas/")
-		           .path("4")
-		           .request(MediaType.APPLICATION_JSON)
-		           .get(String.class);
 		   
-		   if(result != null){
-		     ChartViewModel newChartVM = visualizationBL.createChart(chartVM.getCanvas().getVid(), chartVM.getName(), chartVM.getType(),chartVM.getLeft(), chartVM.getTop(), chartVM.getDepth(),chartVM.getHeight(),chartVM.getWidth(), chartVM.getNote(), result);
-	      
-		     return newChartVM;
+		   if(!result.equals("[]")){
+		     ChartViewModel newChartVM = visualizationBL.createChart(chartVM.getCanvas().getVid(), chartVM.getName(), chartVM.getType(),chartVM.getLeft(), chartVM.getTop(), chartVM.getDepth(),chartVM.getHeight(),chartVM.getWidth(), chartVM.getDatainfo());
+		     
+		     return result;
 		   }
 	   }
 	   catch(Exception e){
 		   System.out.println(e.getMessage());
 	   }
-	   return null;
+	   return result;
    }
 
-
-   
-
-   @Path("chart/delete/{chartId: [0-9]+}")
-   @GET
+   //OK
+   @Path("chart/delete/")
+   @POST
    @ApiOperation(
 		   value = "Delete chart with provided chart Id"
 		   )
-   public void deleteChart(@PathParam("chartId") final int chartId){
+   public String deleteChart(ChartViewModel chartVM){
 	   VisualizationBL visualizationBL = new VisualizationBL();
 	   
 	   try{
-		   visualizationBL.deleteChart(chartId);
+		  int flag =  visualizationBL.deleteChart(chartVM.getCid());
+		  if(flag==1) return "{\"flag\" : \"S\"}";  
 	   }
 	   catch(Exception e){
 		   System.out.println(e.getMessage());
 	   }
+	   return "{\"flag\" : \"F\"}";
    }
-   
-   
-   
-   
-  
-    
 
-   //chart
-   @Path("chart/new/{canvasId}/{chartName}/{chartType}/{left}/{top}/{depth}/{height}/{width}/{note}/{datainfo}")
-   @GET
-   @ApiOperation(
-		   value = "Create a new chart with provided canvas Id, chart name and chart type"
-		   )
-   @Produces(MediaType.APPLICATION_JSON)
-   public ChartViewModel createChart(@PathParam("canvasId") final int canvasId, @PathParam("chartName") final String chartName, @PathParam("chartType") final String chartType,
-		   @PathParam("left") final int left, @PathParam("top") final int top, @PathParam("depth") final int depth,
-		   @PathParam("height") final int height, @PathParam("width") final int width, @PathParam("note") final String note, 
-		   @PathParam("datainfo") final String datainfo){
-	   VisualizationBL visualizationBL = new VisualizationBL();
-	   
-	   try{
-		   ChartViewModel chartVM = visualizationBL.createChart(canvasId, chartName, chartType, left, top, depth, height, width, note, datainfo);
-		   return chartVM;
-	   }
-	   catch(Exception e){
-		   System.out.println(e.getMessage());
-	   }
-	   return null;
-   }
+  
 //   
 //   @Path("chart/{chartName}")
 //   @GET

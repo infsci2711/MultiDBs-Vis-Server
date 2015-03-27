@@ -3,6 +3,9 @@ package edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class ChartViewModel {
 	private Integer cid;
 	private String name;
@@ -19,9 +22,9 @@ public class ChartViewModel {
 	
 	private Set<StoryViewModel> stories = new HashSet<StoryViewModel>();
   
-  public ChartViewModel() {
+	public ChartViewModel() {
 	  
-  }
+	}
   
   public ChartViewModel(Integer cid, String name, String type) {
 	this.cid = cid;
@@ -29,20 +32,15 @@ public class ChartViewModel {
 	this.type = type;
   }
   
-  public ChartViewModel(String name, String type, Integer left, Integer top, Integer depth,
-			Integer height, Integer width, String datainfo, String note, 
-			CanvasViewModel canvas, Set<StoryViewModel> stories) {
-		this.canvas = canvas;
-		this.name = name;
-		this.type = type;
-		this.left = left;
-		this.top = top;
-		this.depth = depth;
-		this.height = height;
-		this.width = width;
+  public ChartViewModel(CanvasViewModel canvasVM, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String datainfo) {
+		this.canvas = canvasVM;
+		this.left = left != null ? left : 0;
+		this.top = top != null ? top: 0;
+		this.depth = depth != null ? depth : 0;
+		this.height = height != null ? height : 0;
+		this.width = width != null ? width : 0;
 		this.datainfo = datainfo;
-		this.note = note;
-		this.stories = stories;
+		
 	}
 
   public int getCid(){
@@ -69,7 +67,7 @@ public class ChartViewModel {
 	  this.type = type;
   }
 
-	public Integer getLeft() {
+	public int getLeft() {
 		return left;
 	}
 	
@@ -77,7 +75,7 @@ public class ChartViewModel {
 		this.left = left;
 	}
 	
-	public Integer getTop() {
+	public int getTop() {
 		return top;
 	}
 	
@@ -85,7 +83,7 @@ public class ChartViewModel {
 		this.top = top;
 	}
 	
-	public Integer getDepth() {
+	public int getDepth() {
 		return depth;
 	}
 	
@@ -93,7 +91,7 @@ public class ChartViewModel {
 		this.depth = depth;
 	}
 	
-	public Integer getHeight() {
+	public int getHeight() {
 		return height;
 	}
 	
@@ -101,7 +99,7 @@ public class ChartViewModel {
 		this.height = height;
 	}
 	
-	public Integer getWidth() {
+	public int getWidth() {
 		return width;
 	}
 	
@@ -129,8 +127,8 @@ public class ChartViewModel {
 		return canvas;
 	}
 
-	public void setCanvas(CanvasViewModel canvas) {
-		this.canvas = canvas;
+	public void setCanvas(CanvasViewModel canvasVM) {
+		this.canvas = canvasVM;
 	}
 
 	public Set<StoryViewModel> getStories() {
