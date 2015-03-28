@@ -219,6 +219,30 @@ public class VisualizationRestApi {
    
    
    //OK
+   @Path("story/user/{userId: [0-9]+}")
+   @GET
+   @ApiOperation(
+		   value = "Find stories created by the user with provided user Id"
+		   )
+   @Produces(MediaType.APPLICATION_JSON)
+   public List<StoryViewModel> findStoryByUser(@PathParam("userId") final int userId){
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   
+	   try {
+		   
+		  List<StoryViewModel> storyVMList = visualizationBL.findStoryByUser(userId);
+		  
+		  return storyVMList;
+		  
+	} catch (Exception e) {
+		  System.out.println(e.getMessage());
+	}
+	   return null;
+  }
+   
+   
+   
+   //OK
    @Path("story/delete/") 
    @POST
    @ApiOperation(

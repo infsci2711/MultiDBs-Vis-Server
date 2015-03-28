@@ -218,6 +218,31 @@ public class VisualizationBL {
 	}
 	
 	
+	//add, may need to delete
+	public List<StoryViewModel> findStoryByUser(int userId) throws Exception{
+		UserManager userMng = new UserManagerImpl();
+		Users user = userMng.findByID(userId);
+		
+		StoryManager storyMng = new StoryManagerImpl();
+		List<Story> storyList = storyMng.findStoryByUser(user);
+		
+		Iterator<Story> itStory = storyList.iterator();
+		List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
+		
+		while(itStory.hasNext()){
+			Story story = itStory.next();
+			
+			StoryViewModel storyVM = convertStoryViewModel(story);
+			
+			storyVMList.add(storyVM);
+		}
+		
+		return storyVMList;
+		
+		
+	}
+	
+	
 	public int deleteStory(int storyId) throws Exception{
 		StoryManager storyMng = new StoryManagerImpl();
 		try {
