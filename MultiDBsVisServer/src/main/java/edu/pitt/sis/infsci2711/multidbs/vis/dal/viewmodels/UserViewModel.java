@@ -18,7 +18,7 @@ public class UserViewModel {
 	private String userNames;
 	
 	private Set<StoryViewModel> stories = new HashSet<StoryViewModel>();
-	
+	private Set<CanvasViewModel> canvases = new HashSet<CanvasViewModel>();
 
 	public UserViewModel() {
 		
@@ -31,7 +31,7 @@ public class UserViewModel {
 		this.userLastlogin = userLastlogin;
 	}
 
-	public UserViewModel(int userId, Date userModification, Date userDate,
+	public UserViewModel(Integer userId, Date userModification, Date userDate,
 			String userEmail, String userNames, Date userLastlogin) {
 		this.userId = userId;
 		this.userModification = userModification;
@@ -39,6 +39,7 @@ public class UserViewModel {
 		this.userEmail = userEmail != null ? userEmail : "";
 		this.userNames = userNames;
 		this.userLastlogin = userLastlogin;
+		
 	}
 	
 	public UserViewModel(int userId, String userNames) {
@@ -101,6 +102,14 @@ public class UserViewModel {
 
 	public void setStories(Set<StoryViewModel> stories) {
 		this.stories = stories;
+	}
+
+	public Set<CanvasViewModel> getCanvases() {
+		return canvases;
+	}
+
+	public void setCanvases(Set<CanvasViewModel> canvases) {
+		this.canvases = canvases;
 	}
 
 
