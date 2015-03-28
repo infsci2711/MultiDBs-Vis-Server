@@ -84,7 +84,7 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 		try{
 			HibernateUtil.beginTransaction();
 			
-			int userId = users.getUserId();
+			//int userId = users.getUserId();
 			String hql = "SELECT C FROM Canvases C WHERE C.users = :users";
 
 			Query query = HibernateUtil.getSession().createQuery(hql);
