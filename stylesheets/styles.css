@@ -52,7 +52,7 @@ h1, h2, h3 {
 	font-weight: normal;
 }
 
-h1,h2, h3 {
+h1, h2, h3 {
 	display: block;
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 5px;
@@ -316,6 +316,29 @@ a.buttons:hover {
 }
 
 
+/*Nav - for navigating to different pages*/
+
+nav {
+  color: #FDFDFB;
+  width: 300px;
+  font-size: 20px;
+  margin: 20px 0 20px 1100px;
+}
+
+nav a {
+  color: #7595CD;
+}
+
+nav a:hover {
+  text-decoration: none;
+  background-color: #DBD4D4;
+}
+
+nav a.padding {
+    padding: 10px;
+}
+
+
 /* Section - for main page content */
 
 section {
@@ -342,7 +365,7 @@ footer {
     margin:0;
   }
 
-  header, section, footer {
+  header, nav, section, footer {
     float:none;
     position:static;
     width:auto;

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="javascripts/scale.fix.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -16,38 +17,40 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">Multidbs-vis-server</h1>
-        <p class="header">Visualization</p>
-
+        <h1 class="header">Multidbs-Visualization</h1>
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/infsci2711/MultiDBs-Vis-Server/zipball/master">Download ZIP</a></li>
           <li class="download"><a class="buttons" href="https://github.com/infsci2711/MultiDBs-Vis-Server/tarball/master">Download TAR</a></li>
           <li><a class="buttons github" href="https://github.com/infsci2711/MultiDBs-Vis-Server">View On GitHub</a></li>
         </ul>
-
         <p class="header">This project is maintained by <a class="header name" href="https://github.com/infsci2711">infsci2711</a></p>
-
-
       </header>
+      <nav class="nav">
+        <a class="padding" href="#" onclick="return show('home','description','api');">Home</a>
+        <a class="padding" href="#" onclick="return show('description','home','api');">Description</a>
+        <a class="padding" href="#" onclick="return show('api','home','description');">API</a>
+      </nav>
       <section>
         <h1>
-<a id="multidbs-vis-server" class="anchor" href="#multidbs-vis-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>MultiDBs-Vis-Server</h1>
+          <a id="multidbs-vis-server" class="anchor" href="#multidbs-vis-server" aria-hidden="true"><span class="octicon octicon-link"></span></a>MultiDBs-Visualization</h1>
+          <div id="home">
 
-<p>Visualization</p>
+            <p>In this project, we will visualize the data from the data sources registered in the MetaStore. For the front-end design, we use HTML, CSS, JavaScript and KnocoutJS for the interface design. And we use Java, RESTful API and Hibernate for the back-end design. Besides these techniques, we may need many other ones to accomplish the functions.</p>
 
-<p>In this project, we need to visualize the data from the data sources registered in the MetaStore.</p>
-
-<p>When visualizing targeted data, users are first directed to a new page named dashboard. In dashboard, users need to create a new canvas in order to visualize targeted data. Different users can create different canvases. A canvas has name, user ID, creation time and other attributes. Then users need to create a new story. A canvas is like a container that has different stories. And a story is like data sources. Users can add one or more than one targeted datasets into a story. After that, users can choose various types of charts for targeted data in the story, including pie charts, motion charts and so on. </p>
-
-<p>In order to accomplish these functions, the work of visualization contains four parts. The first part deals with tables which stores information about canvases, stories and charts. The second part called DAO is used for connecting databases using Hibernate. The third part is called Manager, which is used for implementing different functions using Hibernate, such as adding canvases. The last part is Java classes which call different functions to accomplish our goals. </p>
-
-<p>To implement these functions, we need to use HTML, CSS, JavaScript and KnocoutJS for the interface design. And we need to use Java, RESTful API and Hibernate for the back-end design. Besides these techniques, we may need many other thechniques to accomplish the functions. </p>
+            <p>Supervisors: Al-Khateeb, Shadi (<a href="https://github.com/shadikhateeb">shadikhateeb</a>)  Li, Xiaoting (<a href="https://github.com/lxtlouise">lxtlouise</a>)</p>
+            <p>Members: Akhtar, Omar (<a href="https://github.com/TSyndrome">TSyndrome</a>)  Cao, Qilu (<a href="https://github.com/Luke-pitt">Luke-pitt</a>)  Cheng, Yu (<a href="https://github.com/chengyu6419515">chengyu6419515</a>)  Tong, Kefei (<a href="https://github.com/KieferTowne">KieferTowne</a>)  Xi, Peng (<a href="https://github.com/rogerxi">rogerxi</a>)  Yang, Zhijie (<a href="https://github.com/Miraclekiss">Miraclekiss</a>)  Zou, Haoda (<a href="https://github.com/zenithda13">zenithda13</a>)</p>
+          </div>
+          <div id="description" style="display:none">
+            <p>Main Parts</p>
+          </div>
+          <div id="api" style="display:none">
+            <p>Google API</p>
+          </div>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
   </body>
 </html>
