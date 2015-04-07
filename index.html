@@ -28,7 +28,7 @@
       <nav class="nav">
         <a class="padding" href="#" onclick="return show('home','description','api');">Home</a>
         <a class="padding" href="#" onclick="return show('description','home','api');">Description</a>
-        <a class="padding" href="#" onclick="return show('api','home','description');">API</a>
+        <a class="padding" href="#" onclick="return show('api','home','description');">REST API</a>
       </nav>
       <section>
         <h1>
@@ -37,8 +37,32 @@
 
             <p>In this project, we will visualize the data from the data sources registered in the MetaStore. For the front-end design, we use HTML, CSS, JavaScript and KnocoutJS for the interface design. And we use Java, RESTful API and Hibernate for the back-end design. Besides these techniques, we may need many other ones to accomplish the functions.</p>
 
-            <p>Supervisors: Al-Khateeb, Shadi (<a href="https://github.com/shadikhateeb">shadikhateeb</a>)  Li, Xiaoting (<a href="https://github.com/lxtlouise">lxtlouise</a>)</p>
-            <p>Members: Akhtar, Omar (<a href="https://github.com/TSyndrome">TSyndrome</a>)  Cao, Qilu (<a href="https://github.com/Luke-pitt">Luke-pitt</a>)  Cheng, Yu (<a href="https://github.com/chengyu6419515">chengyu6419515</a>)  Tong, Kefei (<a href="https://github.com/KieferTowne">KieferTowne</a>)  Xi, Peng (<a href="https://github.com/rogerxi">rogerxi</a>)  Yang, Zhijie (<a href="https://github.com/Miraclekiss">Miraclekiss</a>)  Zou, Haoda (<a href="https://github.com/zenithda13">zenithda13</a>)</p>
+            <p>Project page: <a href="http://54.173.71.235/">MultiDBs-Vis</a></p>
+
+            <p>
+            	Supervisors: 
+            	<br>
+            	Al-Khateeb, Shadi (<a href="https://github.com/shadikhateeb">shadikhateeb</a>)
+            	<br>
+            	Li, Xiaoting (<a href="https://github.com/lxtlouise">lxtlouise</a>)
+            </p>
+            <p>
+            	Members: 
+            	<br>
+            	Akhtar, Omar (<a href="https://github.com/TSyndrome">TSyndrome</a>)
+            	<br>
+            	Cao, Qilu (<a href="https://github.com/Luke-pitt">Luke-pitt</a>)
+            	<br>
+            	Cheng, Yu (<a href="https://github.com/chengyu6419515">chengyu6419515</a>)
+				<br>
+            	Tong, Kefei (<a href="https://github.com/KieferTowne">KieferTowne</a>)
+				<br>
+            	Xi, Peng (<a href="https://github.com/rogerxi">rogerxi</a>)
+            	<br>
+            	Yang, Zhijie (<a href="https://github.com/Miraclekiss">Miraclekiss</a>)
+				<br>
+            	Zou, Haoda (<a href="https://github.com/zenithda13">zenithda13</a>)
+            </p>
           </div>
           <div id="description" style="display:none">
             <p>We create a system to visualize the data source registered in Metadata.</p>
@@ -47,7 +71,61 @@
             <p>To implement these functions, we used HTML, CSS, JavaScript and KnocoutJS for the interface design. And we used Java, RESTful API and Hibernate for the back-end designing.</p>
           </div>
           <div id="api" style="display:none">
-            <p>Google API</p>
+            <p>In our project, we use RESTful API which is identified by URIs. Here is the tutorial website: <a href="http://www.restapitutorial.com/">http://www.restapitutorial.com/</a></p>
+            <p>The path of the Visualization is "Visualization/", there are mainly three parts of the API services, which are Canvas, Story and chart, and we will describe each of them one by one. </p>
+            <p>
+            	Canvas:
+            	<ul>Create new canvas in the database:
+            		<li>Path: "canvas/new/"</li>
+            		<li>Method: POST</li>
+            	</ul>
+            	<ul>Find metadata for the canvases with provided canvas name:
+            		<li>Path: "canvas/{canvasName}"</li>
+            		<li>Method: GET</li>
+            	</ul>
+            	<ul>Find metadata for the canvas with provided canvas Id:
+            		<li>Path: "canvas/{vid: [0-9]+}"</li>
+            		<li>Method: GET</li>
+            	</ul>
+            	<ul>Find all the canvases created by the user with provided user Id:
+            		<li>Path: "canvas/user/{userId: [0-9]+}"</li>
+            		<li>Method: GET</li>
+            	</ul>
+            	<ul>Delete metadata for the canvas with provided canvas Id
+            		<li>Path: "canvas/delete/"</li>
+            		<li>Method: POST</li>
+            	</ul>
+            </p>
+            <p>
+            	Story:
+            	<ul>Create new story in the database:
+            		<li>Path: "story/new/"</li>
+            		<li>Method: POST</li>
+            	</ul>
+            	<ul>Find metadata for the story with provided story Id:
+            		<li>Path: "story/{sid:[0-9]+}"</li>
+            		<li>Method: GET</li>
+            	</ul>
+            	<ul>Find stories created by the user with provided user Id:
+            		<li>Path: "story/user/{userId: [0-9]+}"</li>
+            		<li>Method: GET</li>
+            	</ul>
+            	<ul>Delete metadata for the story with provided story Id
+            		<li>Path: "story/delete/"</li>
+            		<li>Method: POST</li>
+            	</ul>
+            </p>
+            <p>
+            	Chart:
+            	<ul>Create a new chart with provided canvas Id, chart name and chart type:
+            		<li>Path: "chart/new/"</li>
+            		<li>Method: POST</li>
+            	</ul>
+            	<ul>Delete chart with provided chart Id
+            		<li>Path: "chart/delete/"</li>
+            		<li>Method: POST</li>
+            	</ul>
+            </p>
           </div>
       </section>
       <footer>
