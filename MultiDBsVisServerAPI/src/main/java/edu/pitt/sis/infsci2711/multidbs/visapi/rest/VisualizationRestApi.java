@@ -48,65 +48,20 @@ public class VisualizationRestApi {
 		VisualizationBL visualizationBL = new VisualizationBL();
 		
 		try{
+			//CanvasViewModel canvasVM = visualizationBL.createCanvase(userId, name);
 			canvasVM = visualizationBL.createCanvase(canvasVM.getUser().getUserId(), canvasVM.getName());
-	
+			
 			if (canvasVM != null) {
 				return canvasVM;
 			}
         }catch(Exception e){
-
+        	
 			System.out.println(e.getMessage());	
 		}
 		return null;
 	
 	}
 	
-	//OK
-   @Path("canvas/{canvasName}")
-   @GET
-   @ApiOperation(
-		   value = "Finds metadata for the canvases with provided canvas name"
-		   )
-   @Produces(MediaType.APPLICATION_JSON)
-   public List<CanvasViewModel> canvasByName(@PathParam("canvasName") final String canvasName){
-	 
-	   VisualizationBL visualization = new VisualizationBL();
-	   
-	   try{
-		   List<CanvasViewModel> canvasVMList=  visualization.findByCanvasName(canvasName);
-		   
-//		   GenericEntity<List<CanvasViewModel>> entity = new GenericEntity<List<CanvasViewModel>>(canvasVMList) {};
-		   
-		   return canvasVMList; //Response.status(200).entity(canvasVMList.get(0)).build();
-	   }
-	   catch(Exception e){
-		   System.out.println(e.getMessage());
-	   }
-	   return null;
-   }
-   
-   //OK
-   @Path("canvas/{vid: [0-9]+}")  
-   @GET
-   @ApiOperation(
-		   value = "Finds metadata for the canvas with provided canvas Id",
-           response = CanvasViewModel.class
-           )
-   @Produces(MediaType.APPLICATION_JSON)
-   public List<CanvasViewModel> canvasById(@PathParam("vid") final int vid){
-	   
-	   VisualizationBL visualization = new VisualizationBL();
-	   
-	   try{
-		   List<CanvasViewModel> canvasVMList = visualization.findByCanvasId(vid);
-		   return canvasVMList;
-	   }
-	   catch(Exception e){
-		   System.out.println(e.getMessage());
-	   }
-	   return null;
-   } 
-   
    //OK
    @Path("canvas/user/{userId: [0-9]+}")
    @GET
@@ -126,7 +81,6 @@ public class VisualizationRestApi {
 	}
 	   return null;
    }
-   
    
    //OK
    @Path("canvas/delete/")
@@ -164,30 +118,26 @@ public class VisualizationRestApi {
 		   )
    public List<StoryViewModel> createStory(StoryViewModel storyVM) {
 		
-	   VisualizationBL visualization = new VisualizationBL();
+	   VisualizationBL visualizationBL = new VisualizationBL();
 	   List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
 		 
 	   try{ 
 		   
-		   Client client = ClientBuilder.newClient();
-//		   CanvasViewModel canvasVM = client.target("http://localhost:7890/Visualization/canvas/") // check DB name and table name
-//			   						.path("4")		           
-//			   						.request(MediaType.APPLICATION_JSON)
-//						            .get(CanvasViewModel.class);
+//		   Client client = ClientBuilder.newClient();
+//		   
+//		   String result = client.target("http://localhost:7890/Visualization/canvas/")
+//				           .path("6")
+//				           .request(MediaType.APPLICATION_JSON)
+//				           .get(String.class);
 		   
-		   String result = client.target("http://localhost:7890/Visualization/canvas/")
-				           .path("6")
-				           .request(MediaType.APPLICATION_JSON)
-				           .get(String.class);
-		   
-		   if(!result.equals("[]")){
-			   storyVM = visualization.createStory(storyVM.getUser().getUserId(), storyVM.getConnInfo());
+//		   if(!result.equals("[]")){
+			   storyVM = visualizationBL.createStory(storyVM.getDid(), storyVM.getDname(), storyVM.getTname(), storyVM.getCanvasVM().getVid());
 			   
 			   if(storyVM != null){
 				   storyVMList.add(storyVM);
 				   
 				   return storyVMList;
-			   }
+			   //}
 		   }
 		   
 	   }catch(Exception e){
@@ -197,65 +147,38 @@ public class VisualizationRestApi {
    }
    
    //OK
-   @Path("story/{sid:[0-9]+}")
+   @Path("story/showAll/{vid}")
    @GET
    @Produces(MediaType.APPLICATION_JSON)
-   @ApiOperation(
-		   value = "Finds metadata for the story with provided story Id"
-           )
-   public List<StoryViewModel> findStoryById(@PathParam("sid") final int sid){
+   public List<StoryViewModel> showAllByCanvasId(@PathParam("vid") final int vid){
+	   
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
 	   
 	   try{
-		   
-	     VisualizationBL visualizationBL = new VisualizationBL();
-	     List<StoryViewModel> storyVMList = visualizationBL.findStoryById(sid);
-	     return storyVMList;
-	     
+		   storyVMList = visualizationBL.showAllByCanvasId(vid);
+		   return storyVMList;
 	   }catch(Exception e){
-		  System.out.println(e.getMessage());   
+		   System.out.println(e.getMessage());
 	   }
-	   return null;
+	   return storyVMList;
    }
-   
-   
-   //OK
-   @Path("story/user/{userId: [0-9]+}")
+  
+  //OK FOR GET
+   @Path("story/delete/{sid}") 
    @GET
-   @ApiOperation(
-		   value = "Find stories created by the user with provided user Id"
-		   )
-   @Produces(MediaType.APPLICATION_JSON)
-   public List<StoryViewModel> findStoryByUser(@PathParam("userId") final int userId){
-	   VisualizationBL visualizationBL = new VisualizationBL();
-	   
-	   try {
-		   
-		  List<StoryViewModel> storyVMList = visualizationBL.findStoryByUser(userId);
-		  
-		  return storyVMList;
-		  
-	} catch (Exception e) {
-		  System.out.println(e.getMessage());
-	}
-	   return null;
-  }
-   
-   
-   
-   //OK
-   @Path("story/delete/") 
-   @POST
    @ApiOperation(
 		   value = "Delete metadata for the story with provided story Id"
 		   )
    @Produces(MediaType.APPLICATION_JSON)
-   @Consumes(MediaType.APPLICATION_JSON)
-   public String deleteStory(StoryViewModel storyVM){
-	   VisualizationBL visualization = new VisualizationBL();
+   //@Consumes(MediaType.APPLICATION_JSON)
+   public String deleteStory(@PathParam("sid") final int sid){
+	   VisualizationBL visualizationBL = new VisualizationBL();
 	   
 	   
 	   try{
-		   int flag = visualization.deleteStory(storyVM.getSid());
+		   int flag = visualizationBL.deleteStory(sid);
+		   //int flag = visualization.deleteStory(storyVM.getSid());
 		   if (flag == 1) return "{\"flag\" : \"S\"}"; 
 	   }
 	   catch(Exception e){
@@ -268,49 +191,59 @@ public class VisualizationRestApi {
   
    /********************** chart **********************/
    
-   //OK
-   @Path("chart/new/")
-   @POST
-   @Consumes(MediaType.APPLICATION_JSON) 
+ 
+   @Path("chart/new/{sid}/{type}/{did}/{dname}/{tname}/{columns}")
+   @GET
+   //@Consumes(MediaType.APPLICATION_JSON) 
    @Produces(MediaType.APPLICATION_JSON)
    @ApiOperation(
 		   value = "Create a new chart with provided canvas Id, chart name and chart type"
 		   )
-   public String createChart(ChartViewModel chartVM){
+   public ChartViewModel createChart(@PathParam("sid") final int sid, @PathParam("type") final String type, @PathParam("did") final String did, @PathParam("dname") final String dname, @PathParam("tname") final String tname, @PathParam("columns") final String columns){
 	   
 	   VisualizationBL visualizationBL = new VisualizationBL();
 	   
-	   Client client = ClientBuilder.newClient();
-	   String result = client.target("http://localhost:7890/Visualization/canvas/")
-	           .path("12")
-	           .request(MediaType.APPLICATION_JSON)
-	           .get(String.class);
-	   
 	   try{
-		   
-		   if(!result.equals("[]")){
-		     ChartViewModel newChartVM = visualizationBL.createChart(chartVM.getCanvas().getVid(), chartVM.getName(), chartVM.getType(),chartVM.getLeft(), chartVM.getTop(), chartVM.getDepth(),chartVM.getHeight(),chartVM.getWidth(), chartVM.getDatainfo());
-		     
-		     return result;
-		   }
+		  ChartViewModel chartVM = visualizationBL.createChart(sid, type, did, dname, tname, columns);
+	  // chartVM = visualizationBL.createChart(chartVM.getStoryVM().getSid(), chartVM.getType(), chartVM.getDid(), chartVM.getDname(), chartVM.getTname(), chartVM.getColumns());
+	   if(chartVM != null){
+		   return chartVM;
 	   }
-	   catch(Exception e){
+	  
+	   }catch(Exception e){
 		   System.out.println(e.getMessage());
 	   }
-	   return result;
+          return null;
+   }
+   
+   @Path("chart/showAll/{sid}")
+   @GET
+   @Produces(MediaType.APPLICATION_JSON)
+   public List<ChartViewModel> showAllByStoryId(@PathParam("sid") final int sid){
+	   VisualizationBL visualizationBL = new VisualizationBL();
+	   List<ChartViewModel> chartVMList = new ArrayList<ChartViewModel>();
+	   try {
+		chartVMList = visualizationBL.showAllByStoryId(sid);
+		return chartVMList;
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
+	}
+	   return chartVMList;
    }
 
-   //OK
-   @Path("chart/delete/")
-   @POST
+  
+   @Path("chart/delete/{cid}")
+   @GET
    @ApiOperation(
 		   value = "Delete chart with provided chart Id"
 		   )
-   public String deleteChart(ChartViewModel chartVM){
+   @Produces(MediaType.APPLICATION_JSON)
+   public String deleteChart(@PathParam("cid") final int cid){
 	   VisualizationBL visualizationBL = new VisualizationBL();
 	   
 	   try{
-		  int flag =  visualizationBL.deleteChart(chartVM.getCid());
+		   int flag = visualizationBL.deleteChart(cid);
+		  //int flag =  visualizationBL.deleteChart(chartVM.getCid());
 		  if(flag==1) return "{\"flag\" : \"S\"}";  
 	   }
 	   catch(Exception e){
@@ -320,57 +253,7 @@ public class VisualizationRestApi {
    }
 
   
-//   
-//   @Path("chart/{chartName}")
-//   @GET
-//   @ApiOperation(
-//		   value = "Find charts with provided chart name"
-//		   )
-//   @Produces(MediaType.APPLICATION_JSON)
-//   public void findChartByName(@PathParam("chartName") final String chartName){
-//	   VisualizationBL visualizationBL = new VisualizationBL();
-//	   
-//	   try{
-//		 visualizationBL.findByChartName(chartName);
-//	   }
-//	   catch(Exception e){
-//		   System.out.println(e.getMessage());
-//	   }
-//   }
-//   
-//   @Path("chart/{chartId: [0-9]+}")
-//   @GET
-//   @ApiOperation(
-//		   value = "Find chart with provided chart Id",
-//		   response = ChartViewModel.class
-//		   )
-//   @Produces(MediaType.APPLICATION_JSON)
-//   public void findChartById(@PathParam("chartId") final int chartId){
-//	   VisualizationBL visualizationBL = new VisualizationBL();
-//	   
-//	   try{
-//		   visualizationBL.findByChartId(chartId);
-//	   }
-//	   catch(Exception e){
-//		   System.out.println(e.getMessage());
-//	   }
-//   }
-//   
-//   @Path("chart/delete/{chartId: [0-9]+}")
-//   @GET
-//   @ApiOperation(
-//		   value = "Delete chart with provided chart Id"
-//		   )
-//   public void deleteChart(@PathParam("chartId") final int chartId){
-//	   VisualizationBL visualizationBL = new VisualizationBL();
-//	   
-//	   try{
-//		   visualizationBL.deleteChart(chartId);
-//	   }
-//	   catch(Exception e){
-//		   System.out.println(e.getMessage());
-//	   }
-//   }
-//    
+   
+
   
 }

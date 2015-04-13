@@ -6,111 +6,64 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
 
 @XmlRootElement
 public class UserViewModel {
 	private Integer userId;
-	private Date userModification;
-	private Date userDate;
-	private Date userLastlogin;
-	private String userEmail;
 	private String userNames;
+	private Set<Canvases> canvasSet = new HashSet<Canvases>(0);
 	
-	private Set<StoryViewModel> stories = new HashSet<StoryViewModel>();
-	private Set<CanvasViewModel> canvases = new HashSet<CanvasViewModel>();
-
-	public UserViewModel() {
-		
+    public UserViewModel() {
+		// TODO Auto-generated constructor stub
 	}
+    
+    public UserViewModel(Integer userId, String  userNames){
+    	this.userId = userId;
+    	this.userNames = userNames;
+    }
 
-	public UserViewModel(Date userModification, Date userDate,
-			Date userLastlogin) {
-		this.userModification = userModification;
-		this.userDate = userDate;
-		this.userLastlogin = userLastlogin;
-	}
-
-	public UserViewModel(Integer userId, Date userModification, Date userDate,
-			String userEmail, String userNames, Date userLastlogin) {
-		this.userId = userId;
-		this.userModification = userModification;
-		this.userDate = userDate;
-		this.userEmail = userEmail != null ? userEmail : "";
-		this.userNames = userNames;
-		this.userLastlogin = userLastlogin;
-		
-	}
-	
-	public UserViewModel(int userId, String userNames) {
+	public UserViewModel(Integer userId, String userNames, Set<Canvases> canvasSet) {
+		super();
 		this.userId = userId;
 		this.userNames = userNames;
+		this.canvasSet = canvasSet;
 	}
-	
+
 
 	public Integer getUserId() {
-		return this.userId;
+		return userId;
 	}
+
+
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
-	public Date getUserModification() {
-		return this.userModification;
-	}
 
-	public void setUserModification(Date userModification) {
-		this.userModification = userModification;
-	}
-
-	public Date getUserDate() {
-		return this.userDate;
-	}
-
-	public void setUserDate(Date userDate) {
-		this.userDate = userDate;
-	}
-
-	public String getUserEmail() {
-		return this.userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
 
 	public String getUserNames() {
-		return this.userNames;
+		return userNames;
 	}
+
+
 
 	public void setUserNames(String userNames) {
 		this.userNames = userNames;
 	}
 
-	public Date getUserLastlogin() {
-		return this.userLastlogin;
+
+
+	public Set<Canvases> getCanvasSet() {
+		return canvasSet;
 	}
 
-	public void setUserLastlogin(Date userLastlogin) {
-		this.userLastlogin = userLastlogin;
-	}
 
-	public Set<StoryViewModel> getStories() {
-		return stories;
-	}
 
-	public void setStories(Set<StoryViewModel> stories) {
-		this.stories = stories;
+	public void setCanvasSet(Set<Canvases> canvasSet) {
+		this.canvasSet = canvasSet;
 	}
-
-	public Set<CanvasViewModel> getCanvases() {
-		return canvases;
-	}
-
-	public void setCanvases(Set<CanvasViewModel> canvases) {
-		this.canvases = canvases;
-	}
-
 
 }

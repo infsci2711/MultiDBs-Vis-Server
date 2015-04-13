@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-6-10 16:18:00 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases" table="canvases" >
+        <id name="vid" type="java.lang.Integer">
+            <column name="vid" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="name" type="string">
+            <column name="name" length="50" />
+        </property>
+        <property name="note" type="string">
+            <column name="note" length="500" />
+        </property>
+        <property name="mdate" type="timestamp">
+            <column name="mdate" length="19" not-null="true" />
+        </property>
+        <property name="cdate" type="timestamp">
+            <column name="cdate" length="19" not-null="true" />
+        </property>
+        <property name="privilege" type="java.lang.Integer">
+            <column name="privilege" />
+        </property>
+        
+        <many-to-one name="users" class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users" fetch="join">
+            <column name="user_id" />
+        </many-to-one>
+        
+        <set name="storySet" table="story" inverse="true" fetch="join" >
+          	<key>
+          		<column name="vid" />
+          	</key>
+        	<one-to-many class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story" />
+        </set> 
+        
+    </class>
+</hibernate-mapping>

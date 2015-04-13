@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 
@@ -34,31 +35,28 @@ import edu.pitt.sis.infsci2711.multidbs.vis.dal.viewmodels.UserViewModel;
 
 public class VisualizationBL {
 	
-	/************************ user ************************/
-	public UserViewModel createUser(String name) {
-		UserManager userMng = new UserManagerImpl();
-		Users newUser = userMng.createNewUser(name);
-		
-		UserViewModel userVM = convertUsersViewModel(newUser);
-		return userVM;
-	}
-	
+	/************************ user 
+	 * @throws Exception ************************/
+
 	private UserViewModel convertUsersViewModel(Users users) {
 		
-//		HashSet<StoryViewModel> storyVMSet = new HashSet<StoryViewModel>();
-//		for(Story story: users.getStorySet()){
-//			StoryViewModel storyVM = convertStoryViewModel(story);
-//			storyVMSet.add(storyVM);
+		HashSet<CanvasViewModel> canvasVMSet = new HashSet<CanvasViewModel>();
+
+//		try {
+//			GeneralManagerImpl.initializeField(users, "canvasSet");
+//			for(Canvases canvas: users.getCanvasSet()){
+//				CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
+//				canvasVMSet.add(canvasVM);
+//			}
+//		} catch (Exception e) {
+//			
+//			e.printStackTrace();
 //		}
-		return new UserViewModel(users.getUserId(), users.getUserModification(), users.getUserDate(),
-				users.getUserEmail(), users.getUserNames(), users.getUserLastlogin());
+		
+		return new UserViewModel(users.getUserId(),users.getUserNames());
 	}
 	
-	private Users convertUsers(UserViewModel userVM){
-		return new Users(userVM.getUserId(), userVM.getUserModification(), userVM.getUserDate(),
-				userVM.getUserEmail(), userVM.getUserNames(), userVM.getUserLastlogin());
-	}
-	
+
 
 	/************************ canvas ************************/
 	private CanvasViewModel convertCanvasViewModel(Canvases canvas) {
@@ -69,13 +67,6 @@ public class VisualizationBL {
 				canvas.getMdate(), canvas.getPrivilege(), canvas.getNote(), userVM);
 	}
 	
-	private Canvases convertCanvas(CanvasViewModel canvasVM) {
-		
-		Users user = convertUsers(canvasVM.getUser());
-		
-		return new Canvases(canvasVM.getVid(), user ,canvasVM.getName(), canvasVM.getNote(), 
-				canvasVM.getMdate(), canvasVM.getCdate(), canvasVM.getPrivilege());
-	}
 	
 	public CanvasViewModel createCanvase(int userId, String canvasName) throws Exception{
 		UserManager userMng = new UserManagerImpl();
@@ -83,50 +74,17 @@ public class VisualizationBL {
 		
 		CanvasesManager canvasMng = new CanvasesManagerImpl();
 		Canvases newCanvas = canvasMng.createNewCanvas(user, canvasName);
+		
+//		GeneralManagerImpl.initializeField(user, "canvasSet");
+//		user.getCanvasSet().add(newCanvas);
+//		userMng.merge(user);
+		
 		CanvasViewModel canvasVM = convertCanvasViewModel(newCanvas);
 		
 		return canvasVM;
 	}
 	
-	public List<CanvasViewModel> findByCanvasId(int vid) throws Exception {
-		
-		CanvasesManager canvasMng = new CanvasesManagerImpl();
-		Canvases canvas = canvasMng.findByID(vid);
-		
-		List<CanvasViewModel> canvasVMList = new ArrayList<CanvasViewModel>();
-		
-		if(canvas != null){//add
-		  canvas = GeneralManagerImpl.initializeField(canvas, "users"); // lazy
-		  CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
-		  canvasVMList.add(canvasVM);
-		
-		return canvasVMList;
-		}
-		else{
-			return canvasVMList;//add
-		}
-	}
-	
-	public List<CanvasViewModel> findByCanvasName(String name) throws Exception{
-		
-		CanvasesManager canvasMng = new CanvasesManagerImpl();
-		List<Canvases> canvasesList = canvasMng.findByName(name);
-		
-		Iterator<Canvases> itCanvases = canvasesList.iterator();
-		List<CanvasViewModel> canvasVMList = new ArrayList<CanvasViewModel>();
-		
-		while(itCanvases.hasNext()){
-			Canvases canvas = itCanvases.next();
-			
-			CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
-			
-			canvasVMList.add(canvasVM);
-		}
-		
-		return canvasVMList;
-	}
-	
-	//add, may need to delete
+
 	public List<CanvasViewModel> findCanvasByUser(int userId) throws Exception{
 		UserManager userMng = new UserManagerImpl();
 		Users user = userMng.findByID(userId);
@@ -168,64 +126,52 @@ public class VisualizationBL {
 	
 	/************************ story ************************/
 	private StoryViewModel convertStoryViewModel(Story story) {
+		CanvasViewModel canvasVM = new CanvasViewModel();
+		try {
+			story = GeneralManagerImpl.initializeField(story, "canvases");
+			Canvases canvas = story.getCanvases();
+			 canvasVM = convertCanvasViewModel(canvas);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 		
-		UserViewModel userVM = convertUsersViewModel(story.getUser());
-		
-		return new StoryViewModel(story.getSid(), story.getCdate(), 
-				story.getMdate(), story.getConnInfo(), userVM);
+		return new StoryViewModel(story.getSid(), story.getDid(), 
+				story.getDname(), story.getTname(), canvasVM);
 	}
 	
-	private Story convertStory(StoryViewModel storyVM){
+	private StoryViewModel convertStoryViewModel2(Story story) {
+		CanvasViewModel canvasVM = new CanvasViewModel();
+		try {
+			//story = GeneralManagerImpl.initializeField(story, "canvases");
+			Canvases canvas = story.getCanvases();
+			 canvasVM = convertCanvasViewModel(canvas);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 		
-		Users user = convertUsers(storyVM.getUser());
-		
-		return new Story(storyVM.getSid(), user, storyVM.getCdate(), storyVM.getMdate(), storyVM.getConnInfo());
+		return new StoryViewModel(story.getSid(), story.getDid(), 
+				story.getDname(), story.getTname(), canvasVM);
 	}
 	
-	
-	public StoryViewModel createStory(int userId, String connInfo) throws Exception {
-		UserManager userMng = new UserManagerImpl();
-		Users user = userMng.findByID(userId); // need to check whether user is null
+	public StoryViewModel createStory(String did, String dname, String tname, int canvasId) throws Exception {
+		CanvasesManager canvasMng = new CanvasesManagerImpl();
+		Canvases canvas = canvasMng.findByID(canvasId); 
 		
 		StoryManager storyMng = new StoryManagerImpl();
-		Story newStory = storyMng.createNewStory(user, connInfo);
+		Story newStory = storyMng.createNewStory(did, dname, tname, canvas);
 		StoryViewModel storyVM = convertStoryViewModel(newStory);
 		
 		return storyVM;
 	}
 	
-	public List<StoryViewModel> findStoryById(int storyId) throws Exception{
-		StoryManager storyMng = new StoryManagerImpl();
-		Story story = storyMng.findByID(storyId);
-		
-		List storyVMList = new ArrayList<StoryViewModel>();
-		
-//		StoryViewModel storyVM = convertStoryViewModel(story);
-//		storyVMList.add(storyVM);
-//		
-//		return storyVMList; 
-		if(story != null){
-			story = GeneralManagerImpl.initializeField(story, "user");
-			StoryViewModel storyVM = convertStoryViewModel(story);
-			storyVMList.add(storyVM);
-			return storyVMList;
-		}
-		
-		
-			else{
-				return storyVMList;//add
-			}
-	}
-	
-	
-	//add, may need to delete
-	public List<StoryViewModel> findStoryByUser(int userId) throws Exception{
-		UserManager userMng = new UserManagerImpl();
-		Users user = userMng.findByID(userId);
+	public List<StoryViewModel> showAllByCanvasId(int canvasId) throws Exception{
+		CanvasesManager canvasMng = new CanvasesManagerImpl();
+		Canvases canvas = canvasMng.findByID(canvasId);
 		
 		StoryManager storyMng = new StoryManagerImpl();
-		List<Story> storyList = storyMng.findStoryByUser(user);
-		
+		List<Story> storyList = storyMng.showAllByCanvasId(canvas);
 		Iterator<Story> itStory = storyList.iterator();
 		List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
 		
@@ -238,8 +184,6 @@ public class VisualizationBL {
 		}
 		
 		return storyVMList;
-		
-		
 	}
 	
 	
@@ -257,13 +201,13 @@ public class VisualizationBL {
 
 	
 	/************************ chart ************************/
-	public ChartViewModel createChart(Integer vid, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String dataInfo) throws Exception{
+	public ChartViewModel createChart(int sid, String type, String did, String dname, String tname, String columns) throws Exception{
 		
-		CanvasesManager canvasMng = new CanvasesManagerImpl();
-		Canvases canvases = canvasMng.findByID(vid);
+		StoryManager storyMng = new StoryManagerImpl();
+		Story story = storyMng.findByID(sid);
 		
 		ChartsManager chartMng = new ChartsManagerImpl();
-		Charts newChart = chartMng.createNewChart(canvases, name, type, left, top, depth, height, width, dataInfo);
+		Charts newChart = chartMng.createNewChart(type, did, dname, tname, columns, story);
 		//newChart = GeneralManagerImpl.initializeField(newChart, "canvases"); // lazy
 		
 		ChartViewModel chartVM = convertChartViewModel(newChart);
@@ -285,10 +229,12 @@ public class VisualizationBL {
 		
 	}
 	
-	public List<ChartViewModel> findByChartName(String name) throws Exception{
-		
+	public List<ChartViewModel> showAllByStoryId(int sid) throws Exception{
+		StoryManager storyMng = new StoryManagerImpl();
 		ChartsManager chartMng = new ChartsManagerImpl();
-		List<Charts> chartsList = chartMng.findByName(name);
+		Story story = storyMng.findByID(sid);
+		
+		List<Charts> chartsList = chartMng.showAllByStoryId(story);
 		Iterator<Charts> itCharts = chartsList.iterator();
 		List<ChartViewModel> chartsVMList = new ArrayList<ChartViewModel>();
 		
@@ -303,46 +249,14 @@ public class VisualizationBL {
 		return chartsVMList;
 	}
 	
-	public ChartViewModel findByChartId(int id) throws Exception{
-		
-		ChartsManager chartMng = new ChartsManagerImpl();
-		Charts chart = chartMng.findByID(id);
-		
-		ChartViewModel chartsVM = convertChartViewModel(chart);
-		chartsVM = GeneralManagerImpl.initializeField(chartsVM, "canvasVM");//add, may delete
-		CanvasViewModel canvasVM = chartsVM.getCanvas();
-		canvasVM = GeneralManagerImpl.initializeField(canvasVM, "users");//add, may delete
-		
-		return chartsVM;
-	}
-	
 	private ChartViewModel convertChartViewModel(Charts chart){
-		
-		
-//		HashSet<StoryViewModel> storyVMs = new HashSet<StoryViewModel>();
-//		for (Story story : chart.getStorySet()) {
-//			StoryViewModel storyVM = convertStoryViewModel(story);
-//			storyVMs.add(storyVM);
-//		}
-		try{
-			Canvases canvas = chart.getCanvases();
+	
+		Story story = chart.getStory();
+		StoryViewModel storyVM = convertStoryViewModel2(story);
 			
-		  if(canvas != null){
-			canvas = GeneralManagerImpl.initializeField(canvas, "users");
-		  }
-			CanvasViewModel canvasVM = convertCanvasViewModel(canvas);
+		ChartViewModel chartVM = new ChartViewModel(chart.getCid(), chart.getType(),chart.getDid(), chart.getDname(), chart.getTname(), chart.getColumns(), storyVM);
 			
-		  if(canvasVM != null){
-			ChartViewModel chartVM = new ChartViewModel(canvasVM, chart.getName(), chart.getType(), chart.getLeft(), chart.getTop(), chart.getDepth(), chart.getHeight(), chart.getWidth(), chart.getDatainfo());
-			//chartVM = GeneralManagerImpl.initializeField(chartVM, "canvasVM"); // lazy
-			
-			return chartVM;
-		  }
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		return null;
-		
+		return chartVM;
 	}
 
 }

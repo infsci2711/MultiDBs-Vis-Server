@@ -10,9 +10,9 @@
  
   <!-- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
-  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/visualization</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/visualization2</property>
 
-  <property name="hibernate.default_catalog">visualization</property>
+  <property name="hibernate.default_catalog">visualization2</property>
 
   <property name="hibernate.connection.username">dataverse</property>
 
@@ -47,10 +47,10 @@
 
 
 
-  <mapping resource="hibernate/orm_mappings/Canvases.hbm.xml"/>
-  <mapping resource="hibernate/orm_mappings/Users.hbm.xml"/>
-  <mapping resource="hibernate/orm_mappings/Charts.hbm.xml"/>
-  <mapping resource="hibernate/orm_mappings/Story.hbm.xml"/>
+  <mapping resource="hibernate/orm_mappings2/Canvases.hbm.xml"/>
+  <mapping resource="hibernate/orm_mappings2/Users.hbm.xml"/>
+  <mapping resource="hibernate/orm_mappings2/Charts.hbm.xml"/>
+  <mapping resource="hibernate/orm_mappings2/Story.hbm.xml"/>
 
  </session-factory>
 

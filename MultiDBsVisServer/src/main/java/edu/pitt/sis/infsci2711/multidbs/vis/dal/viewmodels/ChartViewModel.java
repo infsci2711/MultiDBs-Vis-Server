@@ -5,138 +5,96 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
+
 @XmlRootElement
 public class ChartViewModel {
 	private Integer cid;
+	private StoryViewModel storyVM;
 	private String name;
 	private String type;
-	private Integer left;
-	private Integer top;
-	private Integer depth;
-	private Integer height;
-	private Integer width;
-	private String datainfo;
-	private String note;
+	private String did;
+	private String dname;
+	private String tname;
+	private String columns;
 	
-	private CanvasViewModel canvas;
 	
-	private Set<StoryViewModel> stories = new HashSet<StoryViewModel>();
-  
 	public ChartViewModel() {
-	  
-	}
-  
-  public ChartViewModel(Integer cid, String name, String type) {
-	this.cid = cid;
-	this.name = name;
-	this.type = type;
-  }
-  
-  public ChartViewModel(CanvasViewModel canvasVM, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String datainfo) {
-		this.canvas = canvasVM;
-		this.left = left != null ? left : 0;
-		this.top = top != null ? top: 0;
-		this.depth = depth != null ? depth : 0;
-		this.height = height != null ? height : 0;
-		this.width = width != null ? width : 0;
-		this.datainfo = datainfo;
 		
 	}
-
-  public int getCid(){
-	  return cid;
-  }
-  
-  public void setCid(int cid){
-	  this.cid = cid;
-  }
-  
-  public String getName(){
-	  return name;
-  }
-  
-  public void setName(String name){
-	  this.name = name;
-  }
-  
-  public String getType(){
-	  return type;
-  }
-  
-  public void setType(String type){
-	  this.type = type;
-  }
-
-	public int getLeft() {
-		return left;
+	
+	
+	public ChartViewModel(Integer cid, String type, String did, String dname, String tname, String columns, StoryViewModel storyVM){
+		this.cid = cid;
+		this.type = type;
+		this.did = did;
+		this.dname = dname;
+		this.tname = tname;
+		this.columns = columns;
+		this.storyVM = storyVM;
 	}
 	
-	public void setLeft(int left) {
-		this.left = left;
-	}
-	
-	public int getTop() {
-		return top;
-	}
-	
-	public void setTop(int top) {
-		this.top = top;
-	}
-	
-	public int getDepth() {
-		return depth;
-	}
-	
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
-	
-	public int getHeight() {
-		return height;
-	}
-	
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	
-	public int getWidth() {
-		return width;
-	}
-	
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	
-	public String getDatainfo() {
-		return datainfo;
-	}
-	
-	public void setDatainfo(String datainfo) {
-		this.datainfo = datainfo;
-	}
-	
-	public String getNote() {
-		return note;
-	}
-	
-	public void setNote(String note) {
-		this.note = note;
+	public ChartViewModel(Integer cid, StoryViewModel storyVM, String name, String type,
+			String did, String dname, String tname, String columns) {
+		super();
+		this.cid = cid;
+		this.storyVM = storyVM;
+		this.name = name;
+		this.type = type;
+		this.did = did;
+		this.dname = dname;
+		this.tname = tname;
+		this.columns = columns;
 	}
 
-	public CanvasViewModel getCanvas() {
-		return canvas;
+	
+	public int getCid() {
+		return cid;
 	}
-
-	public void setCanvas(CanvasViewModel canvasVM) {
-		this.canvas = canvasVM;
+	public void setCid(int cid) {
+		this.cid = cid;
 	}
-
-	public Set<StoryViewModel> getStories() {
-		return stories;
+	public StoryViewModel getStoryVM() {
+		return storyVM;
 	}
-
-	public void setStories(Set<StoryViewModel> stories) {
-		this.stories = stories;
+	public void setStoryVM(StoryViewModel storyVM) {
+		this.storyVM = storyVM;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getDid() {
+		return did;
+	}
+	public void setDid(String did) {
+		this.did = did;
+	}
+	public String getDname() {
+		return dname;
+	}
+	public void setDname(String dname) {
+		this.dname = dname;
+	}
+	public String getTname() {
+		return tname;
+	}
+	public void setTname(String tname) {
+		this.tname = tname;
+	}
+	public String getColumns() {
+		return columns;
+	}
+	public void setColumns(String columns) {
+		this.columns = columns;
 	}
  
 

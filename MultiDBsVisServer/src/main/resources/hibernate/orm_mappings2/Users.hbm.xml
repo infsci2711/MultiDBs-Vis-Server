@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2014-6-10 16:18:00 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users" table="users" >
+        <id name="userId" type="java.lang.Integer">
+            <column name="user_id" />
+            <generator class="identity" />
+        </id>
+        <property name="userNames" type="string">
+            <column name="user_names" length="128" />
+        </property>
+   
+        <set name="canvasSet" table="canvases" inverse="true" fetch="join">
+          	<key>
+          		<column name="user_id" />
+          	</key>
+        	<one-to-many class="edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases" />
+        </set>
+       
+    </class>
+</hibernate-mapping>

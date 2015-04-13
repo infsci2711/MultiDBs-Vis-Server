@@ -12,6 +12,7 @@ import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.ChartsDAO;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.dao.ChartsDAOImpl;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Canvases;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Charts;
+import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Story;
 import edu.pitt.sis.infsci2711.multidbs.vis.dal.utils.HibernateUtil;
 
 public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Integer> implements ChartsManager{
@@ -21,19 +22,14 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Int
 		super(new ChartsDAOImpl(), Charts.class);
 	}
    
-   public Charts createNewChart(Canvases canvas, String name, String type, Integer left, Integer top, Integer depth, Integer height, Integer width, String dataInfo){
+   public Charts createNewChart(String type, String did, String dname, String tname, String columns, Story story){
 	   Charts newChart = new Charts();
-	   newChart.setCanvases(canvas);
-	   newChart.setName(name);
 	   newChart.setType(type);
-	   
-	   newChart.setLeft(left);
-	   newChart.setTop(top);
-	   newChart.setDepth(depth);
-	   newChart.setHeight(height);
-	   newChart.setWidth(width);
-	   newChart.setDatainfo(dataInfo);
-	  // newChart.setNote(note);
+	   newChart.setDid(did);
+	   newChart.setDname(dname);
+	   newChart.setTname(tname);
+	   newChart.setColumns(columns);
+	   newChart.setStory(story);
 	   
 	   try{
 		   HibernateUtil.beginTransaction();
@@ -50,28 +46,30 @@ public class ChartsManagerImpl extends GeneralManagerImpl<ChartsDAO, Charts, Int
 	   return newChart;
    }
    
-  public List<Charts> findByName(String name){
-	  try {
+   public List<Charts> showAllByStoryId(Story story){
+	   try {
 			HibernateUtil.beginTransaction();
 			
-			String hql = "SELECT C FROM Charts C WHERE C.name = :name";
-
+			String hql = "SELECT C FROM Charts C WHERE C.story = :story";
+			
 			Query query = HibernateUtil.getSession().createQuery(hql);
-			query.setParameter("name", name);
+			query.setParameter("story", story);
 			
 			List<Charts> result = _dao.findMany(query);
+			
+			for(Charts chart: result){
+				Hibernate.initialize(chart.getStory());
+			}
 			
 			HibernateUtil.commitTransaction();
 			
 			return result;
+		} catch (Exception ex) {
+			 HibernateUtil.rollbackTransaction();
+		     this.logger.error("Cannot find the records", ex);
+			 throw ex;
 		}
-		catch(Exception ex){
-			HibernateUtil.rollbackTransaction();
-			
-			this.logger.error("Cannot find the records", ex);
-			throw ex;
-		}
-  }
-
+   }
+ 
 }
 

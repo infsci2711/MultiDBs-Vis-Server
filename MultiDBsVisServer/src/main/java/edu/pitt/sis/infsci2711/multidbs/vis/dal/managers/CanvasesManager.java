@@ -12,6 +12,6 @@ import edu.pitt.sis.infsci2711.multidbs.vis.dal.orm.Users;
 public interface CanvasesManager extends GeneralManager<Canvases, Integer> {
 
 	public Canvases createNewCanvas(Users canvasOwner, String name);
-	public List<Canvases> findByName(String name);
+	//public List<Canvases> findById(int vid);
 	public List<Canvases> findCanvasByUser(Users canvasOwner); //add, may need to delete
 }

@@ -14,7 +14,6 @@ public class CanvasViewModel {
 	private Date mdate;
 	private Integer privilege;
 	private String note;
-	
 	private UserViewModel user;
 	
 	public CanvasViewModel() {

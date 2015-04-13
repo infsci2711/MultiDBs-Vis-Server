@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueResultException;
 
@@ -80,7 +81,7 @@ public class UserManagerImpl extends GeneralManagerImpl<UsersDAO, Users, Integer
 	}
 	
 	public Users createNewUser(String name) {
-		Users newUser = new Users(new Date(), new Date(), new Date());
+		Users newUser = new Users();
 		newUser.setUserNames(name);
 		
 		try {

@@ -25,8 +25,12 @@ public class StoryManagerImpl extends GeneralManagerImpl<StoryDAO, Story, Intege
 	}
 	
 
-	public Story createNewStory(Users user, String connInfo){
-		Story newStory = new Story(user, new Date(), new Date(), connInfo);
+	public Story createNewStory(String did, String dname, String tname, Canvases canvases){
+		Story newStory = new Story(new Date());
+		newStory.setDid(did);
+		newStory.setDname(dname);
+		newStory.setTname(tname);
+		newStory.setCanvases(canvases);
 		
 		try{
             HibernateUtil.beginTransaction();
@@ -44,34 +48,55 @@ public class StoryManagerImpl extends GeneralManagerImpl<StoryDAO, Story, Intege
 	    
 		return newStory;
 	}
-
 	
-	public List<Story> findStoryByUser(Users user){
+	public List<Story> showAllByCanvasId(Canvases canvases){
 		try {
-            HibernateUtil.beginTransaction();
+			HibernateUtil.beginTransaction();
 			
-			//int userId = user.getUserId();
-			String hql = "SELECT S FROM Story S WHERE S.user = :user";
-
+			String hql = "SELECT S FROM Story S WHERE S.canvases = :canvases";
+			
 			Query query = HibernateUtil.getSession().createQuery(hql);
-			query.setParameter("user", user);
+			query.setParameter("canvases", canvases);
 			
 			List<Story> result = _dao.findMany(query);
-			
-			for (Story story : result) { // lazy
-				Hibernate.initialize(story.getUser());
-			}
 			
 			HibernateUtil.commitTransaction();
 			
 			return result;
-			
-		}catch(Exception ex){
-            HibernateUtil.rollbackTransaction();
-			
-			this.logger.error("Cannot find the records", ex);
-			throw ex;
-	    }
-
+		} catch (Exception ex) {
+			 HibernateUtil.rollbackTransaction();
+		     this.logger.error("Cannot find the records", ex);
+			 throw ex;
+		}
 	}
+
+	
+//	public List<Story> findStoryById(int sid){
+//		try {
+//            HibernateUtil.beginTransaction();
+//			
+//			//int userId = user.getUserId();
+//			String hql = "SELECT S FROM Story S WHERE S.sid = :sid";
+//
+//			Query query = HibernateUtil.getSession().createQuery(hql);
+//			query.setParameter("sid", sid);
+//			
+//			List<Story> result = _dao.findMany(query);
+			
+//			for (Story story : result) { // lazy
+//				Hibernate.initialize(story.getUser());
+//			}
+//			
+//			HibernateUtil.commitTransaction();
+//			
+//			return result;
+//			
+//		}catch(Exception ex){
+//            HibernateUtil.rollbackTransaction();
+//			
+//			this.logger.error("Cannot find the records", ex);
+//			throw ex;
+//	    }
+//
+//	}
 }

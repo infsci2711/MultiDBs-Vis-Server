@@ -37,6 +37,8 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 			
 			_dao.save(newCanvas);
 			
+			// Hibernate.initialize(newCanvas.getUsers());
+			
 			HibernateUtil.commitTransaction();
 			
 		}
@@ -50,34 +52,34 @@ public class CanvasesManagerImpl extends GeneralManagerImpl<CanvasesDAO, Canvase
 		return newCanvas;
 	}
 	
-	public List<Canvases> findByName(String name){
-		
-		try {
-			HibernateUtil.beginTransaction();
-			
-			String hql = "SELECT C FROM Canvases C WHERE C.name = :name";
-
-			Query query = HibernateUtil.getSession().createQuery(hql);
-			query.setParameter("name", name);
-			
-			List<Canvases> result = _dao.findMany(query);
-			
-			for (Canvases canvas : result) { // lazy
-				Hibernate.initialize(canvas.getUsers());
-			}
-			
-			HibernateUtil.commitTransaction();
-			
-			return result;
-		}
-		catch(Exception ex){
-			HibernateUtil.rollbackTransaction();
-			
-			this.logger.error("Cannot find the records", ex);
-			throw ex;
-		}	
-		
-	}
+//	public List<Canvases> findById(int vid){
+//		
+//		try {
+//			HibernateUtil.beginTransaction();
+//			
+//			String hql = "SELECT C FROM Canvases C WHERE C.vid = :vid";
+//
+//			Query query = HibernateUtil.getSession().createQuery(hql);
+//			query.setParameter("vid", vid);
+//			
+//			List<Canvases> result = _dao.findMany(query);
+//			
+//			for (Canvases canvas : result) { // lazy
+//				Hibernate.initialize(canvas.getUsers());
+//			}
+//			
+//			HibernateUtil.commitTransaction();
+//			
+//			return result;
+//		}
+//		catch(Exception ex){
+//			HibernateUtil.rollbackTransaction();
+//			
+//			this.logger.error("Cannot find the records", ex);
+//			throw ex;
+//		}	
+//		
+//	}
 	
 	//add, may need to delete
 	public List<Canvases> findCanvasByUser(Users users){
