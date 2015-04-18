@@ -1,18 +1,26 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.10
+-- version 4.4.1.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost:3306
--- Generation Time: Feb 20, 2015 at 10:49 PM
--- Server version: 5.5.38
--- PHP Version: 5.6.2
+-- Host: localhost:8889
+-- Generation Time: Apr 18, 2015 at 12:08 PM
+-- Server version: 5.5.42
+-- PHP Version: 5.6.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 --
 -- Database: `visualization`
 --
+CREATE DATABASE IF NOT EXISTS `visualization` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `visualization`;
 
 -- --------------------------------------------------------
 
@@ -20,8 +28,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `canvases`
 --
 
-CREATE TABLE `canvases` (
-`vid` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `canvases` (
+  `vid` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `note` longtext,
@@ -36,8 +44,8 @@ CREATE TABLE `canvases` (
 -- Table structure for table `charts`
 --
 
-CREATE TABLE `charts` (
-`cid` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `charts` (
+  `cid` int(11) NOT NULL,
   `vid` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL,
@@ -56,7 +64,7 @@ CREATE TABLE `charts` (
 -- Table structure for table `chart_has_story`
 --
 
-CREATE TABLE `chart_has_story` (
+CREATE TABLE IF NOT EXISTS `chart_has_story` (
   `cid` int(20) NOT NULL,
   `sid` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -67,8 +75,8 @@ CREATE TABLE `chart_has_story` (
 -- Table structure for table `story`
 --
 
-CREATE TABLE `story` (
-`sid` int(20) NOT NULL,
+CREATE TABLE IF NOT EXISTS `story` (
+  `sid` int(20) NOT NULL,
   `connInfor` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
   `cdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -80,8 +88,8 @@ CREATE TABLE `story` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-`user_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(11) NOT NULL,
   `user_modification` datetime NOT NULL,
   `user_date` datetime NOT NULL,
   `user_email` varchar(128) DEFAULT NULL,
@@ -97,31 +105,33 @@ CREATE TABLE `users` (
 -- Indexes for table `canvases`
 --
 ALTER TABLE `canvases`
- ADD PRIMARY KEY (`vid`), ADD KEY `FK_s7kxi1oqy0qc7bbo18jbeyj6s` (`user_id`);
+  ADD PRIMARY KEY (`vid`),
+  ADD KEY `FK_s7kxi1oqy0qc7bbo18jbeyj6s` (`user_id`);
 
 --
 -- Indexes for table `charts`
 --
 ALTER TABLE `charts`
- ADD PRIMARY KEY (`cid`), ADD KEY `FK_tnp5dkeevkhrntvdd6vi3ud3u` (`vid`);
+  ADD PRIMARY KEY (`cid`),
+  ADD KEY `FK_tnp5dkeevkhrntvdd6vi3ud3u` (`vid`);
 
 --
 -- Indexes for table `chart_has_story`
 --
 ALTER TABLE `chart_has_story`
- ADD PRIMARY KEY (`cid`,`sid`);
+  ADD PRIMARY KEY (`cid`,`sid`);
 
 --
 -- Indexes for table `story`
 --
 ALTER TABLE `story`
- ADD PRIMARY KEY (`sid`);
+  ADD PRIMARY KEY (`sid`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
- ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -131,22 +141,22 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `canvases`
 --
 ALTER TABLE `canvases`
-MODIFY `vid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `vid` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `charts`
 --
 ALTER TABLE `charts`
-MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cid` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `story`
 --
 ALTER TABLE `story`
-MODIFY `sid` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `sid` int(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -155,10 +165,14 @@ MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 -- Constraints for table `canvases`
 --
 ALTER TABLE `canvases`
-ADD CONSTRAINT `FK_s7kxi1oqy0qc7bbo18jbeyj6s` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+  ADD CONSTRAINT `FK_s7kxi1oqy0qc7bbo18jbeyj6s` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `charts`
 --
 ALTER TABLE `charts`
-ADD CONSTRAINT `FK_tnp5dkeevkhrntvdd6vi3ud3u` FOREIGN KEY (`vid`) REFERENCES `canvases` (`vid`);
+  ADD CONSTRAINT `FK_tnp5dkeevkhrntvdd6vi3ud3u` FOREIGN KEY (`vid`) REFERENCES `canvases` (`vid`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
