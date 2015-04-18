@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Apr 18, 2015 at 11:57 AM
+-- Generation Time: Apr 18, 2015 at 01:11 PM
 -- Server version: 5.5.42
 -- PHP Version: 5.6.7
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `canvases` (
 
 INSERT INTO `canvases` (`vid`, `user_id`, `name`, `note`, `mdate`, `cdate`, `privilege`) VALUES
 (11, 1, 'test2', NULL, '2015-04-12 21:56:09', '2015-04-12 21:56:09', NULL),
-(12, 2, 'test3', NULL, '2015-04-13 16:57:09', '2015-04-13 16:57:09', NULL);
+(12, 2, 'test3', NULL, '2015-04-18 16:47:35', '2015-04-13 16:57:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -164,6 +164,16 @@ ALTER TABLE `story`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(20) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `canvases`
+--
+ALTER TABLE `canvases`
+  ADD CONSTRAINT `canvases_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
