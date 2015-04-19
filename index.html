@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Multidbs-vis-server by infsci2711</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="javascripts/scale.fix.js"></script>
@@ -65,10 +64,14 @@
             </p>
           </div>
           <div id="description" style="display:none">
-            <p>We create a system to visualize the data source registered in Metadata.</p>
+            <h2>General</h2>
             <p>Once the system finds the targeted data, users are first directed to a new page named dashboard. In dashboard, users need to create a new canvas in order to visualize targeted data. Canvas is a place to put charts or some other visualize forms. A canvas has its own name, ID, creation time and other attributes. Then users need to create a new story, which is more like the data source. Users can add one or more than one targeted datasets into a story. After that, users can choose various types of charts for targeted data in the story, including pie charts, motion charts and so on.</p>
             <p>In order to accomplish these functions, the work of visualization contains four parts. The first part deals with tables, which stores information about canvases, stories and charts. The second part called DAO is used for connecting databases using Hibernate. The third part is called Manager, which is used for implementing different functions using Hibernate, such as adding canvases. The last part is Java classes, which call different functions to accomplish our goals. </p>
             <p>To implement these functions, we used HTML, CSS, JavaScript and KnocoutJS for the interface design. And we used Java, RESTful API and Hibernate for the back-end designing.</p>
+            <h2>Work with other MultiDBs projects</h2>
+            <p>Before using the our function, you need to register your database in Metastore. Metastore prodives you with metadata of the databases in PrestoDB. Besides, we also use keyword search function from keyword search group.</p>
+            <h2>Requirements and Installation</h2>
+            <p>To build our project, you will need to install Maven. You probably need to install on Ubuntu server. Just run the startup.sh file to install everything you need. </p>
           </div>
           <div id="api" style="display:none">
             <p>In our project, we use RESTful API which is identified by URIs. Here is the tutorial website: <a href="http://www.restapitutorial.com/">http://www.restapitutorial.com/</a></p>
@@ -76,54 +79,72 @@
             <p>
             	Canvas:
             	<ul>Create new canvas in the database:
-            		<li>Path: "canvas/new/"</li>
+            		<li>Path: "localhost:7654/Visualization/canvas/new/"</li>
             		<li>Method: POST</li>
-            	</ul>
-            	<ul>Find metadata for the canvases with provided canvas name:
-            		<li>Path: "canvas/{canvasName}"</li>
-            		<li>Method: GET</li>
-            	</ul>
-            	<ul>Find metadata for the canvas with provided canvas Id:
-            		<li>Path: "canvas/{vid: [0-9]+}"</li>
-            		<li>Method: GET</li>
+            		<li>Input parameter: canvas name</li>
+            		<li>Output parameter: {"cdate": "2015-04-12T17:54:46.335","mdate": "2015-04-12T17:54:46.335","name": "test1","privilege": 0,"user": {"canvasSet": [],"userId": 1,"userNames": "user1"},"vid": 10}
+					</li>
             	</ul>
             	<ul>Find all the canvases created by the user with provided user Id:
-            		<li>Path: "canvas/user/{userId: [0-9]+}"</li>
+            		<li>Path: "localhost:7654/Visualization/canvas/user/{userId: [0-9]+}"</li>
             		<li>Method: GET</li>
+            		<li>Input parameter: userId</li>
+            		<li>Output parameter: [{"cdate":"2015-04-12T17:54:46","mdate":"2015-04-12T17:54:46","name":"test1","privilege":0,"user":{"canvasSet":[],"userId":1,"userNames":"user1"},"vid":10},{"cdate":"2015-04-12T17:56:09","mdate":"2015-04-12T17:56:09","name":"test2","privilege":0,"user":{"canvasSet":[],"userId":1,"userNames":"user1"},"vid":11}]
+					</li>
             	</ul>
-            	<ul>Delete metadata for the canvas with provided canvas Id
-            		<li>Path: "canvas/delete/"</li>
+            	<ul>Delete metadata for the canvas with provided canvas Id:
+            		<li>Path: "localhost:7654/Visualization/canvas/delete/"</li>
             		<li>Method: POST</li>
+            		<li>Input parameter: vid</li>
+            		<li>Output parameter: S(Success)/F(Fail)</li>
             	</ul>
             </p>
             <p>
             	Story:
-            	<ul>Create new story in the database:
-            		<li>Path: "story/new/"</li>
+            	<ul>Add new story in the database:
+            		<li>Path: "localhost:7654/Visualization/story/new/"</li>
             		<li>Method: POST</li>
+            		<li>Input parameter: key word</li>
+            		<li>Output parameter: [{"canvasVM": {"cdate": "2015-04-12T17:56:09","mdate": "2015-04-12T17:56:09","name": "test2","privilege": 0,"user": {"canvasSet": [],"userId": 1,"userNames": "user1"},"vid": 11},"chartVMSet": [],"did": "1","dname": "car","tname": "test"}]
+					</li>
             	</ul>
-            	<ul>Find metadata for the story with provided story Id:
-            		<li>Path: "story/{sid:[0-9]+}"</li>
+            	<ul>Show all the stories in a specific canvas:
+            		<li>Path: "localhost:7654/Visualization/story/showAll/{vid}"</li>
             		<li>Method: GET</li>
+            		<li>Input parameter: vid</li>
+            		<li>Output parameter: [{"canvasVM":{"cdate":"2015-04-12T17:56:09","mdate":"2015-04-12T17:56:09","name":"test2","privilege":0,"user":{"canvasSet":[],"userId":1,"userNames":"user1"},"vid":11},"chartVMSet":[],"did":"1","dname":"car","tname":"test"}]
+					</li>
             	</ul>
-            	<ul>Find stories created by the user with provided user Id:
-            		<li>Path: "story/user/{userId: [0-9]+}"</li>
+            	<ul>Delete metadata for the story with provided story Id:
+            		<li>Path: "localhost:7654/Visualization/story/delete/{sid}"</li>
             		<li>Method: GET</li>
-            	</ul>
-            	<ul>Delete metadata for the story with provided story Id
-            		<li>Path: "story/delete/"</li>
-            		<li>Method: POST</li>
+            		<li>Input parameter: sid</li>
+            		<li>Output parameter: S(Success)/F(Fail)</li>
             	</ul>
             </p>
             <p>
             	Chart:
             	<ul>Create a new chart with provided canvas Id, chart name and chart type:
-            		<li>Path: "chart/new/"</li>
-            		<li>Method: POST</li>
+            		<li>Path: "localhost:7654/Visualization/chart/new/{sid}/{type}/{did}/{dname}/{tname}/{columns}"</li>
+            		<li>Method: GET</li>
+            		<li>Input parameter: sid, type, did, dname, tname, columns</li>
+            		<li>Output parameter: ["cid":1,"columns":"population","did":"1",
+										   "dname":"city","storyVM":{"canvasVM":{"cdate":"2015-04-12T17:56:09","mdate":"2015-04-12T17:56:09","name":"test2","privilege":0,"user":{"canvasSet":[],"userId":1,"userNames":"user1"},"vid":11},"chartVMSet":[],"did":"1","dname":"city","tname":"Pittsburgh"},"tname":"Pittsburgh","type":"pie"}]
+					</li>
             	</ul>
-            	<ul>Delete chart with provided chart Id
-            		<li>Path: "chart/delete/"</li>
-            		<li>Method: POST</li>
+				<ul>Show all the charts in a specific story:
+            		<li>Path: "localhost:7654/Visualization/chart/showAll/{sid}"</li>
+            		<li>Method: GET</li>
+            		<li>Input parameter: sid</li>
+            		<li>Output parameter: [{"cid":1,"columns":"population","did":"1",
+											"dname":"city","storyVM":{"canvasVM":{"cdate":"2015-04-12T17:56:09","mdate":"2015-04-12T17:56:09","name":"test2","privilege":0,"user":{"canvasSet":[],"userId":1,"userNames":"user1"},"vid":11},"chartVMSet":[],"did":"1","dname":"city","tname":"Pittsburgh"},"tname":"Pittsburgh","type":"pie"}]
+					</li>
+            	</ul>
+            	<ul>Delete chart with provided chart Id:
+            		<li>Path: "localhost:7654/Visualization/chart/delete/{cid}"</li>
+            		<li>Method: GET</li>
+            		<li>Input parameter: cid</li>
+            		<li>Output parameter: S(Success)/F(Fail)</li>
             	</ul>
             </p>
           </div>
