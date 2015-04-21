@@ -34,7 +34,7 @@ public class StoryViewModel {
 		this.canvasVM = canvasVM;
 	}
 	
-	public StoryViewModel(Integer sid, Date cdate, String did, String dname,
+	public StoryViewModel(int sid, Date cdate, String did, String dname,
 			String tname, CanvasViewModel canvasVM, Set<ChartViewModel> chartVMSet) {
 		super();
 		this.sid = sid;
@@ -49,7 +49,7 @@ public class StoryViewModel {
 	public int getSid() {
 		return sid;
 	}
-	public void setSid(Integer sid) {
+	public void setSid(final int sid) {
 		this.sid = sid;
 	}
 	public Date getCdate() {

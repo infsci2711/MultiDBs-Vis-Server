@@ -35,21 +35,21 @@ public class VisualizationRestApi {
 	/********************** canvas **********************/
 	
     //OK
-	@Path("canvas/new/")
-	@POST
+	@Path("canvas/new/{userId}/{name}")
+	@GET
 	@ApiOperation(
 			value = "Create new canvas in the database.",
 			response = CanvasViewModel.class
 			)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-    public CanvasViewModel createCanvas(CanvasViewModel canvasVM) {
+	//@Consumes(MediaType.APPLICATION_JSON)
+    public CanvasViewModel createCanvas(@PathParam("userId") final int userId, @PathParam("name") final String name) {
 		
 		VisualizationBL visualizationBL = new VisualizationBL();
 		
 		try{
-			//CanvasViewModel canvasVM = visualizationBL.createCanvase(userId, name);
-			canvasVM = visualizationBL.createCanvase(canvasVM.getUser().getUserId(), canvasVM.getName());
+			CanvasViewModel canvasVM = visualizationBL.createCanvase(userId, name);
+			//canvasVM = visualizationBL.createCanvase(canvasVM.getUser().getUserId(), canvasVM.getName());
 			
 			if (canvasVM != null) {
 				return canvasVM;
@@ -83,18 +83,19 @@ public class VisualizationRestApi {
    }
    
    //OK
-   @Path("canvas/delete/")
-   @POST
+   @Path("canvas/delete/{vid}")
+   @GET
    @ApiOperation(
 		   value = "Delete metadata for the canvas with provided canvas Id"
 		   )
    @Produces(MediaType.APPLICATION_JSON)
-   @Consumes(MediaType.APPLICATION_JSON)
-   public String deleteCanvas(CanvasViewModel canvasVM){
-	   VisualizationBL visualization = new VisualizationBL();
+   //@Consumes(MediaType.APPLICATION_JSON)
+   public String deleteCanvas(@PathParam("vid") final int vid){
+	   VisualizationBL visualizationBL = new VisualizationBL();
 	   
 	   try{
-		   int flag = visualization.deleteCanvas(canvasVM.getVid());
+		   //int flag = visualization.deleteCanvas(canvasVM.getVid());
+		   int flag = visualizationBL.deleteCanvas(vid);
 		   
 		   if (flag == 1) return "{\"flag\" : \"S\"}";
 	   }
@@ -109,41 +110,32 @@ public class VisualizationRestApi {
    /********************** story **********************/
    
    //OK
-   @Path("story/new/") 
-   @POST
+   @Path("story/new/{did}/{dname}/{tname}/{vid}") 
+   @GET
    @Produces(MediaType.APPLICATION_JSON)
-   @Consumes(MediaType.APPLICATION_JSON)
+   //@Consumes(MediaType.APPLICATION_JSON)
    @ApiOperation(
 		   value = "Create new story in the database"
 		   )
-   public List<StoryViewModel> createStory(StoryViewModel storyVM) {
+   public StoryViewModel createStory(@PathParam("did") final String did, @PathParam("dname") final String dname, @PathParam("tname") final String tname, @PathParam("vid") final int vid) {
 		
 	   VisualizationBL visualizationBL = new VisualizationBL();
-	   List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
-		 
+	   //List<StoryViewModel> storyVMList = new ArrayList<StoryViewModel>();
+	   StoryViewModel storyVM = new StoryViewModel();
 	   try{ 
 		   
-//		   Client client = ClientBuilder.newClient();
-//		   
-//		   String result = client.target("http://localhost:7890/Visualization/canvas/")
-//				           .path("6")
-//				           .request(MediaType.APPLICATION_JSON)
-//				           .get(String.class);
-		   
-//		   if(!result.equals("[]")){
-			   storyVM = visualizationBL.createStory(storyVM.getDid(), storyVM.getDname(), storyVM.getTname(), storyVM.getCanvasVM().getVid());
-			   
+
+			  // storyVM = visualizationBL.createStory(storyVM.getDid(), storyVM.getDname(), storyVM.getTname(), storyVM.getCanvasVM().getVid());
+			    storyVM = visualizationBL.createStory(did, dname, tname, vid);
 			   if(storyVM != null){
-				   storyVMList.add(storyVM);
-				   
-				   return storyVMList;
-			   //}
-		   }
+				   return storyVM;
+			   }
+			   
 		   
 	   }catch(Exception e){
 		   System.out.println(e.getMessage());	
 	   }
-	   return storyVMList;	
+	   return storyVM;	
    }
    
    //OK

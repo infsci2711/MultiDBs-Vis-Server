@@ -150,9 +150,9 @@ public class VisualizationBL {
 			
 			e.printStackTrace();
 		}
-		
-		return new StoryViewModel(story.getSid(), story.getDid(), 
+		StoryViewModel storyVM = new StoryViewModel(story.getSid(), story.getDid(), 
 				story.getDname(), story.getTname(), canvasVM);
+		return storyVM;
 	}
 	
 	public StoryViewModel createStory(String did, String dname, String tname, int canvasId) throws Exception {
@@ -260,4 +260,3 @@ public class VisualizationBL {
 	}
 
 }
-
