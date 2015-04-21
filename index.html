@@ -64,23 +64,97 @@
             </p>
           </div>
           <div id="description" style="display:none">
-            <h2>General</h2>
-            <p>Once the system finds the targeted data, users are first directed to a new page named dashboard. In dashboard, users need to create a new canvas in order to visualize targeted data. Canvas is a place to put charts or some other visualize forms. A canvas has its own name, ID, creation time and other attributes. Then users need to create a new story, which is more like the data source. Users can add one or more than one targeted datasets into a story. After that, users can choose various types of charts for targeted data in the story, including pie charts, motion charts and so on.</p>
-            <p>In order to accomplish these functions, the work of visualization contains four parts. The first part deals with tables, which stores information about canvases, stories and charts. The second part called DAO is used for connecting databases using Hibernate. The third part is called Manager, which is used for implementing different functions using Hibernate, such as adding canvases. The last part is Java classes, which call different functions to accomplish our goals. </p>
-            <p>To implement these functions, we used HTML, CSS, JavaScript and KnocoutJS for the interface design. And we used Java, RESTful API and Hibernate for the back-end designing.</p>
+            <h2>Use Cases</h2>
+            <p>In our project, users should be able to create and delete canvases. After creating a canvas, they can add stories to it. Here we connect to keyword search group to provide users with keyword search function to search for their target databases. Then based on the databases or tables they add, they could select certain columns and visualize them with Google Chart.</p>
+            <p>In order to implement these functions, the work of visualization contains four parts. The first part deals with tables, which stores information about canvases, stories and charts. The second part called DAO is used for connecting databases using Hibernate. The third part is called Manager, which is used for implementing different functions using Hibernate, such as adding canvases. The last part is Java classes, which call different functions to accomplish our goals.</p>
+            <p>To implement these functions, we used HTML, CSS, and jQuery for the interface design. And we used Java, RESTful API and Hibernate for the back-end design.</p>
             <h2>Work with other MultiDBs projects</h2>
-            <p>Before using the our function, you need to register your database in Metastore. Metastore prodives you with metadata of the databases in PrestoDB. Besides, we also use keyword search function from keyword search group.</p>
+            <p>The following figure describes how our project work with other MultiDBs projects:</p>
+            <img src="images/Structure.png" />
+            <p>After creating a canvas, it will be stored in our local database. Then we will add story to the canvas, we need to connect to the keyword search, sending then the keyword of our target database, and they will return us the database id, database name, and table name. At this time, the story will also be added to our visualization local database. Then we open the story and starting creating the charts. We send the request for columns to Metastore and they will return us with column names, thus enable us to select the columns that we want to visualize. After we specify the columns, we send a SQL query in JSON format to PrestoDB, and the will send us the data, also in JSON as return. Then the chart will also be stored in our local database and shown on the page.</p>
             <h2>Requirements and Installation</h2>
-            <p>To build our project, you will need to install Maven. You probably need to install on Ubuntu server. Just run the startup.sh file to install everything you need. </p>
+            <p>To build our project, you will need to install Maven and git on Ubuntu server. Just run the startup.sh file to install everything you need. Here is the illustration of the Linux commands: </p>
+            1. Install the essentials:<br>
+            <code> 
+			sudo apt-get install maven<br>
+			sudo apt-get install git<br>
+			sudo apt-get install openjdk-7-jdk<br>
+			sudo apt-get install mysql-server<br>
+			sudo apt-get install nginx<br>
+			</code>
+			<br>
+			2. Create folders:<br>
+			<code> 
+			cd /opt<br>
+			sudo mkdir project<br>
+			cd project<br>
+			</code>
+			<br>
+			3. Clone projects from Github:<br>
+			<code> 
+			sudo git clone https://github.com/ColFusion/ColFusionDockerUtils.git<br>
+			sudo git clone https://github.com/ColFusion/ColFusionUtils.git<br>
+			sudo git clone https://github.com/infsci2711/MultiDBs-Utils.git<br>
+			sudo git clone https://github.com/infsci2711/MultiDBs-Vis-Server.git<br>
+			sudo git clone https://github.com/infsci2711/MultiDBs-Vis-WebClient.git<br>
+			</code>
+			<br>
+			4. Serve it with the nginx:<br>
+			<code> 
+			cd /usr/share/nginx<br>
+			sudo rm -R html<br>
+			sudo ln -sv /opt/project/MultiDBs-Vis-WebClient html<br>
+			</code>
+			<br>
+			5. Set up your MySQL:<br>
+			<code> 
+			mysql -u root -proot<br>
+			CREATE USER 'dataverse'@'%' IDENTIFIED BY 'dataverse';<br>
+			GRANT ALL PRIVILEGES ON *.* TO 'dataverse'@'%' WITH GRANT OPTION;<br>
+			CREATE DATABASE visualization;<br>
+			use visualization;<br>
+			../opt/project/MultiDBs-Vis-Server/visualization2.sql;<br>
+			</code>
+			<br>
+			6. Maven install:<br>
+			<code> 
+			cd /opt/project/ColFusionDockerUtils<br>
+			mvn install<br>
+			cd ..<br>
+			cd ColFusionUtils<br>
+			mvn install<br>
+			cd ..<br>
+			cd MultiDBs-Utils<br>
+			mvn install<br>
+			cd ..<br>
+			cd MultiDBs-Vis-Server<br>
+			mvn install<br>
+			</code>
+			<br>
+			7. Start the server:<br>
+			<code> 
+			cd /opt/project/MultiDBs-Vis-Server/MultidbsVisServerAPI/target<br>
+			nohup java -jar multidbsvisserverapi-0.1-SNAPSHOT.jar /opt/project/Multidbs-Vis-Server/MultidbsVisServerAPI/src/main/resources/config.properties > log.out 2> error.log < /dev/null &<br>
+			</code>
+			<br>
+			8. Test if it is running:<br>
+			<code> 
+			lsof -i:7654<br>
+			</code>
+			<br>
+			9. Stop the server from running before pulling from Github:<br>
+			<code> 
+			kill -9 $(lsof -t -i:7654)<br>
+			</code>
           </div>
           <div id="api" style="display:none">
             <p>In our project, we use RESTful API which is identified by URIs. Here is the tutorial website: <a href="http://www.restapitutorial.com/">http://www.restapitutorial.com/</a></p>
-            <p>The path of the Visualization is "Visualization/", there are mainly three parts of the API services, which are Canvas, Story and chart, and we will describe each of them one by one. </p>
+            <p>There are mainly three parts of the API services, which are Canvas, Story and chart, and we will describe each of them one by one. </p>
             <p>
             	Canvas:
             	<ul>Create new canvas in the database:
-            		<li>Path: "localhost:7654/Visualization/canvas/new/"</li>
-            		<li>Method: POST</li>
+            		<li>Path: "localhost:7654/Visualization/canvas/new/{userId}/{name}"</li>
+            		<li>Method: GET</li>
             		<li>Input parameter: canvas name</li>
             		<li>Output parameter: {"cdate": "2015-04-12T17:54:46.335","mdate": "2015-04-12T17:54:46.335","name": "test1","privilege": 0,"user": {"canvasSet": [],"userId": 1,"userNames": "user1"},"vid": 10}
 					</li>
@@ -93,8 +167,8 @@
 					</li>
             	</ul>
             	<ul>Delete metadata for the canvas with provided canvas Id:
-            		<li>Path: "localhost:7654/Visualization/canvas/delete/"</li>
-            		<li>Method: POST</li>
+            		<li>Path: "localhost:7654/Visualization/canvas/delete/{vid}"</li>
+            		<li>Method: GET</li>
             		<li>Input parameter: vid</li>
             		<li>Output parameter: S(Success)/F(Fail)</li>
             	</ul>
@@ -102,8 +176,8 @@
             <p>
             	Story:
             	<ul>Add new story in the database:
-            		<li>Path: "localhost:7654/Visualization/story/new/"</li>
-            		<li>Method: POST</li>
+            		<li>Path: "localhost:7654/Visualization/story/new/{did}/{dname}/{tname}/{vid}"</li>
+            		<li>Method: GET</li>
             		<li>Input parameter: key word</li>
             		<li>Output parameter: [{"canvasVM": {"cdate": "2015-04-12T17:56:09","mdate": "2015-04-12T17:56:09","name": "test2","privilege": 0,"user": {"canvasSet": [],"userId": 1,"userNames": "user1"},"vid": 11},"chartVMSet": [],"did": "1","dname": "car","tname": "test"}]
 					</li>
