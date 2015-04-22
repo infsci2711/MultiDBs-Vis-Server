@@ -81,6 +81,7 @@
 			sudo apt-get install maven<br>
 			sudo apt-get install openjdk-7-jdk<br>
 			sudo apt-get install nginx<br>
+			sudo apt-get install docker<br>
 			sudo apt-get install mysql-server<br>
 			</code>
 			<br>
@@ -94,8 +95,8 @@
 			Here "Yourpassword" is the password that you just set for root.<br>
 			Then run the following commands:<br>
 			<code> 
-			CREATE USER 'dataverse' @ '%' IDENTIFIED BY 'dataverse';<br>
-			GRANT ALL PRIVILEGES ON *.* TO 'dataverse' @ '%' WITH GRANT OPTION;<br>
+			CREATE USER 'dataverse'@'%' IDENTIFIED BY 'dataverse';<br>
+			GRANT ALL PRIVILEGES ON *.* TO 'dataverse'@'%' WITH GRANT OPTION;<br>
 			CREATE DATABASE visualization;<br>
 			exit<br>
 			</code>
@@ -112,7 +113,7 @@
 			Type the following commands to clone<br>
 			<code> 
 			sudo git clone https://github.com/infsci2711/MultiDBs-Vis-Server.git<br>
-			sudo git clone https://github.com/ColFusion/ColFusionDockerUtils.git<br>
+			sudo git clone https://github.com/Luke-pitt/ColFusionDockerUtils.git<br>
 			sudo git clone https://github.com/ColFusion/ColFusionUtils.git<br>
 			sudo git clone https://github.com/infsci2711/MultiDBs-Utils.git<br>
 			sudo git clone https://github.com/infsci2711/MultiDBs-Vis-WebClient.git<br>
@@ -131,15 +132,32 @@
 			mysql -udataverse -pdataverse visualization < /opt/project/MultiDBs-Vis-Server/visualization2.sql<br>
 			</code>
 			<br>
-			<h3>7. Run setup.sh:</h3>
+			<h3>7. Change config.properties</h3>
+			Go to /opt/project/MultiDBs-Vis-Server/MultidbsVisServerAPI/src/main/resources/config.properties, and change the IP address with the new one, respectively.<br>
+			<h3>8. Maven install: </h3>
+			Maven install each of the projects:<br>
+			<code>
+			cd /opt/project/MultiDBs-Utils<br>
+			sudo mvn install<br>
+			cd /opt/project/ColFusionUtils<br>
+			sudo mvn install<br>
+			cd /opt/project/ColFusionDockerUtils<br>
+			sudo mvn install<br>
+			cd /opt/project/MultiDBs-Vis-Server<br>
+			sudo mvn install<br>
+			</code>
+			<br>
+			<h3>9. Change the restBaseUrl to point to the server IP</h3>
+			Go to /opt/project/MultiDBs-Vis-WebClient/newJs/newDashBoard.js, and change the IP address with the new one, respectively.<br>
+			<h3>10. Run setup.sh:</h3>
 			Type the following for maven install and start the server:<br>
 			<code> 
-			cd /opt/project/MultiDBs-Vis-Server/<br>
+			cd /opt/project/MultiDBs-Vis-Server/MultidbsVisServerAPI/target/<br>
 			sh setup.sh<br>
 			</code>
 			<br>
 			At this time you are supposed to finish all the installation and start the server already.<br>
-			<h3>8. Stop the server</h3>
+			<h3>11. Stop the server</h3>
 			If you want stop the server, run the following commands:<br>
 			<code> 
 			cd /opt/project/MultiDBs-Vis-Server/<br>
