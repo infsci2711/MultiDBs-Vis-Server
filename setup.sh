@@ -1,7 +1,5 @@
-﻿#!/bin/bash
-
-
 #Maven install
+cd ..
 cd ColFusionDockerUtils
 mvn install
 cd ..
