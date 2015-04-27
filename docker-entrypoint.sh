@@ -22,8 +22,6 @@ cd /opt
 mkdir -p project
 cd project
 
-mkdir upload
-
 echo "cloning two git repos"
 
 git clone https://github.com/infsci2711/MultiDBs-Utils.git
