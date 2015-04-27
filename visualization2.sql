@@ -40,6 +40,10 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 
+INSERT INTO `users` (`user_id`, `user_names`) VALUES
+(1, 'user1'),
+(2, 'user2');
+
 ALTER TABLE `canvases`
  ADD PRIMARY KEY (`vid`), ADD KEY `FK_s7kxi1oqy0qc7bbo18jbeyj6s` (`user_id`);
 

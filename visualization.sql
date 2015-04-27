@@ -76,10 +76,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_lastlogin` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `users` (`user_id`, `user_names`) VALUES
-(1, 'user1'),
-(2, 'user2');
-
 --
 -- Indexes for dumped tables
 --

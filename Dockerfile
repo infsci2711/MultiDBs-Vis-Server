@@ -39,7 +39,6 @@ ENTRYPOINT ["/home/visualization/entrypoint.sh"]
 EXPOSE 22
 EXPOSE 7654
 
-
 VOLUME /opt/project/deployed
 
 CMD ["/usr/sbin/sshd", "-D"]
