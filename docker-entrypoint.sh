@@ -34,23 +34,23 @@ git clone https://github.com/ColFusion/ColFusionUtils.git
 echo "building utils project"
 
 cd /opt/project/MultiDBs-Utils
-mvn install
+mvn install -Dmaven.test.skip=true
 
 echo "building ColFusionUtils project"
 
 cd /opt/project/ColFusionUtils
-mvn install
+mvn install -Dmaven.test.skip=true
 
 echo "building ColFusionDockerUtils project"
 
 cd /opt/project/ColFusionDockerUtils
-mvn install
+mvn install -Dmaven.test.skip=true
 
 echo "building server project"
 
 cd /opt/project/MultiDBs-Vis-Server
 mvn clean
-mvn install
+mvn install -Dmaven.test.skip=true
 
 echo "creating folder for deployed code"
 
