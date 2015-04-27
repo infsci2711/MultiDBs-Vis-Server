@@ -5,8 +5,7 @@ RUN apt-get update && apt-get install -y \
     openssh-server \
     openjdk-7-jdk \
     curl \
-    git \
-    docker
+    git
 
 RUN mkdir -p /var/run/sshd
 
